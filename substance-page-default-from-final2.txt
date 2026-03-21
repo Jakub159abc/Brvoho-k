@@ -1,0 +1,898 @@
+Níže je přehled skupin obsahových látek a konkrétních látek podle tabulky Finální2 (sloupec s obsahovými látkami). U každé skupiny jsou sloučeny všechny látky, které se v tabulce pod tuto skupinu kdykoli objevily u libovolné rostliny.
+
+**Silice**
+- 1,8-cineol
+- 2,4-dimethylthiazole
+- 2-hepten-1-al
+- 2-methyl-2-butenal
+- 2-methyl-2-pentenal
+- 2-methylbutanal
+- 2-pentenal
+- 2-phenylethanol
+- 2-phenylethylalkohol
+- 3-butylnonyl-2,4-dienal
+- 3-carene
+- 3-methyl-2-butenal
+- 3-penten-2-on
+- acetyl eugenol
+- akrilová kyselina
+- alantolaktone
+- alfa-pinen
+- allicin
+- alliin
+- allyl isothiocyanate
+- allylpropyl disulfid
+- alpha-pinen
+- alpha-pinene
+- anethol
+- anethole
+- anthocyanins
+- apigenin
+- apiol
+- azulen
+- benzaldehyd
+- benzylacetát
+- benzylalkohol
+- benzylbuitrát
+- beta-caryophyllen
+- beta-kariofilen
+- beta-pinen
+- beta-pinene
+- bisabolol
+- borneol
+- bornyl-acetát
+- bornylacetát
+- boswelové kyseliny
+- bournon
+- camfen
+- camfer
+- camphene
+- camphor
+- carvacrol
+- carvone
+- caryophyllen
+- chamazulen
+- chamazulene
+- chamazulén
+- chavicin
+- cineol
+- cinnamaldehyd
+- citral
+- citronelal
+- citronellol
+- citronelol
+- crocin
+- cymen
+- daidzein
+- diallyl disulfid
+- dillapiole
+- draslík
+- estragol
+- estragole
+- eugenol
+- eukalyptol
+- fenchon
+- fenylch ethanol
+- flavonoidní glykosidy
+- flavonoidy
+- fosfor
+- ftalide
+- geraniol
+- germakren
+- gingerol
+- globulol
+- glykosidy
+- hexenylacetát
+- hořčík
+- humulen
+- hyperosid
+- irone
+- isomenthon
+- isorhamnetin
+- isothiokyanáty
+- isovalerenal
+- izoramnetin
+- jehličnanový olej
+- kaempferol
+- kafr
+- kamf kromě
+- kamfen
+- kariophyllen
+- karvakrol
+- karvon
+- kumarin
+- kuminen
+- kurkumen
+- kvercetin
+- kyselina gama-linolenová
+- kyselina linolenová
+- kyselina máselná
+- kyselina oleanolová
+- kyselina šťavelová
+- limonen
+- limonene
+- limonén
+- linalool
+- linalylacetát
+- linool
+- luteolin
+- mangan
+- matricin
+- menthol
+- menthon
+- mentofuran
+- mentol
+- menton
+- mentylacetát
+- methyl salicylát
+- methylbenzen
+- methylbenzoát
+- methylchavicol
+- methylchavikol
+- metylchavikol
+- Minerální látky
+- mustard oil
+- myrcen
+- myrhon
+- myristicin
+- myrtenol
+- měď
+- narcisin
+- není známo
+- není známá
+- nepetalakton
+- neral
+- nerol
+- não znamé
+- oxaláty
+- p-cymen
+- pentylacetát
+- petasitol
+- picrocrocin
+- pinen
+- pinene
+- pinokamfon
+- pinén
+- piperin
+- piperonal
+- primulaverin
+- protopin
+- přírodní esenciální oleje
+- quercetin
+- rozchodnicový olej
+- rutin
+- rutinosid
+- sabinen
+- safran
+- salicylaldehyd
+- santalový olej
+- saponin
+- senky
+- shogaol
+- sinapin
+- sinigrin
+- sodík
+- syringin
+- terpeny
+- terpinen-4-ol
+- terpinolene
+- thujan
+- thujon
+- thymol
+- thymoquinon
+- turmeron
+- tímol
+- valerenal
+- valerenon
+- vanillin
+- verbenon
+- verbénon
+- vitamin B2
+- vitamin C
+- Vitaminy
+- vápník
+- víc než 30 dalších sloučenin
+- zinek
+- zingeron
+- zingiberon
+- éterické oleje
+- éterický olej
+- železo
+- žádné
+- ə-lon
+- α-asarone
+- α-bisabolol
+- α-pinen
+- α-pinene
+- α-pinén
+- α-terpineol
+- α-thujon
+- α-thujone
+- α-zingiberin
+- β-asarone
+- β-caryophyllen
+- β-felandren
+- β-kariofilen
+- β-myrcene
+- β-pinen
+- β-pinene
+- β-pinén
+
+**Flavonoidy**
+- anthocyaniny
+- anthokyany
+- antokyany
+- apigenin
+- apiin
+- baicalein
+- baicalin
+- biochanin A
+- catechin
+- chrysoeriol
+- chryzoin
+- daidzein
+- diosmin
+- epicatechin
+- epicatechin gallate
+- epigallocatechin
+- epigallocatechin gallate
+- epikatechin
+- flavonoidy
+- flavonoly
+- formononetin
+- genistein
+- glycosidické formy flavonoidů
+- hesperidin
+- hispidulin
+- hyperforin
+- hypericin
+- hyperosid
+- ikarín
+- isoflavon
+- isoquercetin
+- isoramnetin
+- isorhamnetin
+- isoxanthohumol
+- izoluteolin
+- izoquercetin
+- izoramnetin
+- kaempferol
+- kafre
+- kampferol
+- kanaflavin
+- kemferol
+- kempeferol
+- kempferol
+- kvercetin
+- kvercetín
+- kyselina kvercetinová
+- luteolin
+- myricetin
+- naringenin
+- naringin
+- orientin
+- oroxylin A
+- paeoniflorin
+- punicalagin
+- quercetin
+- querctin
+- resveratrol
+- rivin
+- robinin
+- rosmarinic acid
+- rosmarinový glykosid
+- rutin
+- rutina
+- rutinosid
+- rutosid
+- rutín
+- silybin
+- silychristin
+- silydianin
+- vicenin
+- vitexin
+- wogonin
+- xanthohumol
+- žádné
+
+**Glykosidy**
+- allantoin
+- alnoin
+- amarogentin
+- angelikosid
+- arctiin
+- asperulosid
+- aucubin
+- aukubigenin
+- aukubin
+- commiphorin
+- commiphorosid
+- digitoxin
+- digoxin
+- dracoin
+- echinacosid
+- echiumin
+- echiuosid
+- euonymin
+- euphorbin
+- ficin
+- fumariosid
+- galantamin
+- galegin-glykosid
+- glycyrrhizin
+- glykosid telefohem
+- glykosidové formy flavonoidů
+- helleborin
+- inulin
+- iridin
+- iridiody
+- kardamin
+- katalpol
+- konvalatoxin
+- konvalozid
+- lathraein
+- leucojumin
+- malvin
+- malvín
+- mannosid
+- melilotosid
+- narcein
+- orientin
+- petasidin
+- polygonosid
+- pratanin
+- primaverin
+- primin
+- prunasin
+- pânăl
+- robinin
+- rényoukosid
+- sambunigrin
+- saponiny
+- sinalbin
+- sinigrin
+- sonchifolin
+- spiraeogenin
+- spiraeosid
+- sucrose
+- symphytin
+- trifoliosid
+- ulmusan
+- verbascosid
+- verbenalin
+- viburnin
+- vincetoxin.
+- violanin
+- viscin
+- žádné
+
+**Třísloviny**
+- 8-10%
+- arbutin
+- catechin
+- draslík
+- elagitannin
+- elagová kyselina
+- ellagitannins
+- ellagová
+- ellagová kyselina
+- ellagové kyseliny
+- epicatechin
+- epikatechin
+- flavonoidy
+- gallotanin
+- gallová kyselina
+- galotaniny
+- galová kyselina
+- galové kyseliny
+- hořčík
+- juglone
+- katechin
+- katechiny
+- kavanin
+- kvercetin
+- kyselina chinonová
+- kyselina chlorogenová
+- kyselina elagová
+- kyselina ellagová
+- kyselina elágová
+- kyselina fumarová
+- kyselina gallová
+- kyselina galová
+- kyselina gálenová
+- kyselina gálická
+- kyselina gállová
+- kyselina katechová
+- kyselina kávová
+- kyselina skořicová
+- kyselina taninová
+- kyselina tanninová
+- kyselina tannová
+- kyselina tanová
+- kyselina tříslová
+- kyselina vanilková
+- leucoanthocyanidiny
+- Minerální látky
+- musin
+- není známo
+- není známá
+- proanthocyanidiny
+- proanthokyanidiny
+- proantokyanidiny
+- procyanidin
+- quercetin
+- tannin
+- tanniny
+- theaflaviny
+- thearubiginy
+- třísloviny
+- vitamin A
+- vitamin E
+- vitamin K
+- vápník
+- žádné
+
+**Vitaminy**
+- beta-karoten
+- provitamin A
+- vitamin A
+- vitamin B
+- vitamin B komplex
+- vitamin B1
+- vitamin B12
+- vitamin B2
+- vitamin B3
+- vitamin B5
+- vitamin B6
+- vitamin C
+- vitamin D
+- vitamin D2
+- vitamin E
+- vitamin K
+- vitamin K1
+- vitaminy skupiny B
+- žádné
+
+**Minerální látky**
+- draslík
+- fluor
+- fosfor
+- hořčík
+- křemík
+- magnesium
+- magnézium
+- mangan
+- měď
+- selen
+- sodík
+- vápník
+- zinek
+- železo
+- železo.
+- žádné
+
+**Saponiny**
+- aconitín
+- adonin
+- adonit
+- aescin
+- akacetin
+- akatín
+- akerosi
+- alkekenginsaponin
+- arnixin
+- bacosid A
+- bacosid B
+- belamcandagenin
+- chrysofanová kyselina
+- convallosid
+- daucosterol
+- diosgenin
+- dřeňové saponiny
+- epilobiin
+- epimedium saponiny
+- escin
+- farfarin
+- forsythin
+- forsyzolid
+- fraxin a fraxidin
+- fumarin
+- gein
+- genistin
+- gentianin
+- gentiobiosid
+- glicosid
+- glycyrrhizin
+- glykosidové saponiny
+- gumarins
+- gypsogenin
+- hederagenin
+- hederasaponin C
+- hederin
+- helenin
+- hepathin
+- ilicine
+- kumariny
+- lathyrusin
+- lavandulylsaponin
+- leucojunin
+- leucoside
+- linarin
+- linearin
+- luteolin
+- lycopin
+- lysimachosid A
+- lysimachosid B
+- mandragorin
+- melilotin
+- myosotidin
+- narcisosid
+- narcissus a
+- ononin
+- ononitol
+- paenol
+- paeoniosid A
+- paeoniosid B
+- platycodin
+- primula saponin A
+- primula saponin B
+- primulagenin
+- protodioscin
+- pulmonarin
+- quercetin
+- ranunculin
+- rdesnové saponiny
+- rhodiolosid
+- ribesin
+- rosarin
+- rosavin
+- sakaróza
+- salicin
+- salvigenin
+- sambucigenin
+- sapogeniny
+- saponin
+- saponinové glykosidy
+- saponiny
+- saponiny triterpenoidní
+- saponiny triterpenové
+- saponiny typu steroidních
+- saponiny typu tirucallol
+- sileninin
+- solidagin
+- triandrin
+- tritepenové saponiny
+- triterpenové saponiny
+- triterpeny
+- tussilagin
+- verbascosid
+- verbascoside
+- veronicosid
+- violan
+- violanin
+- yamogenin
+- žádné
+- β-sitosterol
+
+**Triterpeny**
+- 3-O-β-D-glukopyranosyl paeoniflorin
+- alpha-amyrin
+- astragalosid
+- beta-amyrin
+- betulgen
+- betulin
+- daucosterol
+- dracenin
+- dracénin
+- ganoderic kyseliny
+- ganoderové kyseliny
+- kyselina 3-O-acetyl-11-keto-β-boswelová
+- kyselina acetylboswellová
+- kyselina betulinová
+- kyselina boswellová
+- kyselina myrhová
+- kyselina oleanolová
+- kyselina olejová
+- kyselina rosmarinová
+- kyselina ursolová
+- lucidenový kyseliny
+- lupeol
+- maslinic acid
+- oenothera acid
+- oenotherin
+- oleanolová kyselina
+- paeoniflorin
+- saponiny
+- taraxasterol
+- tramet-2-en-3-ol
+- tramet-2-en-3-one
+- ursolová kyselina
+- uvaol
+- ácido oleanolový
+- ácido ursolový
+- žádné
+- β-amyrin
+
+**Fenolické kyseliny**
+- kyselina askorbová
+- kyselina benzoová
+- kyselina chiricocca
+- kyselina chlorogenová
+- kyselina elagová
+- kyselina ellagová
+- kyselina ferulová
+- kyselina gallová
+- kyselina galová
+- kyselina gulonová
+- kyselina jablečná
+- kyselina juglonová
+- kyselina klorogenová
+- kyselina káevená
+- kyselina kávová
+- kyselina kávová.
+- kyselina p-kumarová
+- kyselina rosmarinová
+- kyselina rosmarínová
+- kyselina rozmarýnová
+- kyselina salicylová
+- kyselina skořicová
+- kyselina ursolová
+- kyselina vanilová
+- kyselina římská
+- kyselina šťavelová
+- žádné
+
+**Alkaloidy**
+- adonidin
+- adonisin
+- adonitoxin
+- akonitin
+- aporphine
+- atropin
+- baccatin
+- berberin
+- chelidonin
+- chunonidin
+- conicein
+- coniin
+- convallarin
+- corydalin
+- daphnetin
+- echinacein
+- erythramin
+- fumarin
+- galantamin
+- galegin
+- genistein
+- gentianin
+- gentiin
+- harman
+- helleborin
+- hioscyamin
+- hirundinarin
+- hyoscyamin
+- jacobinin
+- jatrorin
+- kodein
+- kofein
+- kyselina ibotenová
+- leonurin
+- lycorin
+- mesakonitin
+- morfin
+- muscarin
+- muscimol
+- muskarin
+- narcisin
+- neoakonitin
+- nigellin
+- nigellon
+- nuciferin
+- piperin
+- polygonatin
+- protoanemonin
+- protopin
+- rhoeadin
+- rutarin
+- sanguinarin
+- senecionin
+- skopolamin
+- skopoletin
+- solanin
+- solasodin
+- stachydrin
+- tanacetin
+- taxin
+- tebain
+- theobromin
+- theophyllin
+- valerin
+- vincetoxin
+- viskotoxin
+- žádné
+- γ-conicein
+
+**Hořčiny**
+- absinthin
+- absintin
+- achillein
+- acorin
+- agrimoniin
+- ajugol
+- amarogentin
+- arctigenin
+- arctiin
+- arnidol
+- arnikol
+- artabsin
+- betonicin
+- calamusin
+- carlina
+- centaurin
+- cikorin
+- cnicin
+- cnicinová kyselina
+- cyrsin
+- genciánin
+- gentiopicrin
+- glykosid marrubinu
+- hořčiny
+- inulin
+- lactucin
+- lactucopicrin
+- lupulin
+- marrubiin
+- menyanthin
+- menyanthoside
+- parthenolid
+- ranunculin
+- rheumarin
+- rutín
+- santonin
+- senecin
+- sinalbin
+- tanacetin
+- taraxacin
+- žádné
+
+**Slizy**
+- arabinóza
+- galaktóza
+- lignin
+- mucilaginózní látky
+- pektin
+- polysacharidy
+- sliz
+- slizovitá látka
+- slizovité látky
+- slizovité polysacharidy
+- slizové látky
+- žádné
+
+**Vláknina**
+- celulóza
+
+**Organické kyseliny**
+- kyselina citronová
+- kyselina jablečná
+
+**Jód**
+- jód
+
+**hořčík**
+- Dřín obecný (Cornus mas)
+
+**Glukany**
+- beta-glukany
+
+**Aminokyseliny**
+- alanin
+- asparagin
+- fenylalanin
+- glutamin
+- leucin
+- lysin
+- methionin
+- tryptofan
+- tyrosin
+- valin
+
+**Hořec žlutý (Gentiana lutea)**
+- amarogentin
+
+**Beta-glukany**
+- lentinan
+- pleuran
+
+**Antioxidanty**
+- ergothionein
+- selank.
+
+**Skupina**
+- bílkoviny
+- polysacharidy
+- sacharidy
+- Slizy
+- vláknina
+- škrob
+
+**minerální látky**
+- draslík
+
+**Vitamin**
+- vitamin C
+
+**Taniny**
+- katechin
+- kyselina elagová
+- kyselina ellagová
+- kyselina gallová
+- kyselina galová
+- kyselina tříslová
+
+**flavonoidy**
+- apigenin
+
+**Kanabinoidy**
+- CBD
+- CBG
+- THC
+
+**Terpenoidy**
+- beta-caryophyllene
+- terpinolene
+
+**Kurkuminoidy**
+- bisdemetoxykurkumin
+- demetoxykurkumin
+- kurkumin
+
+**Olej**
+- kyselina linolová
+- kyselina olejová
+- kyselina palmitová
+
+**Polysacharidy**
+- beta-glukan
+- betaglukany
+- galaktan
+- inulin
+- mannan
+
+**Stapetní látky**
+- adenosin
+- ergosterol
+
+**Phytosteroly**
+- beta-sitosterol
+- stigmasterol
+
+**Kyseliny**
+- kyselina kávová
+- kyselina šťavelová
+
+**Omega-6 nenasycené mastné kyseliny**
+- kyselina gama-linolenová
+- kyselina linolová
+
+**Cukry**
+- fruktóza
+- glukóza
+- sacharóza
+
+**Sléz maurský (Malva mauritiana) Silice**
+- kaempferol
+
+**Sléz pižmový (Malva moschata)**
+
+**Sacharidy**
+- fruktóza
+- glukóza
+- inulin
+
+**vitamin E**
+- Čistec lesní (Stachys sylvatica)
+
+**Oxaláty**
+- kyselina citrónová
+- kyselina šťavelová

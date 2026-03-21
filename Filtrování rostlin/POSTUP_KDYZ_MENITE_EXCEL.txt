@@ -1,0 +1,55 @@
+═══════════════════════════════════════════════════════════════
+  POSTUP: Když měníte Excelovou tabulku (Finální.xlsx)
+═══════════════════════════════════════════════════════════════
+
+1. UPRAVTE EXCEL
+───────────────────────────────────────────────────────────────
+  • Otevřete soubor Finální.xlsx.
+  • Proveďte své změny (přidání/odebrání rostlin, úpravy nemocí,
+    účinků, skupin, stanovišť atd.).
+  • U více hodnot v jednom poli používejte oddělovač:  |  (svislítko
+    s mezerami nebo bez), např.:  nachlazení | kašel | rýma
+  • U řádků, které chcete zobrazit na webu, mějte ve sloupci
+    „zobrazení“ hodnotu  on  (malými písmeny).
+  • Uložte soubor (Ctrl+S).
+
+2. SPUSŤTE GENEROVÁNÍ
+───────────────────────────────────────────────────────────────
+  • Otevřete terminál (PowerShell nebo Command Prompt) v adresáři,
+    kde máte  generate_html.py  a  Finální.xlsx.
+  • Spusťte:
+      python generate_html.py
+    (Případně dvojklik na  SPUSTENI_PROGRAMU.bat)
+
+3. CO SE STANE
+───────────────────────────────────────────────────────────────
+  • Vytvoří se / přepíše  output.html  – stránka s rostlinami
+    a filtry podle aktuálního Excelu.
+  • Přepíše se  tag_zobrazeni.json  – ale jen toto:
+    - NOVÝ tag (objeví se v Excelu) → přidá se do JSON s textem z Excelu.
+    - Tag, který už v Excelu NIKDE není → z JSON se odstraní.
+    - Tag, který už v JSON byl a pořád je v Excelu → text pro
+      zobrazení se NEMĚNÍ (zůstanou vaše ruční úpravy).
+
+4. OVĚŘENÍ
+───────────────────────────────────────────────────────────────
+  • Otevřete  output.html  v prohlížeči.
+  • Zkontrolujte, že se zobrazují správné rostliny a že texty
+    na tlačítkách (modré názvy) odpovídají tomu, co máte v Excelu.
+
+═══════════════════════════════════════════════════════════════
+  DŮLEŽITÉ
+═══════════════════════════════════════════════════════════════
+
+  • U tagů, které už v  tag_zobrazeni.json  máte (včetně ručních
+    oprav), se při generování text pro zobrazení NEMĚNÍ – zůstane
+    to, co je v JSON.
+
+  • Nové tagy (poprvé v Excelu) se do JSON doplní s textem z Excelu.
+    Chcete-li opravit text u starého tagu, opravte ho v JSON;
+    při dalším generování se nepřepíše.
+
+  • Šablona zůstává  Hotovo4.html  – program z ní bere vzhled
+    a strukturu a doplní do ní data z Excelu.
+
+═══════════════════════════════════════════════════════════════

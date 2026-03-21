@@ -1,0 +1,22 @@
+---
+description: Odrážky mají být na začátku řádku/textu
+alwaysApply: true
+---
+
+# Odrážky na začátku textu
+
+Při psaní seznamů s odrážkami (bullet points) vždy začínej řádek odrážkou – bez úvodních mezer nebo odsazení.
+
+## Pravidla
+
+Odrážka (`•`, `-`, `*`) musí být na začátku řádku. Před odrážkou nesmí být mezery ani tabulátor (kromě záměrného odsazení v kódu/HTML). Za odrážkou může být jedna mezera před textem položky.
+
+## Příklady
+
+**Správně:** odrážka na začátku řádku (viz blok níže).
+
+**Špatně:** mezery nebo tabulátor před odrážkou.
+
+**V HTML/Markdown:** používej `<ul>`/`<li>` nebo `-`/`*` na začátku řádku.
+
+Při generování nebo úpravách textu v tomto projektu vždy formátuj seznamy tak, aby odrážky začínaly na začátku řádku.

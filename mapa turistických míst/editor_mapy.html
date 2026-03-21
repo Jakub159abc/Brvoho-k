@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Editor mapy - Správa bodů</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js" integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        height: 100vh;
+      }
+      #sidebar {
+        width: 380px;
+        background: linear-gradient(135deg, #2d8659 0%, #1e6b47 100%);
+        padding: 25px;
+        overflow-y: auto;
+        border-right: 2px solid #155d3e;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+      }
+      #map {
+        flex: 1;
+        height: 100vh;
+      }
+      h1 {
+        font-size: 24px;
+        margin-bottom: 25px;
+        color: #ffffff;
+        font-weight: 600;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      }
+      .section {
+        margin-bottom: 20px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+      .section h2 {
+        font-size: 17px;
+        margin-bottom: 18px;
+        color: #1e6b47;
+        font-weight: 600;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #4ade80;
+      }
+      .form-group {
+        margin-bottom: 18px;
+      }
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #2d8659;
+        font-size: 14px;
+      }
+      input[type="text"], 
+      select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 2px solid #c6f6d5;
+        border-radius: 6px;
+        font-size: 14px;
+        background: #ffffff;
+        transition: all 0.3s;
+      }
+      input[type="text"]:focus, 
+      select:focus {
+        outline: none;
+        border-color: #22c55e;
+        box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+      }
+      button {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        margin-top: 10px;
+        transition: all 0.3s;
+        box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+      }
+      button:hover {
+        background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+      }
+      button:active {
+        transform: translateY(0);
+      }
+      button.delete {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        margin-top: 5px;
+        box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+      }
+      button.delete:hover {
+        background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+      }
+      button.export {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+      }
+      button.export:hover {
+        background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+      }
+      button.cancel {
+        background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+        box-shadow: 0 2px 8px rgba(107, 114, 128, 0.3);
+      }
+      button.cancel:hover {
+        background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+        box-shadow: 0 4px 12px rgba(107, 114, 128, 0.4);
+      }
+      button.edit {
+        background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
+        margin-bottom: 5px;
+        box-shadow: 0 2px 8px rgba(234, 179, 8, 0.3);
+      }
+      button.edit:hover {
+        background: linear-gradient(135deg, #ca8a04 0%, #a16207 100%);
+        box-shadow: 0 4px 12px rgba(234, 179, 8, 0.4);
+      }
+      #body-list {
+        max-height: 350px;
+        overflow-y: auto;
+        padding-right: 5px;
+      }
+      #body-list::-webkit-scrollbar {
+        width: 6px;
+      }
+      #body-list::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 3px;
+      }
+      #body-list::-webkit-scrollbar-thumb {
+        background: #22c55e;
+        border-radius: 3px;
+      }
+      #body-list::-webkit-scrollbar-thumb:hover {
+        background: #16a34a;
+      }
+      .body-item {
+        padding: 12px;
+        margin-bottom: 10px;
+        background: #f0fdf4;
+        border: 2px solid #bbf7d0;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      .body-item:hover {
+        background: #dcfce7;
+        border-color: #86efac;
+        transform: translateX(3px);
+      }
+      .body-item.active {
+        background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+        border-color: #22c55e;
+        box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+      }
+      .body-item .nazev {
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #1e6b47;
+        font-size: 15px;
+      }
+      .body-item .souradnice {
+        font-size: 12px;
+        color: #2d8659;
+      }
+      .info {
+        background: rgba(220, 252, 231, 0.9);
+        padding: 12px 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 13px;
+        color: #166534;
+        border-left: 4px solid #22c55e;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      }
+      .marker-label {
+        background: rgba(30, 107, 71, 0.45) !important;
+        color: white !important;
+        border: 2px solid #22c55e !important;
+        border-radius: 50px !important;
+        padding: 4px 10px !important;
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        white-space: nowrap !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.2) !important;
+        pointer-events: none !important;
+      }
+      .marker-label-default {
+        background: rgba(30, 107, 71, 0.95) !important;
+        color: white !important;
+        border: 2px solid #22c55e !important;
+        border-radius: 50px !important;
+        padding: 4px 10px !important;
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        white-space: nowrap !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.2) !important;
+        pointer-events: none !important;
+      }
+      @media (max-width: 768px) {
+        body {
+          flex-direction: column;
+        }
+        #sidebar {
+          width: 100%;
+          max-height: 50vh;
+          overflow-y: auto;
+        }
+        #map {
+          height: 50vh;
+          flex: none;
+        }
+        button {
+          padding: 6px;
+          font-size: 7px;
+        }
+        .section {
+          padding: 10px;
+          margin-bottom: 10px;
+        }
+        .section h2 {
+          font-size: 8.5px;
+        }
+        h1 {
+          font-size: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="sidebar">
+      <h1>🎯 Editor mapy</h1>
+      
+      <div class="info">
+        Klikněte na mapu vpravo pro přidání nového bodu
+      </div>
+
+      <div class="section">
+        <h2>📂 Import mapy</h2>
+        <div class="form-group">
+          <label>Načíst existující HTML soubor s mapou:</label>
+          <input type="file" id="import-soubor" accept=".html" style="padding: 8px; border: 2px solid #c6f6d5; border-radius: 6px; width: 100%; cursor: pointer;" />
+        </div>
+        <button onclick="importovatMapu()">📥 Načíst mapu</button>
+        <div id="import-vysledek" style="margin-top: 10px; font-size: 12px; color: #666;"></div>
+      </div>
+
+      <div class="section">
+        <h2>🔍 Vyhledat adresu</h2>
+        <div class="form-group">
+          <label>Adresa nebo místo:</label>
+          <input type="text" id="vyhledavaci-adresa" placeholder="Např. Praha, Hlavní nádraží" onkeypress="if(event.key==='Enter') vyhledatAdresu();" />
+        </div>
+        <button onclick="vyhledatAdresu()">Vyhledat</button>
+        <div id="vyhledavaci-vysledek" style="margin-top: 10px; font-size: 12px; color: #666;"></div>
+      </div>
+
+      <div class="section" id="sekce-novy-bod">
+        <h2>Nový bod</h2>
+        <div class="form-group">
+          <label>Název bodu:</label>
+          <input type="text" id="nazev-bodu" placeholder="Zadejte název" />
+        </div>
+        <div class="form-group">
+          <label>Barva markeru:</label>
+          <select id="barva-markeru">
+            <option value="blue">Modrá (výchozí)</option>
+            <option value="red">Červená</option>
+            <option value="green">Zelená</option>
+            <option value="orange">Oranžová</option>
+            <option value="purple">Fialová</option>
+            <option value="darkblue">Tmavě modrá</option>
+            <option value="darkred">Tmavě červená</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Odkaz na Mapy.cz (volitelné):</label>
+          <input type="text" id="mapy-cz-odkaz" placeholder="Např. https://mapy.cz/s/kapunucunu" />
+        </div>
+      </div>
+
+      <div class="section" id="sekce-editace-bodu" style="display: none;">
+        <h2>✏️ Úprava bodu</h2>
+        <div class="form-group">
+          <label>Název bodu:</label>
+          <input type="text" id="edit-nazev-bodu" placeholder="Zadejte název" />
+        </div>
+        <div class="form-group">
+          <label>Barva markeru:</label>
+          <select id="edit-barva-markeru">
+            <option value="blue">Modrá</option>
+            <option value="red">Červená</option>
+            <option value="green">Zelená</option>
+            <option value="orange">Oranžová</option>
+            <option value="purple">Fialová</option>
+            <option value="darkblue">Tmavě modrá</option>
+            <option value="darkred">Tmavě červená</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Odkaz na Mapy.cz (volitelné):</label>
+          <input type="text" id="edit-mapy-cz-odkaz" placeholder="Např. https://mapy.cz/s/kapunucunu" />
+        </div>
+        <button onclick="ulozitZmenyBodu()">💾 Uložit změny</button>
+        <button class="cancel" onclick="zrusitEditaci()">Zrušit</button>
+      </div>
+
+      <div class="section">
+        <h2>Seznam bodů (<span id="pocet-bodu">0</span>)</h2>
+        <div id="body-list"></div>
+        <button class="export" onclick="exportovatMapu()">📥 Exportovat do HTML</button>
+      </div>
+    </div>
+    <div id="map"></div>
+
+    <script>
+      var map;
+      var body = [];
+      var vybranyBod = null;
+      var tempMarker = null;
+
+      // Funkce pro vytvoření markeru s barvou
+      function vytvoritMarker(pozice, barva, nazev) {
+        var barvaIkony = {
+          'blue': 'blue',
+          'red': 'red',
+          'green': 'green',
+          'orange': 'orange',
+          'purple': 'violet',
+          'darkblue': 'blue',
+          'darkred': 'red'
+        };
+        var iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-' + (barvaIkony[barva] || 'blue') + '.png';
+        // Pro Brvohořík použijeme neprůhledný zelený popisek
+        var labelClass = (nazev === 'Brvohořík') ? 'marker-label-default' : 'marker-label';
+        var marker = L.marker(pozice, {
+          icon: L.icon({
+            iconUrl: iconUrl,
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.2/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+          })
+        })
+        .bindPopup(nazev)
+        .bindTooltip(nazev, {
+          permanent: true,
+          direction: 'top',
+          offset: [0, -45],
+          className: labelClass
+        });
+        return marker;
+      }
+
+      // Funkce pro přidání bodu na mapu
+      function pridatBodNaMapu(lat, lng, nazev, barva, mapyCzOdkaz) {
+        if (!map) return;
+
+        var marker = vytvoritMarker([lat, lng], barva, nazev);
+        marker.addTo(map);
+
+        var bod = {
+          id: Date.now(),
+          nazev: nazev,
+          lat: lat,
+          lng: lng,
+          barva: barva,
+          mapyCzOdkaz: mapyCzOdkaz || '',
+          marker: marker
+        };
+
+        body.push(bod);
+        aktualizovatSeznam();
+        
+        // Přiblížení na nový bod
+        map.setView([lat, lng], 15);
+        marker.openPopup();
+      }
+
+      // Vyhledávání adresy pomocí Nominatim API
+      function vyhledatAdresu() {
+        var adresa = document.getElementById('vyhledavaci-adresa').value.trim();
+        var vysledekDiv = document.getElementById('vyhledavaci-vysledek');
+        
+        if (!adresa) {
+          vysledekDiv.innerHTML = '<span style="color: #dc3545;">Zadejte prosím adresu!</span>';
+          return;
+        }
+
+        vysledekDiv.innerHTML = 'Vyhledávám...';
+
+        // Nominatim API pro vyhledávání adresy
+        var url = 'https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(adresa) + '&limit=1';
+        
+        fetch(url, {
+          headers: {
+            'User-Agent': 'MapEditor/1.0'
+          }
+        })
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(data) {
+          if (data && data.length > 0) {
+            var vysledek = data[0];
+            var lat = parseFloat(vysledek.lat);
+            var lng = parseFloat(vysledek.lon);
+            var nazev = vysledek.display_name || adresa;
+            
+            // Použijeme název z formuláře, pokud je vyplněn, jinak název z vyhledávání
+            var nazevBodu = document.getElementById('nazev-bodu').value || nazev;
+            var barva = document.getElementById('barva-markeru').value;
+            var mapyCzOdkaz = document.getElementById('mapy-cz-odkaz').value.trim();
+            
+            pridatBodNaMapu(lat, lng, nazevBodu, barva, mapyCzOdkaz);
+            
+            vysledekDiv.innerHTML = '<span style="color: #28a745;">✓ Bod přidán: ' + nazev + '</span>';
+            
+            // Vyčištění pole vyhledávání po 3 sekundách
+            setTimeout(function() {
+              document.getElementById('vyhledavaci-adresa').value = '';
+              vysledekDiv.innerHTML = '';
+            }, 3000);
+          } else {
+            vysledekDiv.innerHTML = '<span style="color: #dc3545;">Adresa nebyla nalezena. Zkuste jiný název.</span>';
+          }
+        })
+        .catch(function(error) {
+          vysledekDiv.innerHTML = '<span style="color: #dc3545;">Chyba při vyhledávání: ' + error.message + '</span>';
+        });
+      }
+
+      // Inicializace mapy
+      function inicializovatMapu() {
+        if (typeof L === 'undefined') {
+          setTimeout(inicializovatMapu, 100);
+          return;
+        }
+
+        map = L.map('map').setView([50.7500, 14.2000], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          maxZoom: 19
+        }).addTo(map);
+
+        // Kliknutí na mapu
+        map.on('click', function(e) {
+          var lat = e.latlng.lat;
+          var lng = e.latlng.lng;
+
+          // Odstranění předchozího dočasného markeru
+          if (tempMarker) {
+            map.removeLayer(tempMarker);
+          }
+
+          // Vytvoření nového dočasného markeru
+          tempMarker = L.marker([lat, lng], {
+            icon: L.icon({
+              iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+              shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.2/images/marker-shadow.png',
+              iconSize: [25, 41],
+              iconAnchor: [12, 41],
+              popupAnchor: [1, -34],
+              shadowSize: [41, 41]
+            })
+          }).addTo(map);
+
+          // Automatické přidání bodu
+          var nazev = document.getElementById('nazev-bodu').value || 'Bod ' + (body.length + 1);
+          var barva = document.getElementById('barva-markeru').value;
+          var mapyCzOdkaz = document.getElementById('mapy-cz-odkaz').value.trim();
+
+          // Odstranění dočasného markeru
+          map.removeLayer(tempMarker);
+          tempMarker = null;
+
+          // Vytvoření trvalého markeru
+          var marker = vytvoritMarker([lat, lng], barva, nazev);
+          marker.addTo(map);
+
+          // Přidání do seznamu
+          var bod = {
+            id: Date.now(),
+            nazev: nazev,
+            lat: lat,
+            lng: lng,
+            barva: barva,
+            mapyCzOdkaz: mapyCzOdkaz,
+            marker: marker
+          };
+
+          body.push(bod);
+          aktualizovatSeznam();
+          
+          // Vyčištění formuláře
+          document.getElementById('nazev-bodu').value = '';
+          document.getElementById('mapy-cz-odkaz').value = '';
+        });
+      }
+
+      // Aktualizace seznamu bodů
+      function aktualizovatSeznam() {
+        var seznam = document.getElementById('body-list');
+        seznam.innerHTML = '';
+        document.getElementById('pocet-bodu').textContent = body.length;
+
+        body.forEach(function(bod) {
+          var item = document.createElement('div');
+          item.className = 'body-item';
+          item.innerHTML = '<div class="nazev">' + bod.nazev + '</div><div class="souradnice">' + bod.lat.toFixed(4) + '°, ' + bod.lng.toFixed(4) + '°</div>';
+          
+          item.onclick = function() {
+            vybratBod(bod);
+          };
+
+          seznam.appendChild(item);
+        });
+      }
+
+      // Výběr bodu
+      function vybratBod(bod) {
+        document.querySelectorAll('.body-item').forEach(function(item) {
+          item.classList.remove('active');
+        });
+        
+        event.target.closest('.body-item').classList.add('active');
+        vybranyBod = bod;
+
+        // Zobrazení sekce pro editaci
+        document.getElementById('sekce-novy-bod').style.display = 'none';
+        document.getElementById('sekce-editace-bodu').style.display = 'block';
+        
+        // Naplnění formuláře pro editaci
+        document.getElementById('edit-nazev-bodu').value = bod.nazev;
+        document.getElementById('edit-barva-markeru').value = bod.barva;
+        document.getElementById('edit-mapy-cz-odkaz').value = bod.mapyCzOdkaz || '';
+
+        map.setView([bod.lat, bod.lng], 15);
+        bod.marker.openPopup();
+
+        // Přidání tlačítek pro smazání a editaci
+        var existingButtons = document.querySelector('#body-list .action-buttons-container');
+        if (existingButtons) {
+          existingButtons.remove();
+        }
+
+        var buttonContainer = document.createElement('div');
+        buttonContainer.className = 'action-buttons-container';
+        buttonContainer.innerHTML = '<button class="edit" onclick="editovatBod(' + bod.id + ')">✏️ Upravit</button><button class="delete" onclick="smazatBod(' + bod.id + ')">🗑️ Smazat tento bod</button>';
+        event.target.closest('.body-item').appendChild(buttonContainer);
+      }
+
+      // Spuštění editace bodu (alias pro vybratBod - již je vybraný)
+      function editovatBod(id) {
+        // Bod je již vybrán, jen scrollujeme na formulář
+        document.getElementById('sekce-editace-bodu').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      // Uložení změn bodu
+      function ulozitZmenyBodu() {
+        if (!vybranyBod) {
+          alert('Nejprve vyberte bod k úpravě!');
+          return;
+        }
+
+        var novyNazev = document.getElementById('edit-nazev-bodu').value.trim();
+        var novaBarva = document.getElementById('edit-barva-markeru').value;
+        var novyMapyCzOdkaz = document.getElementById('edit-mapy-cz-odkaz').value.trim();
+
+        if (!novyNazev) {
+          alert('Název bodu nemůže být prázdný!');
+          return;
+        }
+
+        // Aktualizace názvu, barvy a odkazu v objektu bodu
+        vybranyBod.nazev = novyNazev;
+        vybranyBod.barva = novaBarva;
+        vybranyBod.mapyCzOdkaz = novyMapyCzOdkaz;
+
+        // Odstranění starého markeru
+        map.removeLayer(vybranyBod.marker);
+
+        // Vytvoření nového markeru s novými parametry
+        var novyMarker = vytvoritMarker([vybranyBod.lat, vybranyBod.lng], novaBarva, novyNazev);
+        novyMarker.addTo(map);
+        vybranyBod.marker = novyMarker;
+
+        // Aktualizace seznamu
+        aktualizovatSeznam();
+        
+        // Zobrazení nového markeru
+        map.setView([vybranyBod.lat, vybranyBod.lng], 15);
+        novyMarker.openPopup();
+
+        // Zrušení editace
+        zrusitEditaci();
+        
+        alert('Bod byl úspěšně upraven!');
+      }
+
+      // Zrušení editace
+      function zrusitEditaci() {
+        vybranyBod = null;
+        
+        // Skrytí sekce pro editaci
+        document.getElementById('sekce-editace-bodu').style.display = 'none';
+        document.getElementById('sekce-novy-bod').style.display = 'block';
+        
+        // Vyčištění formuláře
+        document.getElementById('edit-nazev-bodu').value = '';
+        document.getElementById('edit-barva-markeru').value = 'blue';
+        document.getElementById('edit-mapy-cz-odkaz').value = '';
+        
+        // Odstranění aktivního označení
+        document.querySelectorAll('.body-item').forEach(function(item) {
+          item.classList.remove('active');
+        });
+        
+        // Odstranění tlačítek akcí
+        var existingButtons = document.querySelector('#body-list .action-buttons-container');
+        if (existingButtons) {
+          existingButtons.remove();
+        }
+      }
+
+      // Mazání bodu
+      function smazatBod(id) {
+        if (!confirm('Opravdu chcete smazat tento bod?')) {
+          return;
+        }
+        
+        var index = body.findIndex(function(b) { return b.id === id; });
+        if (index !== -1) {
+          var bod = body[index];
+          map.removeLayer(bod.marker);
+          body.splice(index, 1);
+          aktualizovatSeznam();
+          
+          // Zrušení editace, pokud byl mazaný bod právě upravován
+          if (vybranyBod && vybranyBod.id === id) {
+            zrusitEditaci();
+          } else {
+            vybranyBod = null;
+          }
+        }
+      }
+
+      // Import mapy z HTML souboru
+      function importovatMapu() {
+        var input = document.getElementById('import-soubor');
+        var vysledekDiv = document.getElementById('import-vysledek');
+
+        if (!input.files || !input.files[0]) {
+          vysledekDiv.innerHTML = '<span style="color: #dc3545;">Vyberte prosím HTML soubor!</span>';
+          return;
+        }
+
+        var file = input.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+          try {
+            var htmlContent = e.target.result;
+
+            // Hledání dat bodů v HTML - formát: var body = [JSON data];
+            var bodyMatch = htmlContent.match(/var\s+body\s*=\s*(\[[\s\S]*?\]);/);
+            
+            if (!bodyMatch) {
+              vysledekDiv.innerHTML = '<span style="color: #dc3545;">V souboru nebyla nalezena data bodů. Zkontrolujte, zda jde o správný exportovaný soubor.</span>';
+              return;
+            }
+
+            // Parsování JSON dat
+            var bodyDataStr = bodyMatch[1];
+            var importovaneBody = JSON.parse(bodyDataStr);
+
+            if (!Array.isArray(importovaneBody) || importovaneBody.length === 0) {
+              vysledekDiv.innerHTML = '<span style="color: #dc3545;">V souboru nebyly nalezeny žádné body.</span>';
+              return;
+            }
+
+            // Vymazání současných bodů z mapy
+            if (body.length > 0) {
+              var potvrzit = confirm('Chcete smazat současné body na mapě a nahradit je importovanými?');
+              if (!potvrzit) {
+                return;
+              }
+              
+              // Smazání všech současných bodů
+              body.forEach(function(bod) {
+                map.removeLayer(bod.marker);
+              });
+              body = [];
+            }
+
+            // Přidání importovaných bodů na mapu
+            var pocet = 0;
+            importovaneBody.forEach(function(bodData) {
+              // Kontrola, zda bod má všechny potřebné vlastnosti
+              if (bodData.lat && bodData.lng && bodData.nazev) {
+                var barva = bodData.barva || 'blue';
+                var nazev = bodData.nazev;
+                var lat = parseFloat(bodData.lat);
+                var lng = parseFloat(bodData.lng);
+                var mapyCzOdkaz = bodData.mapyCzOdkaz || '';
+
+                pridatBodNaMapu(lat, lng, nazev, barva, mapyCzOdkaz);
+                pocet++;
+              }
+            });
+
+            // Nastavení zobrazení mapy na první importovaný bod
+            if (importovaneBody.length > 0) {
+              var prvniBod = importovaneBody[0];
+              map.setView([parseFloat(prvniBod.lat), parseFloat(prvniBod.lng)], 13);
+            }
+
+            vysledekDiv.innerHTML = '<span style="color: #28a745;">✓ Úspěšně importováno ' + pocet + ' bodů!</span>';
+
+            // Vyčištění inputu po 3 sekundách
+            setTimeout(function() {
+              input.value = '';
+              vysledekDiv.innerHTML = '';
+            }, 3000);
+
+          } catch (error) {
+            vysledekDiv.innerHTML = '<span style="color: #dc3545;">Chyba při importu: ' + error.message + '</span>';
+          }
+        };
+
+        reader.onerror = function() {
+          vysledekDiv.innerHTML = '<span style="color: #dc3545;">Chyba při čtení souboru!</span>';
+        };
+
+        reader.readAsText(file);
+      }
+
+      // Export mapy do HTML
+      function exportovatMapu() {
+        if (body.length === 0) {
+          alert('Nejprve přidejte alespoň jeden bod do mapy!');
+          return;
+        }
+
+        var bodyData = JSON.stringify(body.map(function(b) {
+          return {
+            nazev: b.nazev,
+            lat: b.lat,
+            lng: b.lng,
+            barva: b.barva,
+            mapyCzOdkaz: b.mapyCzOdkaz || ''
+          };
+        }), null, 6);
+
+        var html = '<!DOCTYPE html>\n' +
+'<html>\n' +
+'  <head>\n' +
+'    <meta charset="utf-8" />\n' +
+'    <title>Mapa s body</title>\n' +
+'    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />\n' +
+'    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />\n' +
+'    <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js" integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""><\/script>\n' +
+'    <style>\n' +
+'      * {\n' +
+'        margin: 0;\n' +
+'        padding: 0;\n' +
+'        box-sizing: border-box;\n' +
+'      }\n' +
+'      body {\n' +
+'        font-family: Arial, sans-serif;\n' +
+'      }\n' +
+'      #map {\n' +
+'        height: 600px;\n' +
+'        width: 100%;\n' +
+'      }\n' +
+'      .marker-label {\n' +
+'        background: rgba(30, 107, 71, 0.45) !important;\n' +
+'        color: white !important;\n' +
+'        border: 2px solid #22c55e !important;\n' +
+'        border-radius: 50px !important;\n' +
+'        padding: 4px 10px !important;\n' +
+'        font-size: 13px !important;\n' +
+'        font-weight: 600 !important;\n' +
+'        white-space: nowrap !important;\n' +
+'        box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;\n' +
+'        text-shadow: 0 1px 2px rgba(0,0,0,0.2) !important;\n' +
+'        pointer-events: none !important;\n' +
+'      }\n' +
+'      .marker-label-default {\n' +
+'        background: rgba(30, 107, 71, 0.95) !important;\n' +
+'        color: white !important;\n' +
+'        border: 2px solid #22c55e !important;\n' +
+'        border-radius: 50px !important;\n' +
+'        padding: 4px 10px !important;\n' +
+'        font-size: 13px !important;\n' +
+'        font-weight: 600 !important;\n' +
+'        white-space: nowrap !important;\n' +
+'        box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;\n' +
+'        text-shadow: 0 1px 2px rgba(0,0,0,0.2) !important;\n' +
+'        pointer-events: none !important;\n' +
+'      }\n' +
+'      .body-list-container {\n' +
+'        max-width: 1200px;\n' +
+'        margin: 0 auto;\n' +
+'        padding: 30px 20px;\n' +
+'      }\n' +
+'      .body-list-container h2 {\n' +
+'        font-size: 28px;\n' +
+'        color: #1e6b47;\n' +
+'        margin-bottom: 15px;\n' +
+'        padding-bottom: 15px;\n' +
+'        border-bottom: 3px solid #22c55e;\n' +
+'        text-align: center;\n' +
+'      }\n' +
+'      .body-list {\n' +
+'        background: #dcfce7;\n' +
+'        border: 2px solid #bbf7d0;\n' +
+'        border-radius: 15px;\n' +
+'        padding: 15px;\n' +
+'        display: flex;\n' +
+'        flex-wrap: wrap;\n' +
+'        gap: 10px;\n' +
+'      }\n' +
+'      .body-item {\n' +
+'        background: #16a34a;\n' +
+'        border: 2px solid #15803d;\n' +
+'        border-radius: 50px;\n' +
+'        padding: 8px 16px;\n' +
+'        margin-bottom: 0;\n' +
+'        transition: all 0.3s;\n' +
+'        display: inline-block;\n' +
+'        width: auto;\n' +
+'        position: relative;\n' +
+'      }\n' +
+'      .body-item:hover {\n' +
+'        background: #15803d;\n' +
+'        border-color: #166534;\n' +
+'        box-shadow: 0 4px 12px rgba(22, 163, 74, 0.4);\n' +
+'      }\n' +
+'      .body-item h3 {\n' +
+'        color: #ffffff;\n' +
+'        font-size: 18px;\n' +
+'        margin-bottom: 0;\n' +
+'        cursor: pointer;\n' +
+'        user-select: none;\n' +
+'      }\n' +
+'      .body-item h3:hover {\n' +
+'        color: #dcfce7;\n' +
+'      }\n' +
+'      .body-item .body-buttons {\n' +
+'        display: none;\n' +
+'        position: absolute;\n' +
+'        top: calc(100% + 8px);\n' +
+'        left: 0;\n' +
+'        flex-direction: column;\n' +
+'        gap: 8px;\n' +
+'        background: #dcfce7;\n' +
+'        border: 2px solid #bbf7d0;\n' +
+'        border-radius: 12px;\n' +
+'        padding: 12px;\n' +
+'        z-index: 10;\n' +
+'        white-space: nowrap;\n' +
+'        box-shadow: 0 8px 24px rgba(0,0,0,0.15);\n' +
+'        opacity: 0;\n' +
+'        transform: translateY(-10px);\n' +
+'        transition: opacity 0.3s ease, transform 0.3s ease;\n' +
+'        min-width: 200px;\n' +
+'      }\n' +
+'      .body-item.expanded .body-buttons {\n' +
+'        display: flex;\n' +
+'        opacity: 1;\n' +
+'        transform: translateY(0);\n' +
+'      }\n' +
+'      .body-buttons {\n' +
+'        display: flex;\n' +
+'        gap: 10px;\n' +
+'        flex-wrap: wrap;\n' +
+'      }\n' +
+'      .body-button {\n' +
+'        padding: 8px 12px;\n' +
+'        border: none;\n' +
+'        border-radius: 8px;\n' +
+'        font-size: 13px;\n' +
+'        font-weight: 600;\n' +
+'        cursor: pointer;\n' +
+'        text-decoration: none;\n' +
+'        display: inline-block;\n' +
+'        transition: all 0.2s ease;\n' +
+'        background: transparent;\n' +
+'        color: inherit;\n' +
+'        text-align: left;\n' +
+'        width: 100%;\n' +
+'      }\n' +
+'      .body-button.search {\n' +
+'        background: rgba(34, 197, 94, 0.1);\n' +
+'        color: #15803d;\n' +
+'        box-shadow: none;\n' +
+'      }\n' +
+'      .body-button.search:hover {\n' +
+'        background: rgba(34, 197, 94, 0.3);\n' +
+'        color: #166534;\n' +
+'        transform: translateX(4px);\n' +
+'        box-shadow: 0 2px 8px rgba(34, 197, 94, 0.2);\n' +
+'      }\n' +
+'      .body-button.nav {\n' +
+'        background: rgba(59, 130, 246, 0.1);\n' +
+'        color: #1d4ed8;\n' +
+'        box-shadow: none;\n' +
+'      }\n' +
+'      .body-button.nav:hover {\n' +
+'        background: rgba(59, 130, 246, 0.3);\n' +
+'        color: #1e40af;\n' +
+'        transform: translateX(4px);\n' +
+'        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);\n' +
+'      }\n' +
+'      @media (max-width: 768px) {\n' +
+'        #map {\n' +
+'          height: 50vh;\n' +
+'        }\n' +
+'        .body-list {\n' +
+'          flex-direction: column;\n' +
+'          flex-wrap: nowrap;\n' +
+'        }\n' +
+'        .body-item {\n' +
+'          width: 100%;\n' +
+'          padding: 10px 16px;\n' +
+'          margin-bottom: 10px;\n' +
+'        }\n' +
+'        .body-item h3 {\n' +
+'          font-size: 18px;\n' +
+'        }\n' +
+'        .body-buttons {\n' +
+'          flex-direction: column;\n' +
+'          flex-wrap: nowrap;\n' +
+'        }\n' +
+'        .body-button {\n' +
+'          padding: 12px 18px;\n' +
+'          font-size: 19.5px;\n' +
+'          width: 100%;\n' +
+'        }\n' +
+'        .body-list-container h2 {\n' +
+'          font-size: 14px;\n' +
+'        }\n' +
+'      }\n' +
+'    <\/style>\n' +
+'  <\/head>\n' +
+'  <body>\n' +
+'    <div class="body-list-container">\n' +
+'      <h2>📍 Seznam míst pro vaše nezapomenutelné výlety</h2>\n' +
+'    <\/div>\n' +
+'    <div id="map"><\/div>\n' +
+'    <div class="body-list-container">\n' +
+'      <div class="body-list"><\/div>\n' +
+'    <\/div>\n' +
+'    <script>\n' +
+'      var map = L.map(\'map\').setView([' + body[0].lat + ', ' + body[0].lng + '], 13);\n' +
+'      L.tileLayer(\'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png\', {\n' +
+'        attribution: \'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap<\/a> contributors\',\n' +
+'        maxZoom: 19\n' +
+'      }).addTo(map);\n' +
+'      var body = ' + bodyData + ';\n' +
+'      function vytvoritMarker(pozice, barva, nazev) {\n' +
+'        var barvaIkony = {\'blue\': \'blue\', \'red\': \'red\', \'green\': \'green\', \'orange\': \'orange\', \'purple\': \'violet\', \'darkblue\': \'blue\', \'darkred\': \'red\'};\n' +
+'        var iconUrl = \'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-\' + (barvaIkony[barva] || \'blue\') + \'.png\';\n' +
+'        // Pro Brvohořík použijeme neprůhledný zelený popisek\n' +
+'        var labelClass = (nazev === \'Brvohořík\') ? \'marker-label-default\' : \'marker-label\';\n' +
+'        var marker = L.marker(pozice, {\n' +
+'          icon: L.icon({\n' +
+'            iconUrl: iconUrl,\n' +
+'            shadowUrl: \'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.2/images/marker-shadow.png\',\n' +
+'            iconSize: [25, 41],\n' +
+'            iconAnchor: [12, 41],\n' +
+'            popupAnchor: [1, -34],\n' +
+'            shadowSize: [41, 41]\n' +
+'          })\n' +
+'        })\n' +
+'        .bindPopup(nazev)\n' +
+'        .bindTooltip(nazev, {\n' +
+'          permanent: true,\n' +
+'          direction: \'top\',\n' +
+'          offset: [0, -45],\n' +
+'          className: labelClass\n' +
+'        });\n' +
+'        return marker;\n' +
+'      }\n' +
+'      body.forEach(function(bod) {\n' +
+'        vytvoritMarker([bod.lat, bod.lng], bod.barva, bod.nazev).addTo(map);\n' +
+'      });\n' +
+'\n' +
+'      // Generování seznamu míst pod mapou\n' +
+'      var bodyListDiv = document.querySelector(\'.body-list\');\n' +
+'      body.forEach(function(bod) {\n' +
+'        // Přeskočit Brvohořík v seznamu míst\n' +
+'        if (bod.nazev === \'Brvohořík\') {\n' +
+'          return;\n' +
+'        }\n' +
+'        var itemDiv = document.createElement(\'div\');\n' +
+'        itemDiv.className = \'body-item\';\n' +
+'        \n' +
+'        var h3 = document.createElement(\'h3\');\n' +
+'        h3.textContent = bod.nazev;\n' +
+'        itemDiv.appendChild(h3);\n' +
+'        \n' +
+'        var buttonsDiv = document.createElement(\'div\');\n' +
+'        buttonsDiv.className = \'body-buttons\';\n' +
+'        \n' +
+'        var searchButton = document.createElement(\'a\');\n' +
+'        searchButton.href = \'https://www.google.com/search?q=\' + encodeURIComponent(bod.nazev);\n' +
+'        searchButton.target = \'_blank\';\n' +
+'        searchButton.className = \'body-button search\';\n' +
+'        searchButton.textContent = \'🔍 Více o tomto místě\';\n' +
+'        buttonsDiv.appendChild(searchButton);\n' +
+'        \n' +
+'        var originBrvohorik = encodeURIComponent(\'Valkeřice 250\');\n' +
+'        var destination = bod.lat + \',\' + bod.lng;\n' +
+'        \n' +
+'        var navGoogleButton = document.createElement(\'a\');\n' +
+'        navGoogleButton.href = \'https://www.google.com/maps/dir/?api=1&origin=\' + originBrvohorik + \'&destination=\' + destination;\n' +
+'        navGoogleButton.target = \'_blank\';\n' +
+'        navGoogleButton.className = \'body-button nav\';\n' +
+'        navGoogleButton.textContent = \'🧭 Navigace (Google Maps)\';\n' +
+'        buttonsDiv.appendChild(navGoogleButton);\n' +
+'        \n' +
+'        var navMapyButton = document.createElement(\'a\');\n' +
+'        // Pokud existuje přímý odkaz na Mapy.cz, použij ho, jinak použij standardní navigaci\n' +
+'        if (bod.mapyCzOdkaz && bod.mapyCzOdkaz.trim() !== \'\') {\n' +
+'          navMapyButton.href = bod.mapyCzOdkaz;\n' +
+'        } else {\n' +
+'          navMapyButton.href = \'https://www.mapy.cz/routy?from=\' + originBrvohorik + \'&to=\' + destination;\n' +
+'        }\n' +
+'        navMapyButton.target = \'_blank\';\n' +
+'        navMapyButton.className = \'body-button nav\';\n' +
+'        navMapyButton.textContent = \'🗺️ Navigace (Mapy.cz)\';\n' +
+'        buttonsDiv.appendChild(navMapyButton);\n' +
+'        \n' +
+'        itemDiv.appendChild(buttonsDiv);\n' +
+'        \n' +
+'        // Přidání funkcionality pro rozbalení/sbalení při kliknutí na název\n' +
+'        h3.addEventListener(\'click\', function(e) {\n' +
+'          e.stopPropagation();\n' +
+'          \n' +
+'          // Zavřít všechna ostatní tlačítka\n' +
+'          var allItems = document.querySelectorAll(\'.body-item\');\n' +
+'          allItems.forEach(function(item) {\n' +
+'            if (item !== itemDiv) {\n' +
+'              item.classList.remove(\'expanded\');\n' +
+'            }\n' +
+'          });\n' +
+'          \n' +
+'          // Rozbalit/zabalit aktuální tlačítko\n' +
+'          itemDiv.classList.toggle(\'expanded\');\n' +
+'          \n' +
+'          // Přesun mapy na dané místo\n' +
+'          map.setView([bod.lat, bod.lng], 15);\n' +
+'        });\n' +
+'        \n' +
+'        bodyListDiv.appendChild(itemDiv);\n' +
+'      });\n' +
+'    <\/script>\n' +
+'  <\/body>\n' +
+'<\/html>';
+
+        var blob = new Blob([html], { type: 'text/html' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'mapa_export.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        alert('Mapa byla úspěšně exportována jako mapa_export.html');
+      }
+
+      // Spuštění inicializace
+      window.onload = inicializovatMapu;
+    </script>
+  </body>
+</html>

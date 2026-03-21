@@ -1,0 +1,8 @@
+# Statický web – nasazuje se obsah složky netlify-site.
+# Příkaz `true` jen úspěšně skončí (žádný npm build). Po úpravách zdrojů spusťte:
+#   python _build_netlify_site.py
+# a commitněte aktualizovanou složku netlify-site.
+
+[build]
+  publish = "netlify-site"
+  command = "true"

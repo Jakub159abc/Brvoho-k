@@ -1,0 +1,214 @@
+/* Sdílené styly – hlavní menu + vnitřní stránky sekcí */
+:root {
+  --green-dark: #2e7d32;
+  --green-mid: #558b2f;
+  --green-bg: #f1f8f4;
+  --text: #2d5016;
+  --card: #ffffff;
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  --radius: 20px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #ffffff;
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* --- Hlavní menu (úvod) --- */
+.menu-page {
+  padding: 20px;
+}
+
+.menu-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  background: var(--green-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 30px;
+}
+
+.menu-title {
+  color: var(--green-dark);
+  font-size: 2.5em;
+  margin-bottom: 10px;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  font-weight: 700;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  justify-items: center;
+}
+
+.menu-item {
+  text-align: center;
+}
+
+.menu-button {
+  display: block;
+  text-decoration: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  color: inherit;
+}
+
+.menu-button img {
+  width: 200px;
+  height: auto;
+  max-height: 200px;
+  object-fit: contain;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  transition: all 0.3s ease;
+  display: block;
+}
+
+.menu-button:hover img {
+  transform: scale(1.1) translateY(-5px);
+}
+
+.menu-item:hover .menu-label {
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
+}
+
+.kalendar-sberu .menu-button img {
+  width: 260px;
+  max-height: 260px;
+}
+
+.kalendar-sberu .menu-label {
+  margin-left: 38px;
+}
+
+.menu-label {
+  margin-top: 10px;
+  color: var(--green-mid);
+  font-size: 1.1em;
+  font-weight: 500;
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+@media (max-width: 768px) {
+  .menu-container {
+    padding: 15px;
+  }
+  .menu-title {
+    font-size: 1.8em;
+  }
+  .menu-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .menu-button img {
+    width: 200px;
+    max-height: 200px;
+  }
+  .kalendar-sberu .menu-button img {
+    width: 260px;
+    max-height: 260px;
+  }
+  .kalendar-sberu .menu-label {
+    margin-left: 0;
+  }
+}
+
+/* --- Vnitřní stránky sekcí --- */
+.page-shell {
+  padding: 20px;
+}
+
+.site-header {
+  max-width: 900px;
+  margin: 0 auto 24px;
+}
+
+.back-home {
+  display: inline-block;
+  color: var(--green-dark);
+  text-decoration: none;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.back-home:hover {
+  text-decoration: underline;
+}
+
+.page-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--green-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px 32px;
+}
+
+.page-inner h1 {
+  color: var(--green-dark);
+  font-size: 1.85em;
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+.page-inner p {
+  margin-bottom: 12px;
+}
+
+.page-inner .lead {
+  color: #3d5c38;
+  font-size: 1.05em;
+  margin-bottom: 20px;
+}
+
+.page-inner a:not(.back-home) {
+  color: var(--green-dark);
+  font-weight: 600;
+}
+
+.page-inner ul {
+  margin: 12px 0 12px 1.25rem;
+}
+
+.page-inner li {
+  margin-bottom: 6px;
+}
+
+.page-actions {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(46, 125, 50, 0.2);
+}
+
+.btn-primary {
+  display: inline-block;
+  padding: 12px 20px;
+  background: var(--green-dark);
+  color: #fff !important;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.08);
+}

@@ -1,0 +1,70 @@
+================================================================================
+  JAK POUŽÍVAT ZÁPIS BYLINEK Z GPT DO TABULKY
+================================================================================
+
+NEJJEDNODUŠŠÍ ZPŮSOB (doporučeno) – bez serveru, bez příkazové řádky
+--------------------------------------------------------------------
+
+1. Dvojklikem otevřete soubor  Zapis_do_tabulky.html  (otevře se v prohlížeči).
+
+2. Klikněte na „Vybrat soubor …“ a vyberte svou tabulku  Finální_upravený.csv
+   (stačí vybrat jednou, pokud stránku neobnovíte).
+
+3. Z chatu GPT zkopírujte text (s tagy) a vložte ho do bílého pole (Ctrl+V).
+
+4. Klikněte na „Zapsat do tabulky a stáhnout CSV“.
+
+5. Prohlížeč stáhne aktualizovanou tabulku. Uložte ji (přepište původní
+   Finální_upravený.csv ve složce s bylinkami).
+
+   Pokud v tabulce nebyl nalezen řádek pro danou rostlinu, zobrazí se chyba
+   a nic se nestáhne.
+
+
+Alternativa: server (python server.py)
+--------------------------------------
+Chcete-li, aby se tabulka přepisovala přímo na disku bez výběru souboru
+a stahování, spusťte v příkazové řádce ve složce s tabulkou:
+  python server.py
+Pak v prohlížeči otevřete  http://127.0.0.1:5000  a použijte stránku index.html
+(vložíte text, kliknete „Zapsat do tabulky“ – soubor CSV se přepíše sám).
+
+
+Formát textu z GPT
+------------------
+V chatu GPT nechte vygenerovat text ve formátu s tagy, například:
+
+  (nazev_cz)- brutnak_lekarsky
+  (nazev_lat)- borago_officinalis
+  (skupina)- bylina
+  (nemoci)- nervove_potize | stres | vycerpani | ...
+  (ucinky)- sedativni | mocopudne | ...
+  (Cast-rostliny)- nat | semeno
+  (sber)-nat: cerven | cervenec (semeno)-semeno: srpen | zari
+  (stanoviste)- zahrady | pestovane_plochy
+  (barva kvetu)- modra
+  (Bezpečnost)- 2
+
+Důležité: (nazev_cz) musí odpovídat názvu rostliny v tabulce (program
+porovnává bez diakritiky a s podtržítky jako mezerami). Totéž platí pro
+(nazev_lat).
+
+
+Když řádek v tabulce neexistuje
+-------------------------------
+Na stránce se zobrazí červená hláška typu:
+  „V tabulce nebyl nalezen řádek pro rostlinu „…“. Zkontrolujte, že
+   (nazev_cz) nebo (nazev_lat) odpovídá záznamu v tabulce.“
+
+Tabulka se v tom případě nemění. Opravte název v textu z GPT a zkuste znovu.
+
+
+Alternativa: příkazová řádka (parse_gpt_to_table.py)
+----------------------------------------------------
+Pokud nechcete spouštět server, můžete dál používat skript se souborem nebo
+stdin:
+  python parse_gpt_to_table.py soubor.txt
+  python parse_gpt_to_table.py soubor.txt --xlsx
+  python parse_gpt_to_table.py   (vstup ze schránky/stdin, ukončit Ctrl+Z Enter)
+
+================================================================================

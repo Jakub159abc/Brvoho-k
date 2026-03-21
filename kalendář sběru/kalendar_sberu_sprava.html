@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Správa kalendáře sběru – přiřazení emotikon</title>
+  <style>
+    /* Načtení emoji fontu z CDN – spolehlivé zobrazení v Chrome i bez systémových emoji fontů */
+    @font-face {
+      font-family: 'Noto Color Emoji';
+      font-style: normal;
+      font-display: swap;
+      font-weight: 400;
+      src: url(https://cdn.jsdelivr.net/fontsource/fonts/noto-color-emoji@latest/emoji-400-normal.woff2) format('woff2'), url(https://cdn.jsdelivr.net/fontsource/fonts/noto-color-emoji@latest/emoji-400-normal.woff) format('woff');
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* Emotikony – nejdřív webový font, pak systémové záložní */
+    .tag-emoji-one,
+    .picker-emoji-one,
+    .picker-emoji,
+    .legend-preview .legend-emoji {
+      font-family: "Noto Color Emoji", "Segoe UI Emoji", "Apple Color Emoji", sans-serif;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+      color: #1b5e20;
+      min-height: 100vh;
+      padding: 24px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      padding: 28px;
+    }
+    h1 {
+      color: #2e7d32;
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .subtitle {
+      text-align: center;
+      color: #558b2f;
+      margin-bottom: 24px;
+      font-size: 1rem;
+    }
+    .nav-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      justify-content: center;
+    }
+    .nav-actions .btn { text-decoration: none; display: inline-block; }
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+      justify-content: center;
+    }
+    .btn {
+      padding: 10px 18px;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    .btn-primary { background: linear-gradient(135deg, #4caf50, #388e3c); color: #fff; }
+    .btn-secondary { background: #e8f5e9; color: #2e7d32; border: 2px solid #81c784; }
+    .btn-open { background: linear-gradient(135deg, #ff9800, #f57c00); color: #fff; }
+    .tag-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .tag-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 18px;
+      background: #f1f8e9;
+      border-radius: 12px;
+      border: 1px solid #c8e6c9;
+    }
+    .tag-name {
+      min-width: 140px;
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+    .tag-emojis {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      min-height: 44px;
+      padding: 4px 8px;
+      background: #fff;
+      border-radius: 8px;
+      border: 2px solid #a5d6a7;
+      min-width: 80px;
+    }
+    .tag-emoji-one {
+      font-size: 1.6rem;
+      position: relative;
+      line-height: 1;
+      padding: 2px;
+    }
+    .tag-emoji-one .remove-emoji {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #c62828;
+      color: #fff;
+      border: none;
+      font-size: 12px;
+      line-height: 1;
+      cursor: pointer;
+      display: none;
+      padding: 0;
+      align-items: center;
+      justify-content: center;
+    }
+    .tag-emoji-one:hover .remove-emoji { display: flex; }
+    .picker-current {
+      margin-bottom: 12px;
+      padding: 10px 12px;
+      background: #e8f5e9;
+      border-radius: 10px;
+      border: 1px solid #a5d6a7;
+    }
+    .picker-current-title { font-size: 0.85rem; color: #558b2f; margin-bottom: 8px; font-weight: 600; }
+    .picker-current-list { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    .picker-current-list .picker-emoji-one {
+      font-size: 1.5rem;
+      padding: 4px;
+      border-radius: 6px;
+      background: #fff;
+      position: relative;
+      cursor: pointer;
+    }
+    .picker-current-list .picker-emoji-one .remove-emoji {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #c62828;
+      color: #fff;
+      border: none;
+      font-size: 10px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .picker-box { max-width: 640px; }
+    .picker-grid { min-height: 280px; max-height: 50vh; }
+    .tag-change {
+      padding: 8px 14px;
+      font-size: 0.9rem;
+      border-radius: 8px;
+      border: 2px solid #81c784;
+      background: #fff;
+      color: #2e7d32;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .tag-change:hover { background: #e8f5e9; }
+    .picker-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+    .picker-overlay.show { display: flex; }
+    .picker-box {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 520px;
+      width: 100%;
+      max-height: 85vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    }
+    .picker-title {
+      font-size: 1.2rem;
+      color: #1b5e20;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #c8e6c9;
+    }
+    .picker-search {
+      width: 100%;
+      padding: 10px 14px;
+      border: 2px solid #a5d6a7;
+      border-radius: 10px;
+      font-size: 1rem;
+      margin-bottom: 14px;
+    }
+    .picker-search:focus { outline: none; border-color: #4caf50; }
+    .picker-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+      gap: 6px;
+      overflow-y: auto;
+      flex: 1;
+      min-height: 200px;
+      padding: 4px;
+    }
+    .picker-emoji {
+      font-size: 1.8rem;
+      padding: 6px;
+      cursor: pointer;
+      text-align: center;
+      border-radius: 8px;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .picker-emoji:hover {
+      background: #e8f5e9;
+      transform: scale(1.15);
+    }
+    .picker-close {
+      margin-top: 16px;
+      padding: 10px;
+      background: #e0e0e0;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .picker-close:hover { background: #bdbdbd; }
+    .legend-preview {
+      margin-top: 28px;
+      padding: 20px;
+      background: #f1f8e9;
+      border-radius: 12px;
+      border: 1px solid #c8e6c9;
+    }
+    .legend-preview h2 { font-size: 1.1rem; margin-bottom: 12px; color: #2e7d32; }
+    .legend-preview .legend-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px 24px;
+    }
+    .legend-preview .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1rem;
+    }
+    .legend-preview .legend-emoji { font-size: 1.5rem; }
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #2e7d32;
+      color: #fff;
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-weight: 600;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      opacity: 0;
+      transition: transform 0.3s, opacity 0.3s;
+      z-index: 2000;
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+    .html-export-section {
+      margin-top: 28px;
+      padding: 20px;
+      background: #e8f5e9;
+      border-radius: 12px;
+      border: 1px solid #a5d6a7;
+    }
+    .html-export-section .section-title { font-size: 1.1rem; color: #2e7d32; margin-bottom: 8px; }
+    .html-export-section .section-desc { font-size: 0.95rem; color: #1b5e20; margin-bottom: 14px; line-height: 1.4; }
+    .html-export-section .section-status { font-size: 0.9rem; color: #558b2f; font-style: italic; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Správa kalendáře sběru</h1>
+    <p class="subtitle">Přiřaďte jednu nebo více emotikon k jednotlivým tagům. Klikněte na „Změnit emotikony“ a v mřížce přidávejte výběrem; přiřazené můžete odebrat křížkem.</p>
+
+    <div class="nav-actions">
+      <a href="kalendar_sberu.html" class="btn btn-primary">Kalendář</a>
+      <span class="btn btn-open" aria-current="page">Správa kalendáře</span>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn btn-primary" id="btnSave">Uložit přiřazení</button>
+      <button type="button" class="btn btn-secondary" id="btnReset">Obnovit výchozí</button>
+      <button type="button" class="btn btn-secondary" id="btnExport">Exportovat JSON</button>
+      <label class="btn btn-secondary" style="cursor:pointer;margin:0;">
+        Importovat JSON <input type="file" id="btnImport" accept=".json" hidden>
+      </label>
+      <a href="kalendar_sberu.html" class="btn btn-open" target="_blank">Otevřít kalendář</a>
+    </div>
+
+    <div class="html-export-section">
+      <h2 class="section-title">Přepsat emotikony přímo do souboru kalendáře</h2>
+      <p class="section-desc">Načtěte soubor <strong>kalendar_sberu.html</strong>. Po kliknutí na „Přepsat a stáhnout“ se do něj zapíší aktuální emotikony a soubor se stáhne. Stažený soubor uložte přes původní kalendar_sberu.html – kalendář pak bude mít emotikony natrvalo v HTML.</p>
+      <div class="actions">
+        <label class="btn btn-secondary" style="cursor:pointer;margin:0;">
+          Načíst kalendář (HTML) <input type="file" id="btnLoadHtml" accept=".html" hidden>
+        </label>
+        <button type="button" class="btn btn-primary" id="btnDownloadHtml" disabled>Přepsat a stáhnout kalendář</button>
+      </div>
+      <p class="section-status" id="htmlLoadStatus">Kalendář zatím není načten.</p>
+    </div>
+
+    <div class="tag-list" id="tagList"></div>
+
+    <div class="legend-preview">
+      <h2>Náhled legendy</h2>
+      <div class="legend-items" id="legendPreview"></div>
+    </div>
+  </div>
+
+  <div class="picker-overlay" id="pickerOverlay">
+    <div class="picker-box">
+      <div class="picker-title" id="pickerTitle">Vyberte emotikony</div>
+      <div class="picker-current" id="pickerCurrent">
+        <div class="picker-current-title">Aktuálně přiřazené (kliknutím odeberete):</div>
+        <div class="picker-current-list" id="pickerCurrentList"></div>
+      </div>
+      <input type="text" class="picker-search" id="pickerSearch" placeholder="Hledat emotikonu (např. kód U+1F337)…">
+      <div class="picker-grid" id="pickerGrid"></div>
+      <button type="button" class="picker-close" id="pickerClose">Zavřít</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const STORAGE_KEY = 'kalendar_sberu_emoji_map';
+
+    // Všechny části rostlin z tabulky a legendy kalendáře (v pořadí jako v legendě)
+    const DEFAULT_TAGS = [
+      { id: 'Kořen', emoji: '🌿' },
+      { id: 'Květ', emoji: '🌸' },
+      { id: 'Květenství', emoji: '🌺' },
+      { id: 'Květní části', emoji: '🌼' },
+      { id: 'List', emoji: '🍃' },
+      { id: 'Nať', emoji: '🌱' },
+      { id: 'Oddenek', emoji: '🥔' },
+      { id: 'Plod', emoji: '🍎' },
+      { id: 'Plodnice', emoji: '🍄' },
+      { id: 'Pryskyřice', emoji: '🟡' },
+      { id: 'Pupeny', emoji: '🍀' },
+      { id: 'Semena', emoji: '🌰' },
+      { id: 'Stonky', emoji: '🌾' }
+    ];
+
+    // Velký výběr emotikon z Unicode (Emoji blocks + další symboly)
+    function buildEmojiPalette() {
+      const ranges = [
+        [0x2600, 0x26FF],   // Miscellaneous Symbols
+        [0x2700, 0x27BF],   // Dingbats
+        [0x1F300, 0x1F5FF], // Misc Symbols and Pictographs
+        [0x1F600, 0x1F64F], // Emoticons
+        [0x1F680, 0x1F6FF], // Transport and Map
+        [0x1F900, 0x1F9FF], // Supplemental Symbols and Pictographs
+        [0x1F000, 0x1F02F], // Mahjong etc.
+        [0x1F0A0, 0x1F0FF], // Playing cards
+      ];
+      const out = [];
+      const skip = new Set([
+        0xFE0E, 0xFE0F, 0x200D, 0x2640, 0x2642  // modifikátory
+      ]);
+      ranges.forEach(([lo, hi]) => {
+        for (let cp = lo; cp <= hi; cp++) {
+          if (skip.has(cp)) continue;
+          try {
+            const s = String.fromCodePoint(cp);
+            if (s) out.push(s);
+          } catch (_) {}
+        }
+      });
+      // Oblíbené (rostliny, příroda) na začátek + zbytek bez duplicit
+      const preferred = ['🌿','🍃','🌱','🌺','🌸','🌻','🌷','🌹','🥀','🍀','☘️','🪴','🌴','🌳','🌲','🪵','🍎','🍊','🍋','🍇','🍓','🫐','🍒','🍑','🥝','🍅','🥕','🥔','🌽','🍄','🌰','🥜','💚','🟢','✨','⭐','🌟','🔆','💫','🌙','☀️','🌈','🔥','💧','❄️','🍂','🍁','🌾','🦋','🐝','🐞','🪲','🪷','🏵️','💐','🌼','🪻','🥬','🥒','🌶️','🫑','🧅','🧄','📦','🏷️','🔖','📌','✔️','❤️','🧡','💛','💙','💜','🖤','🤍','💯','☑️','🎯','🫚','🫛','🥦','🫒','🫘','🫙','🥗','🥙','🌮','🍯','🧃','🧋','🍵','☕'];
+      const seen = new Set(preferred);
+      const rest = out.filter(e => !seen.has(e));
+      return preferred.concat(rest);
+    }
+    const EMOJI_PALETTE = buildEmojiPalette();
+
+    let tagEmojiMap = {};
+    let loadedCalendarHtml = null;
+
+    function getEmojiStr(tagId) {
+      const arr = getDisplayEmojis(tagId);
+      return arr.length ? arr.join('') : '';
+    }
+
+    function applyEmojiMapToHtml(html) {
+      if (!html) return '';
+      let out = html;
+      // Všechny <span class="emoji" data-part-name="TAG">...</span> v tabulce
+      out = out.replace(/<span class="emoji" data-part-name="([^"]+)">[^<]*<\/span>/g, (match, tag) => {
+        const em = getEmojiStr(tag);
+        return '<span class="emoji" data-part-name="' + tag + '">' + em + '</span>';
+      });
+      // Legenda: <span class="legend-emoji">X</span> následovaný <span>NázevTagu</span>
+      out = out.replace(/<span class="legend-emoji">[^<]*<\/span>\s*<span>([^<]+)<\/span>/g, (match, tagName) => {
+        const tag = tagName.trim();
+        const em = getEmojiStr(tag);
+        return '<span class="legend-emoji">' + em + '</span>\n        <span>' + tagName + '</span>';
+      });
+      return out;
+    }
+
+    function toEmojiArray(val) {
+      if (Array.isArray(val)) return val.filter(x => typeof x === 'string' && x.length > 0);
+      if (typeof val === 'string') return val ? [val] : [];
+      return [];
+    }
+
+    function loadFromStorage() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            Object.keys(parsed).forEach(k => {
+              tagEmojiMap[k] = toEmojiArray(parsed[k]);
+            });
+          }
+        }
+      } catch (_) {}
+      DEFAULT_TAGS.forEach(t => {
+        if (!Array.isArray(tagEmojiMap[t.id]) || tagEmojiMap[t.id].length === 0) {
+          tagEmojiMap[t.id] = [t.emoji];
+        }
+      });
+    }
+
+    function saveToStorage() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(tagEmojiMap));
+    }
+
+    function getDisplayEmojis(tagId) {
+      const def = DEFAULT_TAGS.find(t => t.id === tagId);
+      const arr = tagEmojiMap[tagId];
+      if (!arr || arr.length === 0) return def ? [def.emoji] : [];
+      return arr;
+    }
+
+    function renderTagList() {
+      const list = document.getElementById('tagList');
+      list.innerHTML = '';
+      DEFAULT_TAGS.forEach(tag => {
+        const emojis = getDisplayEmojis(tag.id);
+        const row = document.createElement('div');
+        row.className = 'tag-row';
+        const emojisHtml = emojis.map((em, i) =>
+          `<span class="tag-emoji-one" data-tag="${escapeAttr(tag.id)}" data-index="${i}">${em}<button type="button" class="remove-emoji" aria-label="Odebrat">×</button></span>`
+        ).join('');
+        row.innerHTML = `
+          <span class="tag-name">${escapeHtml(tag.id)}</span>
+          <div class="tag-emojis" data-tag="${escapeAttr(tag.id)}">${emojisHtml}</div>
+          <button type="button" class="tag-change" data-tag="${escapeAttr(tag.id)}">Změnit emotikony</button>
+        `;
+        list.appendChild(row);
+      });
+      list.querySelectorAll('.tag-change').forEach(btn => {
+        btn.addEventListener('click', () => openPicker(btn.dataset.tag));
+      });
+      list.querySelectorAll('.tag-emoji-one .remove-emoji').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.stopPropagation();
+          const one = e.target.closest('.tag-emoji-one');
+          const tagId = one.dataset.tag;
+          const idx = parseInt(one.dataset.index, 10);
+          const arr = (tagEmojiMap[tagId] || []).slice();
+          arr.splice(idx, 1);
+          tagEmojiMap[tagId] = arr.length ? arr : (DEFAULT_TAGS.find(t => t.id === tagId) ? [DEFAULT_TAGS.find(t => t.id === tagId).emoji] : []);
+          renderTagList();
+          if (currentPickerTag === tagId) updatePickerCurrentList();
+        });
+      });
+      updateLegendPreview();
+    }
+
+    function updateLegendPreview() {
+      const wrap = document.getElementById('legendPreview');
+      wrap.innerHTML = DEFAULT_TAGS.map(t => {
+        const em = getDisplayEmojis(t.id).join('');
+        return `<div class="legend-item"><span class="legend-emoji">${em || '—'}</span><span>${escapeHtml(t.id)}</span></div>`;
+      }).join('');
+    }
+
+    function escapeHtml(s) {
+      const div = document.createElement('div');
+      div.textContent = s;
+      return div.innerHTML;
+    }
+    function escapeAttr(s) {
+      return String(s).replace(/"/g, '&quot;');
+    }
+
+    let currentPickerTag = null;
+
+    function updatePickerCurrentList() {
+      const wrap = document.getElementById('pickerCurrentList');
+      if (!currentPickerTag) { wrap.innerHTML = ''; return; }
+      const emojis = getDisplayEmojis(currentPickerTag);
+      wrap.innerHTML = emojis.map((em, i) =>
+        `<span class="picker-emoji-one" data-index="${i}">${em}<button type="button" class="remove-emoji" aria-label="Odebrat">×</button></span>`
+      ).join('');
+      wrap.querySelectorAll('.picker-emoji-one .remove-emoji').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.stopPropagation();
+          const one = e.target.closest('.picker-emoji-one');
+          const idx = parseInt(one.dataset.index, 10);
+          const arr = (tagEmojiMap[currentPickerTag] || []).slice();
+          arr.splice(idx, 1);
+          const def = DEFAULT_TAGS.find(t => t.id === currentPickerTag);
+          tagEmojiMap[currentPickerTag] = arr.length ? arr : (def ? [def.emoji] : []);
+          updatePickerCurrentList();
+          renderTagList();
+        });
+      });
+    }
+
+    function openPicker(tagId) {
+      currentPickerTag = tagId;
+      document.getElementById('pickerTitle').textContent = `Přidat emotikony pro: ${tagId} (kliknutím přidáte, níže můžete odebrat)`;
+      document.getElementById('pickerSearch').value = '';
+      updatePickerCurrentList();
+      renderPickerGrid(EMOJI_PALETTE);
+      document.getElementById('pickerOverlay').classList.add('show');
+    }
+
+    function filterEmojis(list, query) {
+      if (!query.trim()) return list;
+      const q = query.trim().toLowerCase();
+      const hex = q.replace(/^u\+?/, '');
+      return list.filter(e => {
+        const cp = e.codePointAt(0);
+        if (cp != null && hex.length >= 2 && /^[0-9a-f]+$/i.test(hex)) {
+          if (cp.toString(16).toLowerCase().includes(hex)) return true;
+          if (cp.toString(16).toLowerCase() === hex) return true;
+        }
+        return false;
+      });
+    }
+
+    function renderPickerGrid(emojiList) {
+      const grid = document.getElementById('pickerGrid');
+      const query = document.getElementById('pickerSearch').value;
+      const list = filterEmojis(emojiList, query);
+      grid.innerHTML = '';
+      if (list.length === 0) {
+        const p = document.createElement('p');
+        p.style.cssText = 'grid-column:1/-1;padding:12px;';
+        p.textContent = 'Zadejte hex kód (např. 1F337) do vyhledávání, nebo nechte prázdné pro celý výběr.';
+        grid.appendChild(p);
+        return;
+      }
+      list.forEach(emoji => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'picker-emoji';
+        btn.textContent = emoji;
+        const cp = emoji.codePointAt(0);
+        btn.title = emoji + (cp != null ? ' (U+' + cp.toString(16).toUpperCase() + ')' : '');
+        btn.addEventListener('click', () => addEmojiToTag(emoji));
+        grid.appendChild(btn);
+      });
+    }
+
+    function addEmojiToTag(emoji) {
+      if (!currentPickerTag) return;
+      const arr = (tagEmojiMap[currentPickerTag] || []).slice();
+      if (!arr.includes(emoji)) {
+        arr.push(emoji);
+        tagEmojiMap[currentPickerTag] = arr;
+        updatePickerCurrentList();
+        renderTagList();
+        showToast('Emotikona přidána.');
+      }
+    }
+
+    document.getElementById('pickerSearch').addEventListener('input', () => {
+      renderPickerGrid(EMOJI_PALETTE);
+    });
+
+    document.getElementById('pickerClose').addEventListener('click', () => {
+      document.getElementById('pickerOverlay').classList.remove('show');
+    });
+
+    document.getElementById('pickerOverlay').addEventListener('click', e => {
+      if (e.target.id === 'pickerOverlay') e.target.classList.remove('show');
+    });
+
+    document.getElementById('btnSave').addEventListener('click', () => {
+      saveToStorage();
+      showToast('Přiřazení uloženo. Otevřete kalendář pro zobrazení změn.');
+    });
+
+    document.getElementById('btnReset').addEventListener('click', () => {
+      DEFAULT_TAGS.forEach(t => { tagEmojiMap[t.id] = [t.emoji]; });
+      renderTagList();
+      saveToStorage();
+      if (currentPickerTag) updatePickerCurrentList();
+      showToast('Obnovena výchozí přiřazení.');
+    });
+
+    document.getElementById('btnExport').addEventListener('click', () => {
+      const data = JSON.stringify(tagEmojiMap, null, 2);
+      const a = document.createElement('a');
+      a.href = 'data:application/json;charset=utf-8,' + encodeURIComponent(data);
+      a.download = 'kalendar_sberu_emotikony.json';
+      a.click();
+      showToast('JSON exportován.');
+    });
+
+    document.getElementById('btnImport').addEventListener('change', e => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const r = new FileReader();
+      r.onload = () => {
+        try {
+          const obj = JSON.parse(r.result);
+          if (obj && typeof obj === 'object') {
+            Object.keys(obj).forEach(k => { tagEmojiMap[k] = toEmojiArray(obj[k]); });
+            renderTagList();
+            saveToStorage();
+            if (currentPickerTag) updatePickerCurrentList();
+            showToast('Import dokončen.');
+          }
+        } catch (_) {
+          showToast('Neplatný JSON soubor.');
+        }
+      };
+      r.readAsText(file);
+      e.target.value = '';
+    });
+
+    document.getElementById('btnLoadHtml').addEventListener('change', e => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const r = new FileReader();
+      r.onload = () => {
+        loadedCalendarHtml = r.result;
+        document.getElementById('htmlLoadStatus').textContent = 'Načten: ' + file.name + '. Klikněte na „Přepsat a stáhnout kalendář“.';
+        document.getElementById('btnDownloadHtml').disabled = false;
+        showToast('Kalendář načten.');
+      };
+      r.readAsText(file, 'UTF-8');
+      e.target.value = '';
+    });
+
+    document.getElementById('btnDownloadHtml').addEventListener('click', () => {
+      if (!loadedCalendarHtml) {
+        showToast('Nejprve načtěte soubor kalendáře (HTML).');
+        return;
+      }
+      const rewritten = applyEmojiMapToHtml(loadedCalendarHtml);
+      const blob = new Blob([rewritten], { type: 'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'kalendar_sberu.html';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Kalendář s přepsanými emotikonami stažen. Uložte ho přes původní soubor.');
+    });
+
+    function showToast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      setTimeout(() => el.classList.remove('show'), 2500);
+    }
+
+    loadFromStorage();
+    renderTagList();
+  </script>
+</body>
+</html>

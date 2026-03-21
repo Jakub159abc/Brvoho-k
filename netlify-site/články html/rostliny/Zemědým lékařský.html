@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zemědým lékařský</title>
+  <style type="text/css">
+.bylinky-clanek { font-family: Georgia, "Times New Roman", serif; width: 100%; max-width: 960px; margin: 0 auto; padding: 1.25rem; line-height: 1.65; color: #333; background: #f0ede6; box-sizing: border-box; font-size: 0.9375rem; }
+.bylinky-clanek .article-body { display: flex; flex-direction: column; align-items: stretch; box-sizing: border-box; }
+.bylinky-clanek .article-body .article-two-columns { column-count: 2; column-gap: 1rem; width: 100%; margin-bottom: 0.75rem; box-sizing: border-box; }
+.bylinky-clanek .article-body .article-two-columns .article-grid-cell { break-inside: avoid; margin: 0 0.5rem 2.5rem 0.5rem; box-sizing: border-box; overflow: visible; }
+.bylinky-clanek .article-body .article-two-columns .article-grid-cell .cell-spacer { display: block; min-height: 0; width: 100%; flex-shrink: 0; position: relative; }
+.bylinky-clanek .article-body .article-two-columns .article-grid-cell .cell-spacer .article-image { margin: 0; text-align: center; }
+.bylinky-clanek .article-body .article-two-columns .article-grid-cell .cell-spacer .article-image img { max-width: 100%; height: auto; border-radius: 8px; display: block; margin: 0 auto; }
+.bylinky-clanek .article-body .article-two-columns .article-grid-cell:last-child { margin-bottom: 0; }
+.bylinky-clanek .article-body .article-two-columns .article-grid-cell section { width: 100%; box-sizing: border-box; overflow: visible; padding: 0 0 1rem 0; }
+.bylinky-clanek .article-body .article-two-columns .article-grid-cell section > p, .bylinky-clanek .article-body .article-two-columns .article-grid-cell section > ul, .bylinky-clanek .article-body .article-two-columns .article-grid-cell section > figure { padding-left: 1rem; padding-right: 1rem; box-sizing: border-box; }
+.bylinky-clanek .article-body .article-two-columns .article-grid-cell section p.under-heading { margin-left: 0; }
+.bylinky-clanek .article-body .section-row { width: 100%; display: flex; justify-content: flex-start; margin-bottom: 3rem; box-sizing: border-box; }
+.bylinky-clanek .article-body .section-row:last-child { margin-bottom: 0; }
+.bylinky-clanek .article-body .section-row.section-row-left { justify-content: flex-start; }
+.bylinky-clanek .article-body .section-row.section-row-center { justify-content: center; }
+.bylinky-clanek .article-body .section-row.section-row-right { justify-content: flex-end; }
+.bylinky-clanek .article-body .section-row > section.article-intro { width: 100%; box-sizing: border-box; }
+.bylinky-clanek .article-body section { display: block; padding: 0 1rem 1rem 1rem; background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url('https://5894bc8f2a.clvaw-cdnwnd.com/9c5c0180b020bd4a2c598d6ffeaae1da/200000943-8ae8b8ae8d/wood-texture-floor-brown-tile-grunge-1161621-pxhere.com.webp?ph=5894bc8f2a'); background-repeat: no-repeat; background-position: center; background-size: cover; background-color: #faf9f5; border-radius: 10px; border: 1px solid #d4d0c4; box-shadow: 0 2px 6px rgba(61,107,74,0.06); overflow: visible; box-sizing: border-box; }
+.bylinky-clanek .article-body section.article-intro { width: 100%; padding-top: 1rem; background-image: linear-gradient(rgba(255,255,255,0.55), rgba(255,255,255,0.55)), url('https://5894bc8f2a.clvaw-cdnwnd.com/9c5c0180b020bd4a2c598d6ffeaae1da/200000943-8ae8b8ae8d/wood-texture-floor-brown-tile-grunge-1161621-pxhere.com.webp?ph=5894bc8f2a'); background-repeat: no-repeat; background-position: center; background-size: cover; background-color: #f6f4ee; border-color: #e2dfd4; }
+.bylinky-clanek .article-body section:not(.article-intro) { display: table; width: auto; max-width: 100%; table-layout: auto; box-sizing: border-box; }
+.bylinky-clanek .article-body .article-two-columns .article-grid-cell section { display: block !important; width: 100% !important; }
+.bylinky-clanek .article-body section.section-with-image-right { display: block; width: 100%; box-sizing: border-box; position: relative; }
+.bylinky-clanek .article-body section.section-with-image-right .section-body { display: block; width: 100%; box-sizing: border-box; }
+.bylinky-clanek .article-body section.section-with-image-right .section-content { display: block; min-width: 0; padding-left: 1rem; padding-right: 1rem; box-sizing: border-box; }
+.bylinky-clanek .article-body section.section-with-image-right .section-image-right { position: absolute; top: 0; left: 68%; width: 32%; max-width: 32%; min-width: 0; z-index: 2; background: transparent; }
+.bylinky-clanek .article-body section.section-with-image-right .section-image-right .article-image { margin: 0; background: transparent; }
+.bylinky-clanek .article-body section.section-with-image-right .section-image-right .article-image img { max-width: 100%; height: auto; object-fit: contain; display: block; background: transparent; border-radius: 0; }
+.bylinky-clanek .article-heading { display: flex; align-items: center; gap: 0.5rem; width: calc(100% + 2rem); margin: 0 -1rem 0.75rem -1rem; margin-top: 0 !important; padding: 0.55rem 1rem; font-weight: 600; font-size: 1.5rem; color: #fff !important; -webkit-text-stroke: 0.5px #000; paint-order: stroke fill; box-sizing: border-box; background: rgba(61,107,74,0.5); border-radius: 10px 10px 0 0; letter-spacing: 0.02em; }
+.bylinky-clanek .article-body .article-two-columns .article-grid-cell .article-heading { width: 100%; margin: 0 0 0.75rem 0; padding: 0.55rem 1rem; box-sizing: border-box; border-radius: 10px 10px 0 0; }
+.bylinky-clanek .article-heading .heading-icon { font-size: 7.2rem; margin-top: calc(-2.4rem - 4mm); align-self: flex-end; }
+.bylinky-clanek .article-heading .heading-icon-img { width: 7.2rem; height: 7.2rem; object-fit: contain; vertical-align: middle; flex-shrink: 0; margin-top: calc(-2.4rem - 4mm); align-self: flex-end; }
+.bylinky-clanek .article-heading .heading-icon { line-height: 1; }
+.bylinky-clanek .article-heading .heading-title { letter-spacing: 0.01em; }
+.bylinky-clanek h2.article-heading { margin: 0 !important; font-size: 1.5rem !important; }
+.bylinky-clanek .article-body p { text-align: justify; margin: 0 0 0.65rem; color: #333; line-height: 1.6; font-size: 1.4rem; }
+.bylinky-clanek .article-body p.under-heading { margin-left: 1rem; margin-bottom: 0.4rem; }
+.bylinky-clanek .article-body ul { margin: 0 0 0.65rem; padding-left: 1.25rem; text-align: justify; color: #333; line-height: 1.55; font-size: 1.4rem; }
+.bylinky-clanek .article-body ul li { margin-bottom: 0.4rem; }
+.bylinky-clanek .article-body ul li::marker { color: #4a7c59; }
+.bylinky-clanek .article-body strong { color: #3d6b4a; }
+.bylinky-clanek .article-image { margin: 1.25rem 0; text-align: center; }
+.bylinky-clanek .article-image img { max-width: 100%; height: auto; border-radius: 12px; display: block !important; visibility: visible !important; margin: 0 auto; }
+.bylinky-clanek .bylinky-clanek .section-image-right img { display: block !important; visibility: visible !important; max-width: 100%; height: auto; }
+.bylinky-clanek .article-body .section-row.section-row-has-image-left,
+.bylinky-clanek .article-body .section-row.section-row-has-image-right { display: flex; flex-wrap: nowrap; align-items: flex-start; gap: 1rem; }
+.bylinky-clanek .article-body .section-row.section-row-has-image-left > section,
+.bylinky-clanek .article-body .section-row.section-row-has-image-right > section { flex: 0 0 auto; align-self: flex-start; height: fit-content; }
+.bylinky-clanek .article-image-beside { flex: 0 1 28%; min-width: 80px; margin: 0; }
+.bylinky-clanek .article-image-beside img { width: 100%; height: auto; object-fit: contain; border-radius: 12px; display: block; }
+.bylinky-clanek .article-disclaimer-wrap { width: 100%; text-align: center !important; margin: 1rem 0 0 0; box-sizing: border-box; }
+.bylinky-clanek .article-disclaimer-wrap p { text-align: center !important; }
+.bylinky-clanek .article-disclaimer-heading { color: #c00 !important; font-size: 0.7rem; font-weight: 700; margin: 1rem 0 0.2rem 0; line-height: 1.3; text-align: center !important; width: 100%; display: block; }
+.bylinky-clanek .article-disclaimer { color: #c00 !important; font-size: 0.7rem; margin: 0; line-height: 1.45; text-align: center !important; }
+.bylinky-clanek * { box-sizing: border-box; }
+  </style>
+</head>
+<body>
+<style type="text/css">.bylinky-clanek { font-family: Georgia, "Times New Roman", serif; width: 100%; max-width: 960px; margin: 0 auto; padding: 1.25rem; line-height: 1.65; color: #333; background: #f0ede6; box-sizing: border-box; font-size: 0.9375rem; }
+.bylinky-clanek .article-body { display: flex; flex-direction: column; align-items: stretch; box-sizing: border-box; }
+.bylinky-clanek .article-body .article-two-columns { column-count: 2; column-gap: 1rem; width: 100%; margin-bottom: 0.75rem; box-sizing: border-box; }
+.bylinky-clanek .article-body .article-two-columns .article-grid-cell { break-inside: avoid; margin: 0 0.5rem 2.5rem 0.5rem; box-sizing: border-box; overflow: visible; }
+.bylinky-clanek .article-body .article-two-columns .article-grid-cell .cell-spacer { display: block; min-height: 0; width: 100%; flex-shrink: 0; position: relative; }
+.bylinky-clanek .article-body .article-two-columns .article-grid-cell .cell-spacer .article-image { margin: 0; text-align: center; }
+.bylinky-clanek .article-body .article-two-columns .article-grid-cell .cell-spacer .article-image img { max-width: 100%; height: auto; border-radius: 8px; display: block; margin: 0 auto; }
+.bylinky-clanek .article-body .article-two-columns .article-grid-cell:last-child { margin-bottom: 0; }
+.bylinky-clanek .article-body .article-two-columns .article-grid-cell section { width: 100%; box-sizing: border-box; overflow: visible; padding: 0 0 1rem 0; }
+.bylinky-clanek .article-body .article-two-columns .article-grid-cell section > p, .bylinky-clanek .article-body .article-two-columns .article-grid-cell section > ul, .bylinky-clanek .article-body .article-two-columns .article-grid-cell section > figure { padding-left: 1rem; padding-right: 1rem; box-sizing: border-box; }
+.bylinky-clanek .article-body .article-two-columns .article-grid-cell section p.under-heading { margin-left: 0; }
+.bylinky-clanek .article-body .section-row { width: 100%; display: flex; justify-content: flex-start; margin-bottom: 3rem; box-sizing: border-box; }
+.bylinky-clanek .article-body .section-row:last-child { margin-bottom: 0; }
+.bylinky-clanek .article-body .section-row.section-row-left { justify-content: flex-start; }
+.bylinky-clanek .article-body .section-row.section-row-center { justify-content: center; }
+.bylinky-clanek .article-body .section-row.section-row-right { justify-content: flex-end; }
+.bylinky-clanek .article-body .section-row > section.article-intro { width: 100%; box-sizing: border-box; }
+.bylinky-clanek .article-body section { display: block; padding: 0 1rem 1rem 1rem; background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url('https://5894bc8f2a.clvaw-cdnwnd.com/9c5c0180b020bd4a2c598d6ffeaae1da/200000943-8ae8b8ae8d/wood-texture-floor-brown-tile-grunge-1161621-pxhere.com.webp?ph=5894bc8f2a'); background-repeat: no-repeat; background-position: center; background-size: cover; background-color: #faf9f5; border-radius: 10px; border: 1px solid #d4d0c4; box-shadow: 0 2px 6px rgba(61,107,74,0.06); overflow: visible; box-sizing: border-box; }
+.bylinky-clanek .article-body section.article-intro { width: 100%; padding-top: 1rem; background-image: linear-gradient(rgba(255,255,255,0.55), rgba(255,255,255,0.55)), url('https://5894bc8f2a.clvaw-cdnwnd.com/9c5c0180b020bd4a2c598d6ffeaae1da/200000943-8ae8b8ae8d/wood-texture-floor-brown-tile-grunge-1161621-pxhere.com.webp?ph=5894bc8f2a'); background-repeat: no-repeat; background-position: center; background-size: cover; background-color: #f6f4ee; border-color: #e2dfd4; }
+.bylinky-clanek .article-body section:not(.article-intro) { display: table; width: auto; max-width: 100%; table-layout: auto; box-sizing: border-box; }
+.bylinky-clanek .article-body .article-two-columns .article-grid-cell section { display: block !important; width: 100% !important; }
+.bylinky-clanek .article-body section.section-with-image-right { display: block; width: 100%; box-sizing: border-box; position: relative; }
+.bylinky-clanek .article-body section.section-with-image-right .section-body { display: block; width: 100%; box-sizing: border-box; }
+.bylinky-clanek .article-body section.section-with-image-right .section-content { display: block; min-width: 0; padding-left: 1rem; padding-right: 1rem; box-sizing: border-box; }
+.bylinky-clanek .article-body section.section-with-image-right .section-image-right { position: absolute; top: 0; left: 68%; width: 32%; max-width: 32%; min-width: 0; z-index: 2; background: transparent; }
+.bylinky-clanek .article-body section.section-with-image-right .section-image-right .article-image { margin: 0; background: transparent; }
+.bylinky-clanek .article-body section.section-with-image-right .section-image-right .article-image img { max-width: 100%; height: auto; object-fit: contain; display: block; background: transparent; border-radius: 0; }
+.bylinky-clanek .article-heading { display: flex; align-items: center; gap: 0.5rem; width: calc(100% + 2rem); margin: 0 -1rem 0.75rem -1rem; margin-top: 0 !important; padding: 0.55rem 1rem; font-weight: 600; font-size: 1.5rem; color: #fff !important; -webkit-text-stroke: 0.5px #000; paint-order: stroke fill; box-sizing: border-box; background: rgba(61,107,74,0.5); border-radius: 10px 10px 0 0; letter-spacing: 0.02em; }
+.bylinky-clanek .article-body .article-two-columns .article-grid-cell .article-heading { width: 100%; margin: 0 0 0.75rem 0; padding: 0.55rem 1rem; box-sizing: border-box; border-radius: 10px 10px 0 0; }
+.bylinky-clanek .article-heading .heading-icon { font-size: 7.2rem; margin-top: calc(-2.4rem - 4mm); align-self: flex-end; }
+.bylinky-clanek .article-heading .heading-icon-img { width: 7.2rem; height: 7.2rem; object-fit: contain; vertical-align: middle; flex-shrink: 0; margin-top: calc(-2.4rem - 4mm); align-self: flex-end; }
+.bylinky-clanek .article-heading .heading-icon { line-height: 1; }
+.bylinky-clanek .article-heading .heading-title { letter-spacing: 0.01em; }
+.bylinky-clanek h2.article-heading { margin: 0 !important; font-size: 1.5rem !important; }
+.bylinky-clanek .article-body p { text-align: justify; margin: 0 0 0.65rem; color: #333; line-height: 1.6; font-size: 1.4rem; }
+.bylinky-clanek .article-body p.under-heading { margin-left: 1rem; margin-bottom: 0.4rem; }
+.bylinky-clanek .article-body ul { margin: 0 0 0.65rem; padding-left: 1.25rem; text-align: justify; color: #333; line-height: 1.55; font-size: 1.4rem; }
+.bylinky-clanek .article-body ul li { margin-bottom: 0.4rem; }
+.bylinky-clanek .article-body ul li::marker { color: #4a7c59; }
+.bylinky-clanek .article-body strong { color: #3d6b4a; }
+.bylinky-clanek .article-image { margin: 1.25rem 0; text-align: center; }
+.bylinky-clanek .article-image img { max-width: 100%; height: auto; border-radius: 12px; display: block !important; visibility: visible !important; margin: 0 auto; }
+.bylinky-clanek .bylinky-clanek .section-image-right img { display: block !important; visibility: visible !important; max-width: 100%; height: auto; }
+.bylinky-clanek .article-body .section-row.section-row-has-image-left,
+.bylinky-clanek .article-body .section-row.section-row-has-image-right { display: flex; flex-wrap: nowrap; align-items: flex-start; gap: 1rem; }
+.bylinky-clanek .article-body .section-row.section-row-has-image-left > section,
+.bylinky-clanek .article-body .section-row.section-row-has-image-right > section { flex: 0 0 auto; align-self: flex-start; height: fit-content; }
+.bylinky-clanek .article-image-beside { flex: 0 1 28%; min-width: 80px; margin: 0; }
+.bylinky-clanek .article-image-beside img { width: 100%; height: auto; object-fit: contain; border-radius: 12px; display: block; }
+.bylinky-clanek .article-disclaimer-wrap { width: 100%; text-align: center !important; margin: 1rem 0 0 0; box-sizing: border-box; }
+.bylinky-clanek .article-disclaimer-wrap p { text-align: center !important; }
+.bylinky-clanek .article-disclaimer-heading { color: #c00 !important; font-size: 0.7rem; font-weight: 700; margin: 1rem 0 0.2rem 0; line-height: 1.3; text-align: center !important; width: 100%; display: block; }
+.bylinky-clanek .article-disclaimer { color: #c00 !important; font-size: 0.7rem; margin: 0; line-height: 1.45; text-align: center !important; }
+.bylinky-clanek * { box-sizing: border-box; }
+</style>
+<div class="bylinky-clanek"><article class="article"><div class="article-body"><div class="section-row section-row-left"><section class="article-intro"><p>Zemědým lékařský (Fumaria officinalis) je nenápadná jednoletá bylina s jemně členěnými listy a drobnými růžovofialovými květy, která často roste na polích, rumištích a zahradách. Přestože bývá považován za plevel, má dlouhou tradici v evropském bylinářství. Zemědým lékařský obsahuje řadu alkaloidů a hořčin, díky nimž byl tradičně využíván především pro podporu trávení a funkce jater a žlučníku. V minulosti byl spojován také s péčí o pokožku, zejména u různých kožních obtíží. Jedinečnost této rostliny spočívá v její křehké stavbě, jemném vzhledu a překvapivě bohaté historii léčivého využití.</p></section></div><div class="article-disclaimer-wrap"><p class="article-disclaimer-heading">Pozor!</p><p class="article-disclaimer">Tyto informace mají vzdělávací charakter a nenahrazují odbornou lékařskou péči. Každý organismus reaguje individuálně. Při zdravotních potížích, užívání léků, v těhotenství, při kojení nebo u dětí se před užíváním bylin vždy poraďte se svým lékařem či lékárníkem. Za nevhodné použití bylin neneseme odpovědnost.</p></div></div></article></div>
+<script>(function(){ function run(){ var s=document.querySelectorAll(".bylinky-clanek .article-body .section-row > section:not(.article-intro)"); if(s.length===0)return; var m=0; for(var i=0;i<s.length;i++){ var w=s[i].offsetWidth; if(w>m)m=w; } for(var j=0;j<s.length;j++){ s[j].style.width=m+"px"; s[j].style.display="block"; } } if(document.readyState!=="loading") run(); else document.addEventListener("DOMContentLoaded",run); })();</script>
+</body>
+</html>

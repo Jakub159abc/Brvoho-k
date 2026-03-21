@@ -1,0 +1,32 @@
+{
+  "name": "select-json-values",
+  "displayName": "Select Occurrences Only After Colon (JSON values)",
+  "description": "Vybere výskyty jen v hodnotách (oranžový text); klíče (modrý text) jsou zamčené.",
+  "version": "0.2.0",
+  "engines": { "vscode": "^1.70.0" },
+  "categories": ["Other"],
+  "activationEvents": [
+    "onLanguage:json",
+    "onLanguage:jsonc",
+    "onCommand:selectJsonValues.selectInValues"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [{
+      "command": "selectJsonValues.selectInValues",
+      "title": "Vybrat výskyty jen za dvojtečkou (hodnoty JSON)"
+    }],
+    "keybindings": [
+      {
+        "command": "selectJsonValues.selectInValues",
+        "key": "ctrl+shift+l",
+        "when": "editorTextFocus && (editorLangId == json || editorLangId == jsonc)"
+      },
+      {
+        "command": "selectJsonValues.selectInValues",
+        "key": "ctrl+alt+shift+v",
+        "when": "editorTextFocus && (editorLangId == json || editorLangId == jsonc)"
+      }
+    ]
+  }
+}

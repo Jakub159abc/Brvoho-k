@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Mapa s body</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js" integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+      }
+      #map {
+        height: 600px;
+        width: 100%;
+      }
+      .marker-label {
+        background: rgba(30, 107, 71, 0.45) !important;
+        color: white !important;
+        border: 2px solid #22c55e !important;
+        border-radius: 50px !important;
+        padding: 4px 10px !important;
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        white-space: nowrap !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.2) !important;
+        pointer-events: none !important;
+      }
+      .marker-label-default {
+        background: rgba(30, 107, 71, 0.95) !important;
+        color: white !important;
+        border: 2px solid #22c55e !important;
+        border-radius: 50px !important;
+        padding: 4px 10px !important;
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        white-space: nowrap !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.2) !important;
+        pointer-events: none !important;
+      }
+      .body-list-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 30px 20px;
+      }
+      .body-list-container h2 {
+        font-size: 28px;
+        color: #1e6b47;
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        border-bottom: 3px solid #22c55e;
+        text-align: center;
+      }
+      .body-list {
+        background: #dcfce7;
+        border: 2px solid #bbf7d0;
+        border-radius: 15px;
+        padding: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .body-item {
+        background: #16a34a;
+        border: 2px solid #15803d;
+        border-radius: 50px;
+        padding: 8px 16px;
+        margin-bottom: 0;
+        transition: all 0.3s;
+        display: inline-block;
+        width: auto;
+        position: relative;
+      }
+      .body-item:hover {
+        background: #15803d;
+        border-color: #166534;
+        box-shadow: 0 4px 12px rgba(22, 163, 74, 0.4);
+      }
+      .body-item h3 {
+        color: #ffffff;
+        font-size: 18px;
+        margin-bottom: 0;
+        cursor: pointer;
+        user-select: none;
+      }
+      .body-item h3:hover {
+        color: #dcfce7;
+      }
+      .body-item .body-buttons {
+        display: none;
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        flex-direction: column;
+        gap: 8px;
+        background: #dcfce7;
+        border: 2px solid #bbf7d0;
+        border-radius: 12px;
+        padding: 12px;
+        z-index: 10;
+        white-space: nowrap;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        min-width: 200px;
+      }
+      .body-item.expanded .body-buttons {
+        display: flex;
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .body-buttons {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .body-button {
+        padding: 8px 12px;
+        border: none;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.2s ease;
+        background: transparent;
+        color: inherit;
+        text-align: left;
+        width: 100%;
+      }
+      .body-button.search {
+        background: rgba(34, 197, 94, 0.1);
+        color: #15803d;
+        box-shadow: none;
+      }
+      .body-button.search:hover {
+        background: rgba(34, 197, 94, 0.3);
+        color: #166534;
+        transform: translateX(4px);
+        box-shadow: 0 2px 8px rgba(34, 197, 94, 0.2);
+      }
+      .body-button.nav {
+        background: rgba(59, 130, 246, 0.1);
+        color: #1d4ed8;
+        box-shadow: none;
+      }
+      .body-button.nav:hover {
+        background: rgba(59, 130, 246, 0.3);
+        color: #1e40af;
+        transform: translateX(4px);
+        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+      }
+      @media (max-width: 768px) {
+        #map {
+          height: 50vh;
+        }
+        .body-list {
+          flex-direction: column;
+          flex-wrap: nowrap;
+        }
+        .body-item {
+          width: 100%;
+          padding: 10px 16px;
+          margin-bottom: 10px;
+        }
+        .body-item h3 {
+          font-size: 18px;
+        }
+        .body-buttons {
+          flex-direction: column;
+          flex-wrap: nowrap;
+        }
+        .body-button {
+          padding: 12px 18px;
+          font-size: 19.5px;
+          width: 100%;
+        }
+        .body-list-container h2 {
+          font-size: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="body-list-container">
+      <h2>📍 Seznam míst pro vaše nezapomenutelné výlety</h2>
+    </div>
+    <div id="map"></div>
+    <div class="body-list-container">
+      <div class="body-list"></div>
+    </div>
+    <script>
+      var map = L.map('map').setView([50.7148575, 14.3454163], 13);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 19
+      }).addTo(map);
+      var body = [
+      {
+            "nazev": "Brvohořík",
+            "lat": 50.7148575,
+            "lng": 14.3454163,
+            "barva": "green",
+            "mapyCzOdkaz": ""
+      },
+      {
+            "nazev": "Kamenná hůra",
+            "lat": 50.7042471,
+            "lng": 14.3543058,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/cebodovejo"
+      },
+      {
+            "nazev": "rozhledna Kohout",
+            "lat": 50.7105435,
+            "lng": 14.3142897,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/lohumukudo"
+      },
+      {
+            "nazev": "Zřícenina hradu Ostrý",
+            "lat": 50.7240103,
+            "lng": 14.3238022,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/cepezuvona"
+      },
+      {
+            "nazev": "termální koupaliště Benešov nad Ploučnicí",
+            "lat": 50.7392199,
+            "lng": 14.2997743,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/nakadoboru"
+      },
+      {
+            "nazev": "rozhledna Strážný vrch",
+            "lat": 50.6871654,
+            "lng": 14.3555541,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/nefehuvojo"
+      },
+      {
+            "nazev": "Víťova vyhlídka",
+            "lat": 50.6494299,
+            "lng": 14.2767509,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/bovalabaho"
+      },
+      {
+            "nazev": "Bobří vodopády",
+            "lat": 50.65651611632553,
+            "lng": 14.346363544464113,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/nasobunuza"
+      },
+      {
+            "nazev": "Buková hora, Humboldtova vyhlídka",
+            "lat": 50.67180733570393,
+            "lng": 14.227139353752138,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/fudehalohe"
+      },
+      {
+            "nazev": "rozhledna Sokolí vrch",
+            "lat": 50.7806021,
+            "lng": 14.2715796,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/bapogukeso"
+      },
+      {
+            "nazev": "zřícenina hradu Vrabinec",
+            "lat": 50.7099063,
+            "lng": 14.2114763,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/cudusarosa"
+      },
+      {
+            "nazev": "Levínská keramika Levín",
+            "lat": 50.61286609800945,
+            "lng": 14.284973144531252,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/lamefatafa"
+      },
+      {
+            "nazev": "Konojedské bochníky",
+            "lat": 50.62671505244009,
+            "lng": 14.357795119285585,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/bemuduvesu"
+      },
+      {
+            "nazev": "hora Sedlo",
+            "lat": 50.59327012980389,
+            "lng": 14.263944625854494,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/butogaruhu"
+      },
+      {
+            "nazev": "Zámecký vrch",
+            "lat": 50.79145023643315,
+            "lng": 14.433251023292543,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/jebedahetu"
+      },
+      {
+            "nazev": "Panská skála",
+            "lat": 50.76943688309501,
+            "lng": 14.484923779964449,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/komemozezu"
+      },
+      {
+            "nazev": "Vyhlídka Belveder",
+            "lat": 50.84954076875671,
+            "lng": 14.221447706222536,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/gevolezopu"
+      },
+      {
+            "nazev": "Skanzen Zubrnice",
+            "lat": 50.64897748463245,
+            "lng": 14.220616221427917,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/degabucava"
+      },
+      {
+            "nazev": "zřícenina hradu Kalich",
+            "lat": 50.60495617199174,
+            "lng": 14.206577539443972,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/bocodujuge"
+      },
+      {
+            "nazev": "Kalvárie Ostré",
+            "lat": 50.58775468583057,
+            "lng": 14.37240242958069,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/munasenoza"
+      },
+      {
+            "nazev": "zřízenina hradu Helfenburk",
+            "lat": 50.579380669715,
+            "lng": 14.383823275566103,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/hupohedade"
+      },
+      {
+            "nazev": "Trojhora",
+            "lat": 50.59229616197741,
+            "lng": 14.190001487731935,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/nekefeveho"
+      },
+      {
+            "nazev": "rozhledna Studenec",
+            "lat": 50.832105272608395,
+            "lng": 14.454370737075807,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/bomunuleta"
+      },
+      {
+            "nazev": "Zlatý vrch",
+            "lat": 50.82170930330737,
+            "lng": 14.465083479881288,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/dofugonunu"
+      },
+      {
+            "nazev": "kopec Vlhošť",
+            "lat": 50.6025967,
+            "lng": 14.4539094,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/paladadesu"
+      },
+      {
+            "nazev": "Mariina skála Jetřichovice",
+            "lat": 50.8604193,
+            "lng": 14.4050125,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/futevoposo"
+      },
+      {
+            "nazev": "Laffitova vyhlídka",
+            "lat": 50.5678653,
+            "lng": 14.1634256,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/gapeduvovo"
+      },
+      {
+            "nazev": "kopec Růžovský vrch",
+            "lat": 50.8327298,
+            "lng": 14.3302515,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/pucomapote"
+      },
+      {
+            "nazev": "Holý vrch u Hlinné",
+            "lat": 50.5802381,
+            "lng": 14.1079579,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/mejamagamu"
+      },
+      {
+            "nazev": "rozhledna Děčínský Sněžník",
+            "lat": 50.7912328,
+            "lng": 14.1042583,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/lobarabesu"
+      },
+      {
+            "nazev": "kopec Vysoký Ostrý",
+            "lat": 50.6363996,
+            "lng": 14.0802268,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/jazejebose"
+      },
+      {
+            "nazev": "Pravčická brána",
+            "lat": 50.8837099,
+            "lng": 14.2812522,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/kezucupaho"
+      },
+      {
+            "nazev": "kopec Radobýl",
+            "lat": 50.529877,
+            "lng": 14.0939223,
+            "barva": "blue",
+            "mapyCzOdkaz": "https://mapy.com/s/rabugarolu"
+      }
+];
+      function vytvoritMarker(pozice, barva, nazev) {
+        var barvaIkony = {'blue': 'blue', 'red': 'red', 'green': 'green', 'orange': 'orange', 'purple': 'violet', 'darkblue': 'blue', 'darkred': 'red'};
+        var iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-' + (barvaIkony[barva] || 'blue') + '.png';
+        // Pro Brvohořík použijeme neprůhledný zelený popisek
+        var labelClass = (nazev === 'Brvohořík') ? 'marker-label-default' : 'marker-label';
+        var marker = L.marker(pozice, {
+          icon: L.icon({
+            iconUrl: iconUrl,
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.2/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+          })
+        })
+        .bindPopup(nazev)
+        .bindTooltip(nazev, {
+          permanent: true,
+          direction: 'top',
+          offset: [0, -45],
+          className: labelClass
+        });
+        return marker;
+      }
+      body.forEach(function(bod) {
+        vytvoritMarker([bod.lat, bod.lng], bod.barva, bod.nazev).addTo(map);
+      });
+
+      // Generování seznamu míst pod mapou
+      var bodyListDiv = document.querySelector('.body-list');
+      body.forEach(function(bod) {
+        // Přeskočit Brvohořík v seznamu míst
+        if (bod.nazev === 'Brvohořík') {
+          return;
+        }
+        var itemDiv = document.createElement('div');
+        itemDiv.className = 'body-item';
+        
+        var h3 = document.createElement('h3');
+        h3.textContent = bod.nazev;
+        itemDiv.appendChild(h3);
+        
+        var buttonsDiv = document.createElement('div');
+        buttonsDiv.className = 'body-buttons';
+        
+        var searchButton = document.createElement('a');
+        searchButton.href = 'https://www.google.com/search?q=' + encodeURIComponent(bod.nazev);
+        searchButton.target = '_blank';
+        searchButton.className = 'body-button search';
+        searchButton.textContent = '🔍 Více o tomto místě';
+        buttonsDiv.appendChild(searchButton);
+        
+        var originBrvohorik = encodeURIComponent('Valkeřice 250');
+        var destination = bod.lat + ',' + bod.lng;
+        
+        var navGoogleButton = document.createElement('a');
+        navGoogleButton.href = 'https://www.google.com/maps/dir/?api=1&origin=' + originBrvohorik + '&destination=' + destination;
+        navGoogleButton.target = '_blank';
+        navGoogleButton.className = 'body-button nav';
+        navGoogleButton.textContent = '🧭 Navigace (Google Maps)';
+        buttonsDiv.appendChild(navGoogleButton);
+        
+        var navMapyButton = document.createElement('a');
+        // Pokud existuje přímý odkaz na Mapy.cz, použij ho, jinak použij standardní navigaci
+        if (bod.mapyCzOdkaz && bod.mapyCzOdkaz.trim() !== '') {
+          navMapyButton.href = bod.mapyCzOdkaz;
+        } else {
+          navMapyButton.href = 'https://www.mapy.cz/routy?from=' + originBrvohorik + '&to=' + destination;
+        }
+        navMapyButton.target = '_blank';
+        navMapyButton.className = 'body-button nav';
+        navMapyButton.textContent = '🗺️ Navigace (Mapy.cz)';
+        buttonsDiv.appendChild(navMapyButton);
+        
+        itemDiv.appendChild(buttonsDiv);
+        
+        // Přidání funkcionality pro rozbalení/sbalení při kliknutí na název
+        h3.addEventListener('click', function(e) {
+          e.stopPropagation();
+          
+          // Zavřít všechna ostatní tlačítka
+          var allItems = document.querySelectorAll('.body-item');
+          allItems.forEach(function(item) {
+            if (item !== itemDiv) {
+              item.classList.remove('expanded');
+            }
+          });
+          
+          // Rozbalit/zabalit aktuální tlačítko
+          itemDiv.classList.toggle('expanded');
+          
+          // Přesun mapy na dané místo
+          map.setView([bod.lat, bod.lng], 15);
+        });
+        
+        bodyListDiv.appendChild(itemDiv);
+      });
+    </script>
+  </body>
+</html>

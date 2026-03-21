@@ -1,0 +1,86 @@
+═══════════════════════════════════════════════════════════════
+  JAK POUŽÍVAT PROGRAM PRO GENEROVÁNÍ HTML Z EXCELU
+═══════════════════════════════════════════════════════════════
+
+KROK 1: PŘÍPRAVA SOUBORŮ
+───────────────────────────────────────────────────────────────
+Ujistěte se, že máte v adresáři tyto soubory:
+  ✓ Finální.xlsx          (Excel soubor s bylinkami)
+  ✓ Hotovo4.html          (HTML šablona)
+  ✓ generate_html.py      (tento program)
+
+KROK 2: SPUŠTĚNÍ PROGRAMU
+───────────────────────────────────────────────────────────────
+Otevřete PowerShell nebo Command Prompt v adresáři se soubory.
+
+Poté spusťte příkaz:
+  
+  python generate_html.py
+
+Program automaticky:
+  • Nainstaluje potřebnou knihovnu (openpyxl), pokud chybí
+  • Načte Excel soubor
+  • Vygeneruje HTML soubor
+
+KROK 3: VÝSTUP
+───────────────────────────────────────────────────────────────
+Po úspěšném spuštění se vytvoří soubor:
+  
+  output.html
+
+Tento soubor obsahuje:
+  • Všechny bylinky z Excelu
+  • Zachované styly a filtry z původního HTML
+  • Funkční odkazy na bylinky
+
+KROK 4: OVĚŘENÍ
+───────────────────────────────────────────────────────────────
+Otevřete soubor output.html v prohlížeči a zkontrolujte:
+  ✓ Zobrazují se všechny bylinky
+  ✓ Filtry fungují (Skupina, Nemoci, Účinky, atd.)
+  ✓ Kliknutí na bylinku otevře správný odkaz
+
+═══════════════════════════════════════════════════════════════
+  ŘEŠENÍ PROBLÉMŮ
+═══════════════════════════════════════════════════════════════
+
+PROBLÉM: "Soubor Finální.xlsx nebyl nalezen"
+ŘEŠENÍ: Zkontrolujte, že:
+  • Excel soubor je ve stejném adresáři jako generate_html.py
+  • Název souboru je přesně "Finální.xlsx" (včetně diakritiky)
+
+PROBLÉM: "Soubor Hotovo4.html nebyl nalezen"
+ŘEŠENÍ: Zkontrolujte, že:
+  • HTML šablona je ve stejném adresáři
+  • Název souboru je přesně "Hotovo4.html"
+
+PROBLÉM: "ModuleNotFoundError: No module named 'openpyxl'"
+ŘEŠENÍ: Nainstalujte ručně:
+  pip install openpyxl
+
+PROBLÉM: Program běží, ale output.html je prázdný nebo chybný
+ŘEŠENÍ: Zkontrolujte strukturu Excel souboru - měl by mít sloupce:
+  • id, nazev_cz, nazev_lat, url, skupina, nemoci, tcm_organy,
+    ucinky, Cast-rostliny, sber, stanoviste, barva kvetu, Bezpečnost
+
+═══════════════════════════════════════════════════════════════
+  PŘÍKLAD POUŽITÍ
+═══════════════════════════════════════════════════════════════
+
+1. Otevřete PowerShell v adresáři C:\Users\jakub\Desktop\Filtrování
+
+2. Spusťte:
+   python generate_html.py
+
+3. Uvidíte výstup:
+   Načítám Excel soubor: Finální.xlsx
+   Načteno 408 bylinek
+   Načítám HTML šablonu: Hotovo4.html
+   Generuji HTML kód bylinek...
+     Zpracováno 50/408 bylinek...
+     ...
+   Hotovo! Vygenerováno 408 bylinek do souboru output.html
+
+4. Otevřete output.html v prohlížeči
+
+═══════════════════════════════════════════════════════════════

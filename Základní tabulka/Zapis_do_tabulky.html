@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zápis bylinek z GPT do tabulky</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Outfit:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Outfit', system-ui, sans-serif;
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem;
+      min-height: 100vh;
+      background: #e8efe4;
+      background-image:
+        radial-gradient(ellipse 120% 80% at 50% -20%, rgba(109, 139, 95, 0.25), transparent),
+        radial-gradient(ellipse 80% 50% at 100% 50%, rgba(139, 160, 100, 0.12), transparent),
+        radial-gradient(ellipse 80% 50% at 0% 80%, rgba(109, 139, 95, 0.15), transparent);
+      color: #2c3d2a;
+      line-height: 1.6;
+    }
+    .list {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      overflow: hidden;
+      opacity: 0.06;
+    }
+    .list svg {
+      position: absolute;
+      width: 280px;
+      height: auto;
+    }
+    .list .l1 { top: 5%; right: -60px; transform: rotate(15deg); }
+    .list .l2 { bottom: 15%; left: -80px; transform: rotate(-12deg); }
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin: 0 0 0.35rem 0;
+      color: #2d4a28;
+      letter-spacing: 0.02em;
+    }
+    .podnadpis {
+      font-size: 0.9rem;
+      color: #4a5c45;
+      margin-bottom: 1.5rem;
+      font-weight: 400;
+    }
+    .karta {
+      background: #fafcf8;
+      border-radius: 16px;
+      padding: 1.5rem 1.35rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 2px 12px rgba(45, 74, 40, 0.06);
+      border: 1px solid rgba(109, 139, 95, 0.2);
+      position: relative;
+    }
+    .krok { margin-bottom: 1.1rem; }
+    .krok:last-child { margin-bottom: 0; }
+    .krok strong {
+      display: block;
+      margin-bottom: 0.4rem;
+      color: #2d4a28;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+    input[type="file"] { display: none; }
+    .btn-vybrat {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.35rem;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #fff;
+      background: #4a6b42;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(74, 107, 66, 0.35);
+      transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+    }
+    .btn-vybrat:hover {
+      background: #3d5a36;
+      box-shadow: 0 4px 14px rgba(74, 107, 66, 0.4);
+      transform: translateY(-1px);
+    }
+    .btn-vybrat:active { transform: translateY(0); }
+    .btn-vybrat svg { width: 1.15em; height: 1.15em; flex-shrink: 0; }
+    .soubor-jmeno {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      color: #5a6b54;
+    }
+    textarea {
+      width: 100%;
+      min-height: 180px;
+      padding: 0.85rem 1rem;
+      font-family: inherit;
+      font-size: 0.9rem;
+      border: 1px solid rgba(109, 139, 95, 0.35);
+      border-radius: 12px;
+      background: #fff;
+      color: #2c3d2a;
+      resize: vertical;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    textarea:focus {
+      outline: none;
+      border-color: #6d8b5f;
+      box-shadow: 0 0 0 3px rgba(109, 139, 95, 0.15);
+    }
+    textarea::placeholder { color: #8a9a82; }
+    .akce {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.25rem;
+      align-items: center;
+      margin-top: 0.6rem;
+    }
+    .akce a {
+      font-size: 0.95rem;
+      color: #4a6b42;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .akce a:hover { color: #3d5a36; border-bottom-color: #6d8b5f; }
+    #pocetZapisu { font-size: 0.875rem; color: #5a6b54; margin: 0.25rem 0 0 0; }
+    #zprava {
+      margin-top: 1rem;
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      display: none;
+    }
+    #zprava.uspech {
+      display: block;
+      background: rgba(109, 139, 95, 0.15);
+      color: #2d4a28;
+      border: 1px solid rgba(109, 139, 95, 0.35);
+    }
+    #zprava.chyba {
+      display: block;
+      background: rgba(160, 80, 70, 0.12);
+      color: #6b3530;
+      border: 1px solid rgba(160, 80, 70, 0.3);
+    }
+    .seznam-bylinky {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(109, 139, 95, 0.25);
+    }
+    .seznam-bylinky h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #2d4a28;
+      margin: 0 0 0.75rem 0;
+    }
+    .seznam-dvojice {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 1cm;
+      row-gap: 1cm;
+      padding: 1cm;
+    }
+    .seznam-box {
+      background: #fafcf8;
+      border-radius: 12px;
+      padding: 1rem 1.1rem;
+      border: 1px solid rgba(109, 139, 95, 0.2);
+      box-shadow: 0 2px 8px rgba(45, 74, 40, 0.04);
+    }
+    .seznam-box h3 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #2d4a28;
+      margin: 0 0 0.6rem 0;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid rgba(109, 139, 95, 0.3);
+    }
+    .seznam-box.on h3 { color: #3d5a36; }
+    .seznam-box.off h3 { color: #5a6b54; }
+    .seznam-box ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-size: 0.85rem;
+      color: #2c3d2a;
+      line-height: 1.7;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+    .seznam-box ul li { padding: 0.1rem 0; }
+    .seznam-box ul li a {
+      color: #4a6b42;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .seznam-box ul li a:hover { color: #3d5a36; border-bottom-color: #6d8b5f; }
+    .seznam-box.empty ul { color: #8a9a82; font-style: italic; }
+  </style>
+</head>
+<body>
+  <div class="list" aria-hidden="true">
+    <svg class="l1" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M50 10c-15 25 5 50 20 70 8 11 15 25 10 40M30 30c10 5 25 15 30 35 3 12 2 25 0 35M70 25c-8 20 0 45 15 60 8 8 18 12 25 18" stroke="#2d4a28" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    <svg class="l2" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M50 10c-15 25 5 50 20 70 8 11 15 25 10 40M30 30c10 5 25 15 30 35 3 12 2 25 0 35M70 25c-8 20 0 45 15 60 8 8 18 12 25 18" stroke="#2d4a28" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+  </div>
+
+  <h1>Zápis bylinek do tabulky</h1>
+  <p class="podnadpis">Vyberte tabulku CSV, vkládejte zápisy z GPT a na závěr si stáhněte hotovou tabulku.</p>
+
+  <div class="karta">
+    <div class="krok">
+      <strong>Vyberte tabulku (CSV)</strong>
+      <div style="margin-top:0.4rem;">
+        <label class="btn-vybrat" for="csvFile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Vybrat soubor
+        </label>
+        <input type="file" id="csvFile" accept=".csv,text/csv" title="Vyberte soubor Finální_upravený.csv">
+      </div>
+      <div class="soubor-jmeno" id="jmeno"></div>
+    </div>
+    <div class="krok">
+      <strong>Vložte text z GPT</strong>
+      <textarea id="vstup" placeholder="(nazev_cz)- brutnak_lekarsky&#10;(nazev_lat)- borago_officinalis&#10;(skupina)- bylina&#10;(nemoci)- ...&#10;..."></textarea>
+      <div class="akce">
+        <a href="#" id="linkZapsat">Zapsat do tabulky</a>
+        <a href="#" id="linkStahnout">Stáhnout CSV</a>
+        <span id="pocetZapisu"></span>
+      </div>
+    </div>
+  </div>
+  <div id="zprava" role="alert"></div>
+
+  <section class="seznam-bylinky" id="seznamBylinky" aria-label="Přehled bylinek podle zobrazení">
+    <h2>Bylinky podle zobrazení</h2>
+    <div class="seznam-dvojice">
+      <div class="seznam-box on">
+        <h3>Zobrazení ON</h3>
+        <ul id="listOn"></ul>
+      </div>
+      <div class="seznam-box off">
+        <h3>Zobrazení OFF</h3>
+        <ul id="listOff"></ul>
+      </div>
+    </div>
+  </section>
+
+  <script>
+(function () {
+  const TAG_TO_COLUMN = {
+    "nazev_cz": "nazev_cz", "nazev_lat": "nazev_lat", "skupina": "skupina",
+    "nemoci": "nemoci", "tcm_organy": "tcm_organy", "ucinky": "ucinky",
+    "Cast-rostliny": "Cast-rostliny", "sber": "sber", "stanoviste": "stanoviste",
+    "barva kvetu": "barva kvetu", "Bezpečnost": "Bezpečnost"
+  };
+  const URL_BASE = "https://www.brvohorik.cz/l/";
+
+  function slug(s) {
+    return (s || "").trim().toLowerCase().replace(/_/g, "-");
+  }
+  function urlSlugForRow(row) {
+    var s = (row.nazev_cz || row.nazev_lat || "").trim();
+    return s.toLowerCase().replace(/_/g, "-").replace(/\s+/g, "-");
+  }
+  function normalize(s) {
+    return (s || "").trim().toLowerCase().replace(/_/g, " ");
+  }
+  function parseSber(line) {
+    let rest = line.replace(/^\(sber\)\s*-\s*/i, "").trim();
+    const parts = [];
+    rest.split(/\)\s*-\s*/).forEach(function (seg) {
+      seg = seg.replace(/^\(\w+\)?/, "").trim().replace(/\s*\(\w+\)?\s*$/, "").trim();
+      const m = seg.match(/^(\w+):\s*(.+)$/);
+      if (m) parts.push(m[1] + ": " + m[2].trim());
+    });
+    if (!parts.length && rest) rest.split(/\s*;\s*/).forEach(function (s) { parts.push(s.trim()); });
+    return parts.filter(Boolean).join(" ; ");
+  }
+  function parseGpt(text) {
+    const result = {};
+    text.split(/\n/).forEach(function (line) {
+      line = line.trim();
+      if (!line) return;
+      if (/^\(sber\)\s*-/i.test(line)) { result["sber"] = parseSber(line); return; }
+      const m = line.match(/^\(([^)]+)\)\s*-\s*(.*)$/);
+      if (m) {
+        const tag = m[1].trim();
+        if (TAG_TO_COLUMN[tag]) result[TAG_TO_COLUMN[tag]] = m[2].trim();
+      }
+    });
+    if (result.nazev_cz) result.url = URL_BASE + slug(result.nazev_cz) + "/";
+    if (!result["zobrazení"]) result["zobrazení"] = "on";
+    return result;
+  }
+  function findRow(rows, data) {
+    const nLat = normalize(data.nazev_lat || "");
+    const nCz = normalize(data.nazev_cz || "");
+    for (let i = 0; i < rows.length; i++) {
+      if (nLat && normalize(rows[i].nazev_lat || "") === nLat) return i;
+      if (nCz && normalize(rows[i].nazev_cz || "") === nCz) return i;
+    }
+    return -1;
+  }
+  function applyToRow(header, row, data) {
+    const out = {};
+    header.forEach(function (col) { out[col] = row[col] || ""; });
+    Object.keys(data).forEach(function (col) {
+      if (header.indexOf(col) >= 0 && (data[col] || "").trim())
+        out[col] = data[col].trim();
+    });
+    return out;
+  }
+  function parseLine(line) {
+    const arr = [];
+    let i = 0;
+    while (i < line.length) {
+      if (line[i] === '"') {
+        i++;
+        let s = "";
+        while (i < line.length) {
+          if (line[i] === '"') {
+            i++;
+            if (line[i] === '"') { s += '"'; i++; } else break;
+          } else { s += line[i]; i++; }
+        }
+        arr.push(s);
+        if (line[i] === ",") i++;
+      } else {
+        let s = "";
+        while (i < line.length && line[i] !== ",") { s += line[i]; i++; }
+        arr.push(s);
+        if (line[i] === ",") i++;
+      }
+    }
+    return arr;
+  }
+  function parseCsv(str) {
+    const lines = str.split(/\r?\n/).filter(function (l) { return l.length; });
+    if (!lines.length) return { header: [], rows: [] };
+    const header = parseLine(lines[0]);
+    const rows = [];
+    for (let r = 1; r < lines.length; r++) {
+      const vals = parseLine(lines[r]);
+      const row = {};
+      header.forEach(function (col, j) { row[col] = vals[j] != null ? vals[j] : ""; });
+      rows.push(row);
+    }
+    return { header: header, rows: rows };
+  }
+  function serializeCsv(header, rows) {
+    function escape(s) {
+      s = (s == null ? "" : String(s));
+      if (/[",\r\n]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+      return '"' + s + '"';
+    }
+    let out = header.map(escape).join(",") + "\r\n";
+    rows.forEach(function (row) {
+      out += header.map(function (col) { return escape(row[col]); }).join(",") + "\r\n";
+    });
+    return out;
+  }
+
+  let currentHeader = [];
+  let currentRows = [];
+  let csvFileName = "";
+  let pocetZapisu = 0;
+
+  const elJmeno = document.getElementById("jmeno");
+  const elPocet = document.getElementById("pocetZapisu");
+
+  function aktualizujPocet() {
+    if (currentRows.length === 0) elPocet.textContent = "";
+    else if (pocetZapisu === 0) elPocet.textContent = "Tabulka je připravena ke stažení.";
+    else elPocet.textContent = "V tabulce je " + pocetZapisu + " aktualizovaných zápisů. Můžete stáhnout.";
+  }
+
+  var colZobrazeni = "zobrazení";
+
+  function vykresliSeznamy() {
+    var listOnEl = document.getElementById("listOn");
+    var listOffEl = document.getElementById("listOff");
+    if (!listOnEl || !listOffEl) return;
+    listOnEl.innerHTML = "";
+    listOffEl.innerHTML = "";
+    if (currentRows.length === 0) {
+      listOnEl.appendChild(document.createElement("li")).textContent = "Nejprve vyberte tabulku CSV.";
+      listOffEl.appendChild(document.createElement("li")).textContent = "—";
+      document.querySelector(".seznam-box.on h3").textContent = "Zobrazení ON (0)";
+      document.querySelector(".seznam-box.off h3").textContent = "Zobrazení OFF (0)";
+      return;
+    }
+    var key = currentHeader.indexOf(colZobrazeni) >= 0 ? colZobrazeni : (currentHeader[currentHeader.length - 1] || "");
+    var onRows = [];
+    var offRows = [];
+    currentRows.forEach(function (row) {
+      var nazev = (row.nazev_cz || row.nazev_lat || "").trim() || "—";
+      var z = (row[key] || "").trim().toLowerCase();
+      if (z === "on") onRows.push({ nazev: nazev, row: row }); else offRows.push({ nazev: nazev, row: row });
+    });
+    onRows.sort(function (a, b) { return a.nazev.localeCompare(b.nazev); });
+    offRows.sort(function (a, b) { return a.nazev.localeCompare(b.nazev); });
+    function appendItem(container, item) {
+      var li = document.createElement("li");
+      var a = document.createElement("a");
+      a.href = "#";
+      a.textContent = item.nazev;
+      a.addEventListener("click", function (e) {
+        e.preventDefault();
+        var plantName = item.nazev;
+        if (window.parent !== window) {
+          window.parent.postMessage({ type: "openTagManagement", plantName: plantName }, "*");
+        } else {
+          window.open("vytvor-clanek.html?openTagManagement=" + encodeURIComponent(plantName), "_self");
+        }
+      });
+      li.appendChild(a);
+      container.appendChild(li);
+    }
+    onRows.forEach(function (item) { appendItem(listOnEl, item); });
+    offRows.forEach(function (item) { appendItem(listOffEl, item); });
+    if (!onRows.length) listOnEl.appendChild(document.createElement("li")).textContent = "Žádné.";
+    if (!offRows.length) listOffEl.appendChild(document.createElement("li")).textContent = "Žádné.";
+    document.querySelector(".seznam-box.on h3").textContent = "Zobrazení ON (" + onRows.length + ")";
+    document.querySelector(".seznam-box.off h3").textContent = "Zobrazení OFF (" + offRows.length + ")";
+    document.querySelector(".seznam-box.on").classList.toggle("empty", !onRows.length);
+    document.querySelector(".seznam-box.off").classList.toggle("empty", !offRows.length);
+  }
+
+  document.getElementById("csvFile").addEventListener("change", function (e) {
+    const f = e.target.files[0];
+    if (!f) {
+      elJmeno.textContent = "";
+      currentHeader = [];
+      currentRows = [];
+      csvFileName = "";
+      pocetZapisu = 0;
+      aktualizujPocet();
+      vykresliSeznamy();
+      return;
+    }
+    csvFileName = f.name;
+    elJmeno.textContent = "Vybráno: " + f.name;
+    pocetZapisu = 0;
+    const r = new FileReader();
+    r.onload = function () {
+      const parsed = parseCsv(r.result);
+      if (parsed.header.length) {
+        currentHeader = parsed.header;
+        currentRows = parsed.rows;
+        aktualizujPocet();
+        vykresliSeznamy();
+      } else {
+        currentHeader = [];
+        currentRows = [];
+        vykresliSeznamy();
+      }
+    };
+    r.readAsText(f, "UTF-8");
+  });
+
+  const vstup = document.getElementById("vstup");
+  const linkZapsat = document.getElementById("linkZapsat");
+  const linkStahnout = document.getElementById("linkStahnout");
+  const zprava = document.getElementById("zprava");
+
+  function ok(t) { zprava.textContent = t; zprava.className = "uspech"; }
+  function err(t) { zprava.textContent = t; zprava.className = "chyba"; }
+
+  linkZapsat.addEventListener("click", function (e) {
+    e.preventDefault();
+    const text = vstup.value.trim();
+    if (!text) { err("Nejprve vložte text z GPT."); return; }
+    if (!currentRows.length) { err("Nejprve vyberte soubor tabulky (CSV)."); return; }
+
+    const data = parseGpt(text);
+    if (!data.nazev_lat && !data.nazev_cz) {
+      err("Ve vstupu chybí (nazev_lat) nebo (nazev_cz).");
+      return;
+    }
+
+    const idx = findRow(currentRows, data);
+    if (idx < 0) {
+      err("V tabulce nebyl nalezen řádek pro rostlinu „" + (data.nazev_cz || data.nazev_lat) + "“. Zkontrolujte (nazev_cz) nebo (nazev_lat).");
+      return;
+    }
+
+    currentRows[idx] = applyToRow(currentHeader, currentRows[idx], data);
+    pocetZapisu += 1;
+    aktualizujPocet();
+    vykresliSeznamy();
+    vstup.value = "";
+    vstup.focus();
+    ok("Zápis pro „" + (data.nazev_cz || data.nazev_lat) + "“ přidán. Můžete vložit další text nebo stáhnout tabulku.");
+  });
+
+  linkStahnout.addEventListener("click", function (e) {
+    e.preventDefault();
+    if (!currentRows.length) { err("Nejprve vyberte soubor tabulky (CSV)."); return; }
+    const out = serializeCsv(currentHeader, currentRows);
+    const blob = new Blob(["\ufeff" + out], { type: "text/csv;charset=utf-8" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = csvFileName || "Finální_upravený.csv";
+    a.click();
+    URL.revokeObjectURL(a.href);
+    ok("Tabulka stažena. Uložte ji (přepište původní soubor).");
+  });
+})();
+  </script>
+</body>
+</html>

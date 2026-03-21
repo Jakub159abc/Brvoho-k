@@ -1,0 +1,121 @@
+═══════════════════════════════════════════════════════════════
+  JAK OTEVŘÍT POWERSHELL NEBO COMMAND PROMPT V ADRESÁŘI
+═══════════════════════════════════════════════════════════════
+
+METODA 1: NEJLEHČÍ ZPŮSOB (DOPORUČENO)
+───────────────────────────────────────────────────────────────
+
+1. Otevřete Průzkumník souborů (Windows Explorer)
+   - Stiskněte klávesy: Windows + E
+   - Nebo klikněte na ikonu složky v liště
+
+2. Přejděte do adresáře:
+   C:\Users\jakub\Desktop\Filtrování
+
+3. Klikněte do adresářového řádku nahoře (kde je cesta)
+   - Nebo stiskněte: Ctrl + L
+
+4. Vymažte cestu a napište:
+   powershell
+   
+   Pak stiskněte Enter
+
+5. Otevře se PowerShell přímo v tomto adresáři!
+
+───────────────────────────────────────────────────────────────
+
+METODA 2: PŘES PRAVÉ TLAČÍTKO MYŠI
+───────────────────────────────────────────────────────────────
+
+1. Otevřete Průzkumník souborů
+
+2. Přejděte do adresáře:
+   C:\Users\jakub\Desktop\Filtrování
+
+3. Klikněte PRAVÝM tlačítkem myši do prázdného místa v adresáři
+   (ne na soubor, ale na prázdné místo)
+
+4. V menu vyberte:
+   "Otevřít v terminálu" nebo "Open in Terminal"
+   
+   Nebo pokud vidíte:
+   "Otevřít okno PowerShell zde" / "Open PowerShell window here"
+
+───────────────────────────────────────────────────────────────
+
+METODA 3: KLASICKÝ ZPŮSOB
+───────────────────────────────────────────────────────────────
+
+1. Stiskněte: Windows + R
+   (Windows klávesa a R současně)
+
+2. Objeví se okno "Spustit"
+
+3. Napište:
+   powershell
+   
+   A stiskněte Enter
+
+4. Otevře se PowerShell, ale bude v jiném adresáři
+
+5. Napište tento příkaz a stiskněte Enter:
+   cd "C:\Users\jakub\Desktop\Filtrování"
+
+6. Nyní jste ve správném adresáři!
+
+───────────────────────────────────────────────────────────────
+
+JAK POZNAT, ŽE JSTE VE SPRÁVNÉM ADRESÁŘI
+───────────────────────────────────────────────────────────────
+
+V PowerShell uvidíte něco jako:
+  PS C:\Users\jakub\Desktop\Filtrování>
+
+Pokud vidíte tuto cestu, jste na správném místě!
+
+───────────────────────────────────────────────────────────────
+
+JAK SPUSTIT PROGRAM
+───────────────────────────────────────────────────────────────
+
+Když jste ve správném adresáři, jednoduše napište:
+
+  python generate_html.py
+
+A stiskněte Enter.
+
+───────────────────────────────────────────────────────────────
+
+CO DĚLAT, KDYŽ SE OBJEVÍ CHYBA
+───────────────────────────────────────────────────────────────
+
+CHYBA: "python není rozpoznán jako příkaz"
+ŘEŠENÍ: 
+  • Python možná není nainstalován
+  • Nebo zkuste: py generate_html.py
+  • Nebo: python3 generate_html.py
+
+CHYBA: "Soubor Finální.xlsx nebyl nalezen"
+ŘEŠENÍ:
+  • Zkontrolujte, že jste ve správném adresáři
+  • Napište: dir
+  • Měli byste vidět soubor Finální.xlsx v seznamu
+
+───────────────────────────────────────────────────────────────
+
+JEDNODUCHÝ TEST
+───────────────────────────────────────────────────────────────
+
+1. Otevřete PowerShell v adresáři (metoda 1 nebo 2 výše)
+
+2. Napište: dir
+   (nebo: ls)
+   
+3. Měli byste vidět seznam souborů včetně:
+   - Finální.xlsx
+   - generate_html.py
+   - Hotovo4.html
+
+4. Pokud tyto soubory vidíte, můžete spustit program!
+
+═══════════════════════════════════════════════════════════════

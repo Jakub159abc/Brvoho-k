@@ -1,0 +1,17 @@
+(nazev_cz)- brutnak_lekarsky
+(nazev_lat)- borago_officinalis
+(skupina)- bylina
+
+(nemoci)- nervove_potize | stres | vycerpani | zanet_ledvin | horecka | revmaticke_bolesti | zanety_mocoveho_mechyre | zanety_dychacich_cest
+
+(ucinky)- sedativni | mocopudne | protizanetlive | potopudne | cisti_krev | posiluje_nervovy_system | podporuje_metabolismus
+
+(Cast-rostliny)- nat | semeno
+
+(sber)-nat: cerven | cervenec (semeno)-semeno: srpen | zari
+
+(stanoviste)- zahrady | pestovane_plochy | zahony
+
+(barva kvetu)- modra
+
+(Bezpečnost)- 2
