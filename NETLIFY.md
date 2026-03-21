@@ -10,9 +10,20 @@ Tady je **menu a jednotlivé sekce** (ne editor ani Excel nástroje):
 - `site/clanky-o-rostlinach/index.html` – rozcestník k článkům
 - `site/dusevni-priciny-nemoci/index.html` – Duševní příčiny nemocí
 - `site/recepty-a-navody/index.html` – Recepty a návody
-- `site/kalendar-sberu/index.html` – rozcestník k přehledu a správě kalendáře
+- `site/kalendar-sberu/index.html` – **při každém buildu** se přepíše z `kalendář sběru/kalendar_sberu.html` (hlavní tabulka)
 
-Velké soubory kalendáře se při buildu kopírují z `kalendář sběru/` do `netlify-site/kalendar-sberu/` jako `prehled.html` a `sprava.html`.
+Do `netlify-site/kalendar-sberu/` se navíc kopíruje `prehled.html` (stejná tabulka) a `sprava.html` ze `kalendar_sberu_sprava.html`.
+
+## Důležité: www.brvohorik.cz vs Netlify
+
+**Doména `www.brvohorik.cz` běží na Webnode** – obsah tam **není** tento git repozitář. Když tam u kalendáře vidíš starý rozcestník („Vyberte zobrazení…“) nebo jiný vzhled, jde o **stránky nahrané / vytvořené ve Webnode**, ne o deploy z GitHubu.
+
+Aby se na hlavní adrese zobrazila verze z gitu (tabulka z tohoto projektu), je potřeba např.:
+
+- v **Netlify** připojit custom domain `brvohorik.cz` a v DNS směrovat doménu na Netlify (podle jejich návodu), **nebo**
+- **ručně** nahrát obsah složky `netlify-site/` (nebo aspoň `kalendar-sberu/`) do odpovídající cesty ve Webnode.
+
+Novou verzi z gitu uvidíš na **URL tvého Netlify site** (např. `https://něco.netlify.app`), pokud je repozitář k Netlify připojený.
 
 ## Build výstupu pro nasazení
 
