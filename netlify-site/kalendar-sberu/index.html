@@ -554,28 +554,6 @@ h1 {
 .month-summary-list .plant-name-inline { font-weight: 600; color: #1b5e20; }
 .month-summary-list .parts-inline { font-size: 0.9em; color: #558b2f; }
 
-/* Menu sekcí – stejný styl jako na stránce správy kalendáře */
-.actions {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 24px;
-  justify-content: center;
-}
-.actions .btn {
-  padding: 10px 18px;
-  border: none;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  cursor: pointer;
-  font-weight: 600;
-  transition: transform 0.15s, box-shadow 0.15s;
-  text-decoration: none;
-  display: inline-block;
-}
-.actions .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-.actions .btn-primary { background: linear-gradient(135deg, #4caf50, #388e3c); color: #fff; }
-.actions .btn-open { background: linear-gradient(135deg, #ff9800, #f57c00); color: #fff; }
 </style>
 </head>
 <body>
@@ -583,11 +561,6 @@ h1 {
   <h1>Kalendář sběru léčivých rostlin</h1>
   <p class="subtitle">Tato tabulka slouží jako přehled vhodných termínů sběru jednotlivých částí léčivých rostlin v průběhu roku.</p>
 
-  <div class="actions">
-    <span class="btn btn-primary" aria-current="page">Kalendář</span>
-    <a href="sprava.html" class="btn btn-open">Správa kalendáře</a>
-  </div>
-  
   <div class="how-to-use">
     <details>
       <summary>Jak tabulku používat:</summary>
