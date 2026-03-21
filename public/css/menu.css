@@ -1,0 +1,145 @@
+/* Menu „Vše nejen o bylinkách“ – podle menu-vše nejen o bylinkách/menu.html */
+
+.app-top-menu {
+  padding: 1.25rem 1.25rem 0;
+}
+
+.app-top-menu .menu-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  background: #f1f8f4;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+.app-top-menu .menu-title {
+  color: #2e7d32;
+  font-size: 2.5em;
+  margin-bottom: 10px;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  font-weight: 700;
+}
+
+.app-top-menu .menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  justify-items: center;
+}
+
+.app-top-menu .menu-item {
+  text-align: center;
+}
+
+.app-top-menu .menu-button {
+  display: block;
+  text-decoration: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  color: inherit;
+}
+
+.app-top-menu .menu-button:focus-visible {
+  outline: 3px solid #2e7d32;
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+.app-top-menu .menu-button img {
+  width: 200px;
+  height: auto;
+  max-height: 200px;
+  object-fit: contain;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  transition: all 0.3s ease;
+  display: block;
+}
+
+.app-top-menu .menu-button:hover img {
+  transform: scale(1.1) translateY(-5px);
+}
+
+.app-top-menu .menu-item:hover .menu-label {
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
+}
+
+.app-top-menu .kalendar-sberu .menu-button img {
+  width: 260px;
+  max-height: 260px;
+}
+
+.app-top-menu .kalendar-sberu .menu-label {
+  margin-left: 38px;
+}
+
+.app-top-menu .menu-label {
+  margin-top: 10px;
+  color: #558b2f;
+  font-size: 1.1em;
+  font-weight: 500;
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+.app-top-menu .menu-img-fallback {
+  display: none;
+  padding: 20px;
+  background: #f0f0f0;
+  border-radius: 8px;
+  color: #999;
+}
+
+@media (max-width: 768px) {
+  .app-top-menu .menu-container {
+    padding: 15px;
+  }
+
+  .app-top-menu .menu-title {
+    font-size: 1.8em;
+  }
+
+  .app-top-menu .menu-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .app-top-menu .menu-button img {
+    width: 200px;
+    max-height: 200px;
+  }
+
+  .app-top-menu .kalendar-sberu .menu-button img {
+    width: 260px;
+    max-height: 260px;
+  }
+
+  .app-top-menu .kalendar-sberu .menu-label {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-top-menu .menu-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .app-top-menu .menu-button img {
+    width: 200px;
+    max-height: 200px;
+  }
+
+  .app-top-menu .kalendar-sberu .menu-button img {
+    width: 260px;
+    max-height: 260px;
+  }
+}

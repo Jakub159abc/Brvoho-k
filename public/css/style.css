@@ -1,0 +1,298 @@
+/* Základní minimalistický vzhled, responzivní */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #f7f7f5;
+  --surface: #fff;
+  --text: #1a1a18;
+  --muted: #5c5c56;
+  --accent: #2d6a4f;
+  --accent-soft: #e8f2ec;
+  --border: #e0e0da;
+  --radius: 10px;
+  --shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.55;
+}
+
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-outlet {
+  flex: 1;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 3rem;
+}
+
+.app-outlet:has(.page--plants-embed) {
+  max-width: 1400px;
+}
+
+/* Vložené vyhledávání rostlin (Filtrování rostlin/output.html) */
+.page--plants-embed {
+  max-width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.plants-iframe {
+  display: block;
+  width: 100%;
+  min-height: min(85vh, 1200px);
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 1rem 1.25rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+  background: var(--surface);
+}
+
+.page h1 {
+  margin-top: 0;
+  font-size: 1.75rem;
+}
+
+.lead {
+  font-size: 1.05rem;
+  color: var(--muted);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  align-items: flex-end;
+}
+
+.filters label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+input[type="search"],
+select {
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  min-width: 200px;
+  font: inherit;
+  background: var(--surface);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.cards--compact {
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+  box-shadow: var(--shadow);
+}
+
+.card--small {
+  padding: 0.85rem;
+}
+
+.card__title {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+}
+
+.card__title a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.card__title a:hover {
+  text-decoration: underline;
+}
+
+.card__excerpt {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.65rem;
+}
+
+.tag {
+  font-size: 0.75rem;
+  background: var(--accent-soft);
+  color: var(--accent);
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+}
+
+.detail-head h1 {
+  margin-bottom: 0.35rem;
+}
+
+.detail-section {
+  margin-top: 1.75rem;
+}
+
+.detail-section h2 {
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+}
+
+.link-list {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.link-list a {
+  color: var(--accent);
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.75rem 0;
+}
+
+.pill {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.pill:hover {
+  filter: brightness(0.97);
+}
+
+.btn-secondary {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.btn-secondary:hover {
+  background: var(--accent-soft);
+}
+
+.calendar-toolbar {
+  margin-bottom: 1rem;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.65rem;
+}
+
+.cal-month {
+  display: block;
+  padding: 0.75rem;
+  text-align: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.cal-month:hover {
+  border-color: var(--accent);
+}
+
+.cal-month--harvest {
+  background: var(--accent-soft);
+  border-color: #b8d4c4;
+  font-weight: 600;
+}
+
+.cal-month--focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.banner {
+  background: #fff9e6;
+  border: 1px solid #f0e0a8;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.banner a {
+  color: var(--accent);
+}
+
+.prose {
+  max-width: 65ch;
+}
+
+.prose ul {
+  padding-left: 1.2rem;
+}
+
+code {
+  font-size: 0.9em;
+  background: #eee;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+@media (max-width: 640px) {
+  input[type="search"],
+  select {
+    min-width: 100%;
+  }
+}

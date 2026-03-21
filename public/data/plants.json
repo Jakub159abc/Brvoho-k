@@ -1,0 +1,42 @@
+[
+  {
+    "id": "medunka",
+    "name": "Meduňka lékařská",
+    "description": "Meduňka je tradiční bylinka s jemně uklidňujícím účinkem. Listy a nať se sbírají v době květu; čaj z meduňky se používá při neklidu a lehkých poruchách spánku.",
+    "substances": ["silice", "flavonoidy", "tanin"],
+    "tags": ["uklidnění", "čaj", "nať"],
+    "harvestMonths": [5, 6, 7, 8]
+  },
+  {
+    "id": "jitrocel",
+    "name": "Jitrocel kopinatý",
+    "description": "Jitrocel je známý svým obsahem slizu a používá se při dráždění dýchacích cest. Listy lze sbírat od jara do podzimu podle potřeby.",
+    "substances": ["sliz", "tanin", "flavonoidy"],
+    "tags": ["dýchání", "sliznice", "list"],
+    "harvestMonths": [4, 5, 6, 7, 8, 9]
+  },
+  {
+    "id": "trezalka",
+    "name": "Třezalka tečkovaná",
+    "description": "Třezalka se tradičně používá při lehké náladové nerovnováze. Kvetoucí nať se sbírá v letních měsících; pozor na interakce s léky (fotosenzitivita, enzymy jater).",
+    "substances": ["flavonoidy", "tanin"],
+    "tags": ["nálada", "nať", "olej"],
+    "harvestMonths": [6, 7]
+  },
+  {
+    "id": "divizna",
+    "name": "Divizna velkokvětá",
+    "description": "Květy divizny obsahují sliz a saponiny a bývají součástí čajových směsí na podporu dýchání. Květ se sbírá v plném rozkvětu.",
+    "substances": ["sliz", "saponiny", "flavonoidy"],
+    "tags": ["dýchání", "květ", "čaj"],
+    "harvestMonths": [6, 7]
+  },
+  {
+    "id": "kozinec",
+    "name": "Kozinec blanitý",
+    "description": "Kořen kozince je používán v adaptogenních přípravcích. Sběr kořene probíhá obvykle na podzim po odkvětu; v databázi slouží jako příklad propojení s recepty.",
+    "substances": ["saponiny", "flavonoidy"],
+    "tags": ["adaptogen", "kořen", "odvar"],
+    "harvestMonths": [9, 10]
+  }
+]

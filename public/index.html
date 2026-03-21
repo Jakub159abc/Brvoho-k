@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Léčivé rostliny – databáze</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/menu.css">
+</head>
+<body>
+  <div class="layout">
+    <!-- Menu podle: menu-vše nejen o bylinkách/menu.html (odkazy upraveny pro SPA) -->
+    <header class="app-top-menu" role="banner">
+      <div class="menu-container">
+        <h1 class="menu-title">Vše nejen o bylinkách</h1>
+
+        <div class="menu-grid">
+          <div class="menu-item">
+            <a href="/plants" class="menu-button" data-spa-link>
+              <img src="https://5894bc8f2a.clvaw-cdnwnd.com/9c5c0180b020bd4a2c598d6ffeaae1da/200000936-4023540237/Vyhled%C3%A1v%C3%A1n%C3%AD%20rostlin%20o%C5%99%C3%ADznut%C3%BD.png?ph=5894bc8f2a" alt="Vyhledávání rostlin" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+              <div class="menu-img-fallback">Obrázek - URL adresa<br>není nastavena</div>
+              <div class="menu-label">Vyhledávání rostlin</div>
+            </a>
+          </div>
+
+          <div class="menu-item">
+            <a href="/" class="menu-button" data-spa-link>
+              <img src="https://5894bc8f2a.clvaw-cdnwnd.com/9c5c0180b020bd4a2c598d6ffeaae1da/200000927-929ce929d0/%C4%8Dl%C3%A1nky%20o%20rostlin%C3%A1ch%20v%C3%BD%C5%99ez.png?ph=5894bc8f2a" alt="Články o rostlinách" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+              <div class="menu-img-fallback">Obrázek - URL adresa<br>není nastavena</div>
+              <div class="menu-label">Články o rostlinách</div>
+            </a>
+          </div>
+
+          <div class="menu-item">
+            <a href="/mental" class="menu-button" data-spa-link>
+              <img src="https://5894bc8f2a.clvaw-cdnwnd.com/9c5c0180b020bd4a2c598d6ffeaae1da/200000929-94bcb94bce/Duchovn%C3%AD%20p%C5%99%C3%AD%C4%8Diny%20nemoc%C3%AD%20v%C3%BD%C5%99ez.png?ph=5894bc8f2a" alt="Duševní příčiny nemocí" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+              <div class="menu-img-fallback">Obrázek - URL adresa<br>není nastavena</div>
+              <div class="menu-label">Duševní příčiny nemocí</div>
+            </a>
+          </div>
+
+          <div class="menu-item">
+            <a href="/recipes" class="menu-button" data-spa-link>
+              <img src="https://5894bc8f2a.clvaw-cdnwnd.com/9c5c0180b020bd4a2c598d6ffeaae1da/200000932-678f7678f9/recepty%20a%20n%C3%A1vody%20v%C3%BD%C5%99ez.png?ph=5894bc8f2a" alt="Recepty a návody" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+              <div class="menu-img-fallback">Obrázek - URL adresa<br>není nastavena</div>
+              <div class="menu-label">Recepty a návody</div>
+            </a>
+          </div>
+
+          <div class="menu-item kalendar-sberu">
+            <a href="/calendar" class="menu-button" data-spa-link>
+              <img src="https://5894bc8f2a.clvaw-cdnwnd.com/9c5c0180b020bd4a2c598d6ffeaae1da/200000930-a9b67a9b69/Kalend%C3%A1%C5%99%20sb%C4%9Bru%20o%C5%99%C3%ADznut%C3%A9.png?ph=5894bc8f2a" alt="Kalendář sběru" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+              <div class="menu-img-fallback">Obrázek - URL adresa<br>není nastavena</div>
+              <div class="menu-label">Kalendář sběru</div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main id="app" class="app-outlet" aria-live="polite"></main>
+
+    <footer class="site-footer">
+      <p>Čisté HTML, CSS a JavaScript – modulární SPA.</p>
+    </footer>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

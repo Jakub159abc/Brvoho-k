@@ -1,0 +1,32 @@
+[
+  {
+    "id": "tanin",
+    "name": "Taniny",
+    "description": "Polyfenolické sloučeniny s adstringentním účinkem; podporují stažení sliznic a mají antiseptické vlastnosti."
+  },
+  {
+    "id": "silice",
+    "name": "Silice (éterické oleje)",
+    "description": "Prchavé aromatické látky s antiseptickými a uklidňujícími účinky; často se uvolňují při vaření nebo maceraci."
+  },
+  {
+    "id": "flavonoidy",
+    "name": "Flavonoidy",
+    "description": "Antioxidanty přítomné v mnoha rostlinách; mohou podporovat cévní tonus a mírně protizánětlivě působit."
+  },
+  {
+    "id": "sliz",
+    "name": "Sliz",
+    "description": "Hydrofilní polysacharidy; zklidňují podrážděné sliznice dýchacích cest i trávicího traktu."
+  },
+  {
+    "id": "kumariny",
+    "name": "Kumariny",
+    "description": "Látky s jemně antikoagulačním a uklidňujícím potenciálem; vyskytují se například v některých bylinách."
+  },
+  {
+    "id": "saponiny",
+    "name": "Saponiny",
+    "description": "Přírodní tenzidy; mohou podporovat vykašlávání a jemně stimulovat trávení."
+  }
+]

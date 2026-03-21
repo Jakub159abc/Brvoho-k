@@ -1,0 +1,38 @@
+[
+  {
+    "id": "caj-medunka",
+    "name": "Jednoduchý čaj z meduňky",
+    "tags": ["uklidnění", "čaj", "nať"],
+    "description": "1–2 lžičky sušené nati zalít 250 ml vroucí vody, 10 min louhovat, sladit dle chuti."
+  },
+  {
+    "id": "macerat-jitrocel",
+    "name": "Studený macerát jitrocele",
+    "tags": ["dýchání", "sliznice", "list"],
+    "description": "Čerstvé nebo sušené listy namočit do studené vody na několik hodin; pít po douškách."
+  },
+  {
+    "id": "olej-trezalka",
+    "name": "Olej z třezalky (orientační postup)",
+    "tags": ["nálada", "nať", "olej"],
+    "description": "Kvetoucí nať macerovat v kvalitním oleji podle ověřeného receptu; skladovat chladně a temně."
+  },
+  {
+    "id": "caj-divizna",
+    "name": "Čaj z květů divizny",
+    "tags": ["dýchání", "květ", "čaj"],
+    "description": "Květy zalít vroucí vodou, krátce louhovat; vhodné do směsí s jitrocelem."
+  },
+  {
+    "id": "odvar-kozinec",
+    "name": "Odvar z kozince (pouze informativně)",
+    "tags": ["adaptogen", "kořen", "odvar"],
+    "description": "Příprava odvaru z kořene vyžaduje přesné dávkování a konzultaci s odborníkem."
+  },
+  {
+    "id": "smes-klid",
+    "name": "Bylinná směs „klid večer“",
+    "tags": ["uklidnění", "čaj"],
+    "description": "Kombinace meduňky a dalších jemných bylin podle vlastní receptury; krátce louhovat."
+  }
+]
