@@ -169,6 +169,10 @@ async function route() {
         await mountShell('mentalCauses');
         break;
       }
+      case 'obsahoveLatky': {
+        await mountShell('obsahoveLatky');
+        break;
+      }
       default: {
         appEl.innerHTML =
           '<section class="page"><h1>Stránka nenalezena</h1><p><a data-spa-link href="/">Zpět na úvod</a></p></section>';

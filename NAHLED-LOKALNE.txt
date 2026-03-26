@@ -1,0 +1,81 @@
+================================================================================
+  Lokální náhled webu (stejné jako nasazení na Netlify)
+================================================================================
+
+Co se děje
+----------
+- Složka „netlify-site“ je hotový statický web, který se na Netlify opravdu
+  zveřejňuje.
+- Příkaz „python _build_netlify_site.py“ ji znovu sestaví z „site/“, článků,
+  kalendáře, vyhledávání rostlin a duševních příčin nemocí. Před kopírováním
+  navíc přegeneruje rozcestník „Články o rostlinách“ ze složky
+  „články html/rostliny“ (skript „_generate_clanky_rostliny_index.py“).
+- Lokální prohlížeč pak musí tuto složku servírovat jako kořen webu (ne celý
+  repozitář bez buildu).
+
+
+Postup (Windows, příkazový řádek)
+---------------------------------
+
+1) Přejděte do složky projektu (cestu upravte podle potřeby):
+
+   cd /d "C:\Users\jakub\Desktop\záloha\Brvohořík html"
+
+2) Sestavte výstup:
+
+   python _build_netlify_site.py
+
+   Měli byste mimo jiné vidět řádky typu:
+   OK: 412 článků → ...\site\clanky-o-rostlinach\index.html
+   OK: duševní příčiny nemocí ← ...\Duševní příčiny nemocí\index.html
+   a na konci např.:
+   OK: … souborů v …\netlify-site
+
+   Pokud Python není v PATH, zkuste: py _build_netlify_site.py
+
+3) Spusťte jednoduchý webový server nad složkou výstupu:
+
+   npx --yes serve netlify-site
+
+   Výpis ukáže adresu, obvykle: http://localhost:3000
+
+4) Otevřete tuto adresu v prohlížeči. Menu a odkazy (/vyhledavani/,
+   /dusevni-priciny-nemoci/ atd.) fungují stejně jako po deployi.
+
+5) Když se po úpravách HTML pořád zobrazuje starý obsah, vynuťte načtení
+   bez mezipaměti: Ctrl+F5 (nebo Ctrl+Shift+R).
+
+
+Ukončení serveru
+----------------
+- V okně, kde běží „npx serve“, stiskněte Ctrl+C.
+- Zeptá-li se „Terminate batch job (Y/N)?“, napište Y a Enter.
+
+
+Kdy znovu spustit „python _build_netlify_site.py“
+-------------------------------------------------
+- Po každé změně souborů, které build kopíruje nebo generuje, např.:
+  - Duševní příčiny nemocí\index.html
+  - Filtrování rostlin\output.html (vyhledávání rostlin)
+  - kalendář sběru\kalendar_sberu.html
+  - obsahu ve složce „site“ (menu, rozcestníky)
+  - přidání nebo přejmenování souborů v „články html\rostliny“ (rozcestník se
+    přegeneruje při buildu; ručně lze spustit „python _generate_clanky_rostliny_index.py“)
+- Pak znovu „npx serve netlify-site“ (nebo nechte server běžet a jen obnovte
+  stránku s Ctrl+F5).
+
+
+Editor Cursor / VS Code
+------------------------
+- Úloha „Články: přegenerovat rozcestník rostlin“ – jen seznam článků
+  (soubor .vscode/tasks.json).
+- Úloha „Netlify: sestavit netlify-site“ – výchozí build (Ctrl+Shift+B),
+  celý web včetně rozcestníku článků.
+
+
+Další dokumentace v repozitáři
+-----------------------------
+- NETLIFY-CO-A-JAK.md  – co se na Netlify veze, build z Gitu
+- NETLIFY.md           – struktura „site“ a „netlify-site“
+
+================================================================================

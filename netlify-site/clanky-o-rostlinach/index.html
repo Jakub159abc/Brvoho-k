@@ -6,23 +6,480 @@
   <title>Články o rostlinách</title>
   <link rel="stylesheet" href="/css/app.css">
 </head>
-<body class="page-shell">
-  <header class="site-header">
-    <a href="/" class="back-home">← Hlavní menu</a>
-  </header>
-  <main class="page-inner">
-    <h1>Články o rostlinách</h1>
-    <p class="lead">Všechny připravené články jsou ve složce projektu nasazené na Netlify. Otevřete konkrétní rostlinu z adresáře níže.</p>
-    <p><strong>Příklad článku:</strong></p>
-    <ul>
-      <li>
-        <a href="/články html/rostliny/Heřmánek pravý.html">Heřmánek pravý</a>
-      </li>
+<body class="clanky-app-body">
+  <a href="/" class="clanky-back-home">← Hlavní menu</a>
+  <div class="clanky-container">
+    <div class="clanky-title-block">
+      <div class="clanky-title-row" aria-hidden="true">
+        <span class="clanky-title-emoji">🌿</span>
+        <img class="clanky-logo" src="https://5894bc8f2a.clvaw-cdnwnd.com/9c5c0180b020bd4a2c598d6ffeaae1da/200000927-929ce929d0/%C4%8Dl%C3%A1nky%20o%20rostlin%C3%A1ch%20v%C3%BD%C5%99ez.png?ph=5894bc8f2a" alt="Články o rostlinách" loading="lazy">
+        <span class="clanky-title-emoji">🌿</span>
+      </div>
+      <h1>Články o rostlinách</h1>
+      <p class="clanky-subtitle">Samostatné články k jednotlivým rostlinám. Zadejte název do pole níže (stejně jako u <a href="/vyhledavani/">vyhledávání rostlin</a>) – vyhledávání bere v úvahu i psaní <strong>bez diakritiky</strong>.</p>
+      <p class="clanky-meta-links"><a href="/clanky-o-rostlinach/sprava.html">Správa seznamu a návod</a> · <a href="/vyhledavani/">Databáze rostlin</a></p>
+    </div>
+
+    <div class="clanky-search-panel">
+      <div class="clanky-results-counter">
+        <div class="clanky-results-header">Počet článků</div>
+        <div class="clanky-results-value" id="clanky-count-num" aria-live="polite">412</div>
+      </div>
+      <div class="clanky-search-container">
+        <div class="clanky-search-wrapper">
+          <label class="visually-hidden" for="clanky-search">Hledat článek podle názvu</label>
+          <input type="search" id="clanky-search" class="clanky-search-field" placeholder="🔍 Zadejte název rostliny…" autocomplete="off">
+        </div>
+      </div>
+    </div>
+
+    <ul id="clanky-list" class="clanky-list">
+      <li class="clanky-item"><a href="/články html/rostliny/and%C4%9Blika-l%C3%A9ka%C5%99sk%C3%A1-angelica-archangelica.html">Andělika lékařská (Angelica archangelica)</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/and%C4%9Blika-%C4%8D%C3%ADnsk%C3%A1.html">Andělika čínská</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/ang%C3%ADnovn%C3%ADk-%C4%8D%C3%ADnsk%C3%BD-belamcanda-chinensis-nov%C4%9B-%C5%99azen%C3%BD-jako-iris-domestica.html">Angínovník čínský (Belamcanda chinensis, nově řazený jako Iris domestica)</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/arg%C3%A1nie-trnit%C3%A1-argania-spinosa.html">Argánie trnitá (Argania spinosa)</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/bakopa-drobnolist%C3%A1-bacopa-monnieri.html">Bakopa drobnolistá (Bacopa monnieri)</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/bazalka-posv%C3%A1tn%C3%A1-ocimum-tenuiflorum-zn%C3%A1m%C3%A1-tak%C3%A9-jako-tulsi.html">Bazalka posvátná (Ocimum tenuiflorum), známá také jako tulsi,</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/bazalka-prav%C3%A1-ocimum-basilicum.html">Bazalka pravá (Ocimum basilicum)</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/ba%C5%BEanka-vytrval%C3%A1.html">Bažanka vytrvalá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/bez-chebd%C3%AD.html">Bez chebdí</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/bez-%C4%8Dern%C3%BD.html">Bez černý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/bez-%C4%8Derven%C3%BD.html">Bez červený</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/bledule-jarn%C3%AD.html">Bledule jarní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Bodl%C3%A1k%20obecn%C3%BD.html">Bodlák obecný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/bolehlav-plamat%C3%BD.html">Bolehlav plamatý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/bol%C5%A1evn%C3%ADk-obecn%C3%BD.html">Bolševník obecný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/borovice-p%C5%99%C3%ADmo%C5%99sk%C3%A1.html">Borovice přímořská</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/borovice-sosna.html">Borovice sosna</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/borovice-%C4%8Dern%C3%A1.html">Borovice černá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/broskvo%C5%88-obecn%C3%A1.html">Broskvoň obecná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/brslen-evropsk%C3%BD.html">Brslen evropský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/brusnice-bor%C5%AFvka.html">Brusnice borůvka</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/brusnice-brusinka.html">Brusnice brusinka</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/brutn%C3%A1k-l%C3%A9ka%C5%99sk%C3%BD.html">Brutnák lékařský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/br%C5%A1lice-koz%C3%AD.html">Bršlice kozí</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/buk-lesn%C3%AD.html">Buk lesní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/bukvice-l%C3%A9ka%C5%99sk%C3%A1.html">Bukvice lékařská</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/bu%C5%99ina-srde%C4%8Dn%C3%ADk.html">Buřina srdečník</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/b%C4%9Blotrn-kulatohlav%C3%BD.html">Bělotrn kulatohlavý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/b%C4%9Blotrn-modr%C3%BD.html">Bělotrn modrý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/b%C5%99e%C4%8D%C5%A5an-pop%C3%ADnav%C3%BD.html">Břečťan popínavý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/b%C5%99%C3%ADza-b%C4%9Blokor%C3%A1.html">Bříza bělokorá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/b%C5%99%C3%ADza-p%C3%BD%C5%99it%C3%A1.html">Bříza pýřitá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/cesm%C3%ADna-ostrolist%C3%A1.html">Cesmína ostrolistá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/chaluha-bublinatka.html">Chaluha bublinatka</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/chmel-ot%C3%A1%C4%8Div%C3%BD.html">Chmel otáčivý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Chrpa%20lu%C4%8Dn%C3%AD.html">Chrpa luční</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Chrpa%20modr%C3%A1.html">Chrpa modrá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/chrpa-modr%C3%A1.html">Chrpa modrá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Chryzant%C3%A9ma%20%28Chrysanthemum%29.html">Chryzantéma (Chrysanthemum)</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/chryzant%C3%A9ma-chrysanthemum.html">Chryzantéma (Chrysanthemum)</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Denivka%20plav%C3%A1.html">Denivka plavá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/denivka-plav%C3%A1.html">Denivka plavá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Dev%C4%9Btsil%20b%C3%ADl%C3%BD.html">Devětsil bílý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/dev%C4%9Btsil-b%C3%ADl%C3%BD.html">Devětsil bílý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Dev%C4%9Btsil%20l%C3%A9ka%C5%99sk%C3%BD.html">Devětsil lékařský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/dev%C4%9Btsil-l%C3%A9ka%C5%99sk%C3%BD.html">Devětsil lékařský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Divizna%20brun%C3%A1tn%C3%A1.html">Divizna brunátná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/divizna-brun%C3%A1tn%C3%A1.html">Divizna brunátná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Divizna%20malokv%C4%9Bt%C3%A1.html">Divizna malokvětá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/divizna-malokv%C4%9Bt%C3%A1.html">Divizna malokvětá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Divizna%20%C4%8Dern%C3%A1.html">Divizna černá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/divizna-%C4%8Dern%C3%A1.html">Divizna černá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Dobromysl%20obecn%C3%A1.html">Dobromysl obecná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/dobromysl-obecn%C3%A1.html">Dobromysl obecná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Dra%C4%8D%C3%ADnec%20dra%C4%8D%C3%AD.html">Dračínec dračí</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/dra%C4%8D%C3%ADnec-dra%C4%8D%C3%AD.html">Dračínec dračí</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Dra%C4%8D%C3%ADnec%20rum%C4%9Blkov%C3%BD.html">Dračínec rumělkový</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/dra%C4%8D%C3%ADnec-rum%C4%9Blkov%C3%BD.html">Dračínec rumělkový</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Drmek%20obecn%C3%BD.html">Drmek obecný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Dub%20letn%C3%AD.html">Dub letní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Dub%20zimn%C3%AD.html">Dub zimní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Durman%20obecn%C3%BD.html">Durman obecný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/D%C5%99%C3%ADn%20obecn%C3%BD.html">Dřín obecný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Eukalyptus%20%28Eucalyptus.html">Eukalyptus (Eucalyptus</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Fenykl%20divok%C3%BD.html">Fenykl divoký</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Habr%20obecn%C3%BD.html">Habr obecný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Hadinec%20obecn%C3%BD.html">Hadinec obecný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Had%C3%AD%20mord.html">Hadí mord</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/He%C5%99m%C3%A1nek%20prav%C3%BD.html">Heřmánek pravý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/He%C5%99m%C3%A1nek%20ter%C4%8Dovit%C3%BD.html">Heřmánek terčovitý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Hlav%C3%A1%C4%8Dek%20jarn%C3%AD.html">Hlaváček jarní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Hlav%C3%A1%C4%8Dek%20letn%C3%AD.html">Hlaváček letní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Hloh%20obecn%C3%BD.html">Hloh obecný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Hluchavka%20b%C3%ADl%C3%A1.html">Hluchavka bílá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Hluchavka%20nachov%C3%A1.html">Hluchavka nachová</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Hl%C3%ADva%20%C3%BAst%C5%99i%C4%8Dn%C3%A1.html">Hlíva ústřičná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Hojn%C3%ADk%20horsk%C3%BD.html">Hojník horský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Hou%C5%BEevnatec%20jedl%C3%BD.html">Houževnatec jedlý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Ho%C5%99ec%20%C5%BElut%C3%BD.html">Hořec žlutý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Ho%C5%99e%C4%8Dek%20brvit%C3%BD.html">Hořeček brvitý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Ho%C5%99%C4%8Dice%20b%C3%ADl%C3%A1.html">Hořčice bílá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Hrachor%20hl%C3%ADznat%C3%BD.html">Hrachor hlíznatý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Hrachor%20jarn%C3%AD.html">Hrachor jarní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Hru%C5%A1e%C5%88%20obecn%C3%A1.html">Hrušeň obecná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Hvozd%C3%ADk%20kartouzek.html">Hvozdík kartouzek</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Hvozd%C3%ADk%20kropenat%C3%BD.html">Hvozdík kropenatý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Hvozd%C3%ADk%20p%C3%ADse%C4%8Dn%C3%BD.html">Hvozdík písečný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/H%C5%99eb%C3%AD%C4%8Dkovec%20ko%C5%99enn%C3%BD.html">Hřebíčkovec kořenný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Jable%C4%8Dn%C3%ADk%20obecn%C3%BD.html">Jablečník obecný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Jablo%C5%88%20%28Malus%29.html">Jabloň (Malus)</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Jablo%C5%88%20plan%C3%A1.html">Jabloň planá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Jahodn%C3%ADk%20obecn%C3%BD.html">Jahodník obecný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Jalovec%20obecn%C3%BD.html">Jalovec obecný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Jam%20hu%C5%88at%C3%BD.html">Jam huňatý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Jam%20%C4%8D%C3%ADnsk%C3%BD.html">Jam čínský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Jasan%20ztepil%C3%BD.html">Jasan ztepilý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Jatern%C3%ADk%20podl%C3%A9%C5%A1ka.html">Jaterník podléška</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Javor%20babyka.html">Javor babyka</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Javor%20klen.html">Javor klen</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Javor%20ml%C3%A9%C4%8D.html">Javor mléč</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Jedle%20b%C4%9Blokor%C3%A1.html">Jedle bělokorá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Jehlice%20trnit%C3%A1.html">Jehlice trnitá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Jelen%C3%AD%20jazyk.html">Jelení jazyk</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Jest%C5%99abina%20l%C3%A9ka%C5%99sk%C3%A1.html">Jestřabina lékařská</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Jest%C5%99%C3%A1bn%C3%ADk%20chlup%C3%A1%C4%8Dek.html">Jestřábník chlupáček</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Jest%C5%99%C3%A1bn%C3%ADk%20oran%C5%BEov%C3%BD.html">Jestřábník oranžový</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Jetel%20b%C3%ADl%C3%BD.html">Jetel bílý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Jetel%20inkarn%C3%A1t.html">Jetel inkarnát</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Jetel%20lu%C4%8Dn%C3%AD.html">Jetel luční</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Je%C5%99%C3%A1b%20oskeru%C5%A1e.html">Jeřáb oskeruše</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Je%C5%99%C3%A1b%20pta%C4%8D%C3%AD.html">Jeřáb ptačí</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Jid%C3%A1%C5%A1ovo%20ucho.html">Jidášovo ucho</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Jilm%20drsn%C3%BD.html">Jilm drsný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Jilm%20habrolist%C3%BD.html">Jilm habrolistý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Jilm%20plav%C3%BD.html">Jilm plavý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Jilm%20vaz.html">Jilm vaz</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Jitrocel%20kopinat%C3%BD.html">Jitrocel kopinatý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Jitrocel%20prost%C5%99edn%C3%AD.html">Jitrocel prostřední</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Jitrocel%20v%C4%9Bt%C5%A1%C3%AD.html">Jitrocel větší</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Jmel%C3%AD%20b%C3%ADl%C3%A9.html">Jmelí bílé</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/J%C3%ADrovec%20ma%C4%8Fal.html">Jírovec maďal</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Kadidlovn%C3%ADk%20%28Boswellia%29.html">Kadidlovník (Boswellia)</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Kakost%20hn%C4%9Bdo%C4%8Derven%C3%BD.html">Kakost hnědočervený</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Kakost%20lesn%C3%AD.html">Kakost lesní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Kakost%20lu%C4%8Dn%C3%AD.html">Kakost luční</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Kakost%20smrdut%C3%BD.html">Kakost smrdutý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Kalina%20obecn%C3%A1.html">Kalina obecná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Kapra%C4%8F%20samec.html">Kapraď samec</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Karbinec%20evropsk%C3%BD.html">Karbinec evropský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Kardamovn%C3%ADk%20obecn%C3%BD.html">Kardamovník obecný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Klitorie%20ternatsk%C3%A1.html">Klitorie ternatská</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Km%C3%ADn%20ko%C5%99enn%C3%BD.html">Kmín kořenný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Kohoutek%20lu%C4%8Dn%C3%AD.html">Kohoutek luční</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Koko%C5%99%C3%ADk%20mnohokv%C4%9Bt%C3%BD.html">Kokořík mnohokvětý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Koko%C5%A1ka%20pastu%C5%A1%C3%AD.html">Kokoška pastuší</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Komonice%20b%C3%ADl%C3%A1.html">Komonice bílá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Komonice%20l%C3%A9ka%C5%99sk%C3%A1.html">Komonice lékařská</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Konopice%20poln%C3%AD.html">Konopice polní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Konop%C3%AD%20set%C3%A9.html">Konopí seté</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Kontryhel%20obecn%C3%BD.html">Kontryhel obecný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Konvalinka%20vonn%C3%A1.html">Konvalinka vonná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Kopr%20vonn%C3%BD.html">Kopr vonný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Kopretina%20b%C3%ADl%C3%A1.html">Kopretina bílá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Kopretina%20%C5%99imbaba.html">Kopretina řimbaba</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Kop%C5%99iva%20dvoudom%C3%A1.html">Kopřiva dvoudomá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Kosatec%20n%C4%9Bmeck%C3%BD.html">Kosatec německý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Kosatec%20%C5%BElut%C3%BD.html">Kosatec žlutý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Kostival%20l%C3%A9ka%C5%99sk%C3%BD.html">Kostival lékařský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Kotvi%C4%8Dn%C3%ADk%20zemn%C3%AD.html">Kotvičník zemní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Kozinec%20sladkolist%C3%BD.html">Kozinec sladkolistý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Kozl%C3%ADk%20l%C3%A9ka%C5%99sk%C3%BD.html">Kozlík lékařský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Kozl%C3%AD%C4%8Dek%20poln%C3%AD%C4%8Dek.html">Kozlíček polníček</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Koz%C3%AD%20brada.html">Kozí brada</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Krabilice%20m%C3%A1miv%C3%A1.html">Krabilice mámivá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Krti%C4%8Dn%C3%ADk%20hl%C3%ADznat%C3%BD.html">Krtičník hlíznatý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Kru%C4%8Dinka%20barv%C3%AD%C5%99sk%C3%A1.html">Kručinka barvířská</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Krvavec%20men%C5%A1%C3%AD.html">Krvavec menší</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Krvavec%20toten.html">Krvavec toten</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Kukl%C3%ADk%20m%C4%9Bstsk%C3%BD.html">Kuklík městský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Kukl%C3%ADk%20poto%C4%8Dn%C3%AD.html">Kuklík potoční</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Kurkumovn%C3%ADk%20dlouh%C3%BD.html">Kurkumovník dlouhý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Kustovnice%20%C4%8D%C3%ADnsk%C3%A1.html">Kustovnice čínská</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Kyprej%20vrbice.html">Kyprej vrbice</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/K%C5%99en%20selsk%C3%BD.html">Křen selský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/K%C5%99%C3%ADdlatka%20japonsk%C3%A1.html">Křídlatka japonská</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Lebeda%20leskl%C3%A1.html">Lebeda lesklá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Lebeda%20rozkladit%C3%A1.html">Lebeda rozkladitá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Len%20set%C3%BD.html">Len setý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Lesklokorka%20leskl%C3%A1.html">Lesklokorka lesklá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Levandule%20%C5%A1irokolist%C3%A1.html">Levandule širokolistá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Libe%C4%8Dek%20l%C3%A9ka%C5%99sk%C3%BD.html">Libeček lékařský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Licho%C5%99e%C5%99i%C5%A1nice%20v%C4%9Bt%C5%A1%C3%AD.html">Lichořeřišnice větší</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Lilek%20%C4%8Dern%C3%BD.html">Lilek černý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Lipnice%20lu%C4%8Dn%C3%AD.html">Lipnice luční</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Lnice%20kv%C4%9Btel.html">Lnice květel</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Locika%20kompasov%C3%A1.html">Locika kompasová</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Lomik%C3%A1men%20trojprst%C3%BD.html">Lomikámen trojprstý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Lomik%C3%A1men%20zrnat%C3%BD.html">Lomikámen zrnatý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Lopuch%20plstnat%C3%BD.html">Lopuch plstnatý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Lopuch%20v%C4%9Bt%C5%A1%C3%AD.html">Lopuch větší</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Lotos%20indick%C3%BD.html">Lotos indický</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Loubinec%20trojlalo%C4%8Dn%C3%BD.html">Loubinec trojlaločný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/L%C3%ADpa%20srd%C4%8Dit%C3%A1.html">Lípa srdčitá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/L%C3%ADska%20obecn%C3%A1.html">Líska obecná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Mahonie%20cesm%C3%ADnolist%C3%A1.html">Mahonie cesmínolistá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Major%C3%A1nka%20zahradn%C3%AD.html">Majoránka zahradní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Mandragora%20l%C3%A9ka%C5%99sk%C3%A1.html">Mandragora lékařská</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Maral%C3%AD%20ko%C5%99en.html">Maralí kořen</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Marhan%C3%ADk%20gran%C3%A1tov%C3%BD.html">Marhaník granátový</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Marulka%20klinop%C3%A1d.html">Marulka klinopád</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Mate%C5%99%C3%ADdou%C5%A1ka%20obecn%C3%A1.html">Mateřídouška obecná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Ma%C5%99inka%20vonn%C3%A1.html">Mařinka vonná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Ma%C5%99%C3%AD%20list.html">Maří list</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Medu%C5%88ka%20l%C3%A9ka%C5%99sk%C3%A1.html">Meduňka lékařská</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Medv%C4%9Bdice%20l%C3%A9ka%C5%99sk%C3%A1.html">Medvědice lékařská</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Milovn%C3%ADk%20plocholist%C3%BD.html">Milovník plocholistý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Ml%C3%A9%C4%8D%20drsn%C3%BD.html">Mléč drsný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Ml%C3%A9%C4%8D%20roln%C3%AD.html">Mléč rolní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Ml%C3%A9%C4%8D%20zelinn%C3%BD.html">Mléč zelinný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Mochna%20hus%C3%AD.html">Mochna husí</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Mochna%20n%C3%A1tr%C5%BEn%C3%ADk.html">Mochna nátržník</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Mochna%20st%C5%99%C3%ADbrn%C3%A1.html">Mochna stříbrná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Mochyn%C4%9B%20peru%C3%A1nsk%C3%A1.html">Mochyně peruánská</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Mochyn%C4%9B%20%C5%BEidovsk%C3%A1.html">Mochyně židovská</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Mod%C5%99enec%20arm%C3%A9nsk%C3%BD.html">Modřenec arménský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Mod%C5%99%C3%ADn%20opadav%C3%BD.html">Modřín opadavý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Mok%C5%99%C3%BD%C5%A1%20st%C5%99%C3%ADdavolist%C3%BD.html">Mokřýš střídavolistý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Moru%C5%A1ovn%C3%ADk%20%28Morus%29.html">Morušovník (Morus)</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Mrkev%20divok%C3%A1.html">Mrkev divoká</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Muchom%C5%AFrka%20r%C5%AF%C5%BEovka.html">Muchomůrka růžovka</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Muchom%C5%AFrka%20%C4%8Derven%C3%A1.html">Muchomůrka červená</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Mydlice%20l%C3%A9ka%C5%99sk%C3%A1.html">Mydlice lékařská</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Myrhovn%C3%ADk%20%28Commiphora%29.html">Myrhovník (Commiphora)</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/M%C3%A1k%20set%C3%BD.html">Mák setý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/M%C3%A1k%20vl%C4%8D%C3%AD.html">Mák vlčí</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/M%C3%A1ta%20peprn%C3%A1.html">Máta peprná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/M%C3%A1ta%20roln%C3%AD.html">Máta rolní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/M%C3%A1ta%20vodn%C3%AD.html">Máta vodní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/M%C4%9Brnice%20%C4%8Dern%C3%A1.html">Měrnice černá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/M%C4%9Bs%C3%AD%C4%8Dek%20l%C3%A9ka%C5%99sk%C3%BD.html">Měsíček lékařský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/M%C4%9Bs%C3%AD%C4%8Dnice%20vytrval%C3%A1.html">Měsíčnice vytrvalá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Narcis%20b%C3%ADl%C3%BD.html">Narcis bílý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Net%C5%99esk%20st%C5%99e%C5%A1n%C3%AD.html">Netřesk střešní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/N%C3%A1prstn%C3%ADk%20%C4%8Derven%C3%BD.html">Náprstník červený</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Olivovn%C3%ADk%20evropsk%C3%BD.html">Olivovník evropský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Ol%C5%A1e%20lepkav%C3%A1.html">Olše lepkavá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Oman%20prav%C3%BD.html">Oman pravý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Om%C4%9Bj%20%C5%A1alamounek.html">Oměj šalamounek</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Oregano%20%C5%99eck%C3%A9.html">Oregano řecké</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Orsej%20jarn%C3%AD.html">Orsej jarní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Ostropes%20trubil.html">Ostropes trubil</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Ostropest%C5%99ec%20mari%C3%A1nsk%C3%BD.html">Ostropestřec mariánský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Ostro%C5%BEka%20stra%C4%8Dka.html">Ostrožka stračka</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Ostru%C5%BEin%C3%ADk%20malin%C3%ADk.html">Ostružiník maliník</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Ostru%C5%BEin%C3%ADk%20ostru%C5%BEina.html">Ostružiník ostružina</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Outkovka%20pestr%C3%A1.html">Outkovka pestrá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/O%C5%99e%C5%A1%C3%A1k%20kr%C3%A1lovsk%C3%BD.html">Ořešák královský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/O%C5%99e%C5%A1%C3%A1k%20%C4%8Dern%C3%BD.html">Ořešák černý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/O%C5%BEanka%20lesn%C3%AD.html">Ožanka lesní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Paeonia%20lactiflora.html">Paeonia lactiflora</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Pelargonie%20r%C5%AF%C5%BEov%C3%A1.html">Pelargonie růžová</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Pelargonie%20sidonsk%C3%A1.html">Pelargonie sidonská</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Pelyn%C4%9Bk%20brotan.html">Pelyněk brotan</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Pelyn%C4%9Bk%20estragon.html">Pelyněk estragon</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Pelyn%C4%9Bk%20prav%C3%BD.html">Pelyněk pravý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Pelyn%C4%9Bk%20%C4%8Dernob%C3%BDl.html">Pelyněk černobýl</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Pen%C3%ADzek%20roln%C3%AD.html">Penízek rolní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Pep%C5%99ovn%C3%ADk%20%C4%8Dern%C3%BD.html">Pepřovník černý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Petour%20maloubrn%C3%BD.html">Petour maloubrný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Petr%C5%BEel%20zahradn%C3%AD.html">Petržel zahradní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Pituln%C3%ADk%20%C5%BElut%C3%BD.html">Pitulník žlutý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Pivo%C5%88ka%20l%C3%A9ka%C5%99sk%C3%A1%20%281%29.html">Pivoňka lékařská</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Pivo%C5%88ka%20l%C3%A9ka%C5%99sk%C3%A1.html">Pivoňka lékařská</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Pivo%C5%88ka%20%C4%8D%C3%ADnsk%C3%A1.html">Pivoňka čínská</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Plicn%C3%ADk%20l%C3%A9ka%C5%99sk%C3%BD.html">Plicník lékařský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Plicn%C3%ADk%20tmav%C3%BD.html">Plicník tmavý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Podb%C3%ADlek%20%C5%A1upinat%C3%BD.html">Podbílek šupinatý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Podb%C4%9Bl%20l%C3%A9ka%C5%99sk%C3%BD.html">Podběl lékařský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Pohanka%20obecn%C3%A1.html">Pohanka obecná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Pomn%C4%9Bnka%20lesn%C3%AD.html">Pomněnka lesní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Pomn%C4%9Bnka%20roln%C3%AD.html">Pomněnka rolní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Popenec%20b%C5%99e%C4%8D%C5%A5anolist%C3%BD.html">Popenec břečťanolistý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Poto%C4%8Dnice%20l%C3%A9ka%C5%99sk%C3%A1.html">Potočnice lékařská</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Prha%20arnika.html">Prha arnika</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Proskurn%C3%ADk%20l%C3%A9ka%C5%99sk%C3%BD.html">Proskurník lékařský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Prvosenka%20jarn%C3%AD.html">Prvosenka jarní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Prvosenka%20vy%C5%A1%C5%A1%C3%AD.html">Prvosenka vyšší</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Prysky%C5%99n%C3%ADk%20prudk%C3%BD.html">Pryskyřník prudký</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Pry%C5%A1ec%20chvojka.html">Pryšec chvojka</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Pta%C4%8Dinec%20%C5%BEabinec.html">Ptačinec žabinec</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Pupalka%20dvoulet%C3%A1.html">Pupalka dvouletá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Pupava%20bezlody%C5%BEn%C3%A1.html">Pupava bezlodyžná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Pu%C5%A1kvorec%20obecn%C3%BD.html">Puškvorec obecný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/P%C3%BDr%20plaziv%C3%BD.html">Pýr plazivý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/P%C5%99esli%C4%8Dka%20bahenn%C3%AD.html">Přeslička bahenní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/P%C5%99esli%C4%8Dka%20roln%C3%AD.html">Přeslička rolní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Rakytn%C3%ADk%20%C5%99e%C5%A1etl%C3%A1kov%C3%BD.html">Rakytník řešetlákový</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Rdesno%20ble%C5%A1n%C3%ADk.html">Rdesno blešník</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Rdesno%20had%C3%AD.html">Rdesno hadí</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Rdesno%20mnohokv%C4%9Bt%C3%A9.html">Rdesno mnohokvěté</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Rdesno%20peprn%C3%ADk.html">Rdesno peprník</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Reve%C5%88%20kade%C5%99av%C3%A1.html">Reveň kadeřavá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Rezavec%20%C5%A1ikm%C3%BD.html">Rezavec šikmý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Rmen%20barv%C3%AD%C5%99sk%C3%BD.html">Rmen barvířský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Rmen%20roln%C3%AD.html">Rmen rolní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Routa%20vonn%C3%A1.html">Routa vonná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Rozchodnice%20r%C5%AF%C5%BEov%C3%A1.html">Rozchodnice růžová</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Rozchodn%C3%ADk%20nachov%C3%BD.html">Rozchodník nachový</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Rozmar%C3%BDn%20l%C3%A9ka%C5%99sk%C3%BD.html">Rozmarýn lékařský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Rozrazil%20lalo%C4%8Dnat%C3%BD.html">Rozrazil laločnatý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Rozrazil%20l%C3%A9ka%C5%99sk%C3%BD.html">Rozrazil lékařský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Rozrazil%20rezekv%C3%ADtek.html">Rozrazil rezekvítek</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Rul%C3%ADk%20zlomocn%C3%BD.html">Rulík zlomocný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Ryb%C3%ADz%20%C4%8Dern%C3%BD.html">Rybíz černý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/R%C3%A9va%20vinn%C3%A1.html">Réva vinná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/R%C3%BDmovn%C3%ADk%20%28Plectranthus%29.html">Rýmovník (Plectranthus)</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/R%C5%AF%C5%BEe%20dama%C5%A1sk%C3%A1.html">Růže damašská</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/R%C5%AF%C5%BEe%20galsk%C3%A1.html">Růže galská</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/R%C5%AF%C5%BEe%20stolist%C3%A1.html">Růže stolistá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/R%C5%AF%C5%BEe%20svraskal%C3%A1.html">Růže svraskalá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/R%C5%AF%C5%BEe%20%C5%A1%C3%ADpkov%C3%A1.html">Růže šípková</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Sakura%20ozdobn%C3%A1.html">Sakura ozdobná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Saturejka%20horsk%C3%A1.html">Saturejka horská</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Sedmikr%C3%A1ska%20chudobka.html">Sedmikráska chudobka</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Silenka%20nadmut%C3%A1.html">Silenka nadmutá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Sko%C5%99icovn%C3%ADk%20prav%C3%BD.html">Skořicovník pravý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Slivo%C5%88%20mirabelka.html">Slivoň mirabelka</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Slivo%C5%88%20%C5%A1vestka.html">Slivoň švestka</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Slune%C4%8Dnice%20topinambur.html">Slunečnice topinambur</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Slzovka%20obecn%C3%A1.html">Slzovka obecná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Sl%C3%A9z%20lesn%C3%AD.html">Sléz lesní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Sl%C3%A9z%20maursk%C3%BD.html">Sléz maurský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Sl%C3%A9z%20pi%C5%BEmov%C3%BD.html">Sléz pižmový</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Sl%C3%A9z%20p%C5%99ehl%C3%AD%C5%BEen%C3%BD.html">Sléz přehlížený</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Smet%C3%A1nka%20l%C3%A9ka%C5%99sk%C3%A1.html">Smetánka lékařská</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Smrk%20ztepil%C3%BD.html">Smrk ztepilý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Sn%C4%9B%C5%BEenka%20podsn%C4%9B%C5%BEn%C3%ADk.html">Sněženka podsněžník</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Spor%C3%BD%C5%A1%20l%C3%A9ka%C5%99sk%C3%BD.html">Sporýš lékařský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Srstka%20angre%C5%A1t.html">Srstka angrešt</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Star%C4%8Dek%20Fuchs%C5%AFv.html">Starček Fuchsův</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Star%C4%8Dek%20p%C5%99%C3%ADm%C4%9Btn%C3%ADk.html">Starček přímětník</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/St%C5%99emcha%20obecn%C3%A1.html">Střemcha obecná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Sv%C3%ADda%20krvav%C3%A1.html">Svída krvavá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Sv%C3%ADzel%20b%C3%ADl%C3%BD.html">Svízel bílý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Sv%C3%ADzel%20pov%C3%A1zka.html">Svízel povázka</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Sv%C3%ADzel%20p%C5%99%C3%ADtula.html">Svízel přítula</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Sv%C3%ADzel%20sy%C5%99i%C5%A1%C5%A5ov%C3%BD.html">Svízel syřišťový</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Sv%C3%ADzelka%20chlupat%C3%A1.html">Svízelka chlupatá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Sv%C4%9Btl%C3%ADk%20l%C3%A9ka%C5%99sk%C3%BD.html">Světlík lékařský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/S%C3%ADrovec%20%C5%BElutooran%C5%BEov%C3%BD.html">Sírovec žlutooranžový</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/S%C3%ADtina%20rozkladit%C3%A1.html">Sítina rozkladitá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Ta%C5%99ice%20skaln%C3%AD.html">Tařice skalní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Temnoplodec%20%C4%8Dernoplod%C3%BD.html">Temnoplodec černoplodý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Tis%20%C4%8Derven%C3%BD.html">Tis červený</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Tolice%20vojt%C4%9B%C5%A1ka.html">Tolice vojtěška</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Tolita%20l%C3%A9ka%C5%99sk%C3%A1.html">Tolita lékařská</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Topol%20b%C3%ADl%C3%BD.html">Topol bílý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Topol%20osika.html">Topol osika</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Topol%20%C4%8Dern%C3%BD.html">Topol černý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Topolovka%20r%C5%AF%C5%BEov%C3%A1.html">Topolovka růžová</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Trnka%20obecn%C3%A1.html">Trnka obecná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Trnovn%C3%ADk%20ak%C3%A1t.html">Trnovník akát</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Truskavec%20pta%C4%8D%C3%AD.html">Truskavec ptačí</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Tu%C5%BEebn%C3%ADk%20jilmov%C3%BD.html">Tužebník jilmový</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Tu%C5%BEebn%C3%ADk%20obecn%C3%BD.html">Tužebník obecný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Tymi%C3%A1n%20obecn%C3%BD%20%281%29.html">Tymián obecný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Tymi%C3%A1n%20obecn%C3%BD.html">Tymián obecný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/T%C5%99apatka%20nachov%C3%A1.html">Třapatka nachová</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/T%C5%99ezalka%20chlupat%C3%A1.html">Třezalka chlupatá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/T%C5%99ezalka%20skvrnit%C3%A1.html">Třezalka skvrnitá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/T%C5%99ezalka%20te%C4%8Dkovan%C3%A1.html">Třezalka tečkovaná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/T%C5%99e%C5%A1e%C5%88%20%28Prunus%29.html">Třešeň (Prunus)</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/T%C5%99e%C5%A1e%C5%88%20chloupkat%C3%A1.html">Třešeň chloupkatá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/T%C5%99e%C5%A1e%C5%88%20pta%C4%8D%C3%AD.html">Třešeň ptačí</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Vachta%20trojlist%C3%A1.html">Vachta trojlistá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Vav%C5%99%C3%ADn%20vzne%C5%A1en%C3%BD.html">Vavřín vznešený</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Vesnovka%20obecn%C3%A1.html">Vesnovka obecná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Ve%C4%8Dernice%20vonn%C3%A1.html">Večernice vonná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Violka%20trojbarevn%C3%A1.html">Violka trojbarevná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Violka%20vonn%C3%A1%20%282%29.html">Violka vonná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Violka%20zahradn%C3%AD.html">Violka zahradní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Vla%C5%A1tovi%C4%8Dn%C3%ADk%20v%C4%9Bt%C5%A1%C3%AD.html">Vlaštovičník větší</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Vrati%C4%8D%20marock%C3%BD.html">Vratič marocký</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Vrati%C4%8D%20obecn%C3%BD.html">Vratič obecný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Vrba%20b%C3%ADl%C3%A1.html">Vrba bílá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Vrba%20j%C3%ADva.html">Vrba jíva</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Vrbina%20pen%C3%ADzkov%C3%A1.html">Vrbina penízková</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Vrbka%20%C3%BAzkolist%C3%A1.html">Vrbka úzkolistá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Vrbovka%20malokv%C4%9Bt%C3%A1.html">Vrbovka malokvětá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Vstava%C4%8D%20mu%C5%BEsk%C3%BD.html">Vstavač mužský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/V%C5%99es%20obecn%C3%BD.html">Vřes obecný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Yzop%20l%C3%A9ka%C5%99sk%C3%BD.html">Yzop lékařský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Zb%C4%9Bhovec%20plaziv%C3%BD.html">Zběhovec plazivý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Zem%C4%9Bd%C3%BDm%20l%C3%A9ka%C5%99sk%C3%BD.html">Zemědým lékařský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Zem%C4%9B%C5%BElu%C4%8D%20l%C3%A9ka%C5%99sk%C3%A1.html">Zeměžluč lékařská</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Zimolez%20kam%C4%8Datsk%C3%BD.html">Zimolez kamčatský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Zlatice%20prost%C5%99edn%C3%AD.html">Zlatice prostřední</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Zlatob%C3%BDl%20cel%C3%ADk.html">Zlatobýl celík</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Zlatob%C3%BDl%20kanadsk%C3%BD.html">Zlatobýl kanadský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Zvonek%20rozkladit%C3%BD.html">Zvonek rozkladitý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Zvonek%20%C5%99epka.html">Zvonek řepka</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/Z%C3%A1zvor%20l%C3%A9ka%C5%99sk%C3%BD.html">Zázvor lékařský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C3%9Aro%C4%8Dn%C3%ADk%20bolhoj.html">Úročník bolhoj</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C4%8Cajovn%C3%ADk%20%C4%8D%C3%ADnsk%C3%BD.html">Čajovník čínský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C4%8Carovn%C3%ADk%20alpsk%C3%BD.html">Čarovník alpský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C4%8Cekanka%20obecn%C3%A1.html">Čekanka obecná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C4%8Cernohl%C3%A1vek%20obecn%C3%BD.html">Černohlávek obecný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C4%8Cernucha%20set%C3%A1.html">Černucha setá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C4%8Certkus%20lu%C4%8Dn%C3%AD.html">Čertkus luční</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C4%8Cesnek%20medv%C4%9Bd%C3%AD.html">Česnek medvědí</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C4%8Cesnek%20podivn%C3%BD.html">Česnek podivný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C4%8Cesnek%20vini%C4%8Dn%C3%BD.html">Česnek viničný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C4%8Cesn%C3%A1%C4%8Dek%20l%C3%A9ka%C5%99sk%C3%BD.html">Česnáček lékařský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C4%8Cistec%20lesn%C3%AD.html">Čistec lesní</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C5%98eb%C5%99%C3%AD%C4%8Dek%20bertram.html">Řebříček bertram</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C5%98eb%C5%99%C3%AD%C4%8Dek%20obecn%C3%BD.html">Řebříček obecný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C5%98ep%C3%ADk%20l%C3%A9ka%C5%99sk%C3%BD.html">Řepík lékařský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C5%98e%C5%99i%C5%A1nice%20lu%C4%8Dn%C3%AD.html">Řeřišnice luční</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C5%A0afr%C3%A1n%20set%C3%BD.html">Šafrán setý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C5%A0alv%C4%9Bj%20lu%C4%8Dn%C3%AD.html">Šalvěj luční</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C5%A0alv%C4%9Bj%20l%C3%A9ka%C5%99sk%C3%A1.html">Šalvěj lékařská</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C5%A0alv%C4%9Bj%20p%C5%99eslenit%C3%A1.html">Šalvěj přeslenitá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C5%A0anta%20ko%C4%8Di%C4%8D%C3%AD.html">Šanta kočičí</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C5%A0e%C5%99%C3%ADk%20obecn%C3%BD.html">Šeřík obecný</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C5%A0i%C5%A1%C3%A1k%20bajkalsk%C3%BD.html">Šišák bajkalský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C5%A0kornice%20%C5%A1%C3%ADpolist%C3%A1.html">Škornice šípolistá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C5%A0rucha%20zeln%C3%A1.html">Šrucha zelná</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C5%A0t%C4%9Btka%20plan%C3%A1.html">Štětka planá</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C5%A0%C5%A5avel%20evropsk%C3%BD.html">Šťavel evropský</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C5%A0%C5%A5avel%20kysel%C3%BD.html">Šťavel kyselý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C5%A0%C5%A5ov%C3%ADk%20kysel%C3%BD.html">Šťovík kyselý</a></li>
+      <li class="clanky-item"><a href="/články html/rostliny/%C5%BDindava%20evropsk%C3%A1.html">Žindava evropská</a></li>
     </ul>
-    <p>Úplný seznam souborů najdete ve složce <code>články html/rostliny/</code> v repozitáři – na webu k nim vede cesta z kořene, např. <code>/články html/rostliny/Název rostliny.html</code>.</p>
-    <div class="page-actions">
+
+    <div class="page-actions clanky-page-actions">
       <a class="btn-primary" href="/">Zpět na menu</a>
     </div>
-  </main>
+  </div>
+  <script>
+(function() {
+  const input = document.getElementById('clanky-search');
+  const list = document.getElementById('clanky-list');
+  const numEl = document.getElementById('clanky-count-num');
+  if (!input || !list) return;
+  const items = list.querySelectorAll('.clanky-item');
+  function stripDiacritics(s) {
+    return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  }
+  function norm(s) {
+    return stripDiacritics(s.toLowerCase());
+  }
+  function filter() {
+    const q = norm(input.value.trim());
+    let visible = 0;
+    items.forEach(function(li) {
+      const a = li.querySelector('a');
+      const t = a ? norm(a.textContent) : '';
+      const show = !q || t.indexOf(q) !== -1;
+      li.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    if (numEl) numEl.textContent = String(visible);
+  }
+  input.addEventListener('input', filter);
+  input.addEventListener('search', filter);
+})();
+  </script>
 </body>
 </html>

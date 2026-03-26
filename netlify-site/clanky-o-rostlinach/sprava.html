@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Správa – články o rostlinách</title>
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body class="clanky-app-body">
+  <a href="/" class="clanky-back-home">← Hlavní menu</a>
+  <div class="clanky-container">
+    <div class="clanky-title-block">
+      <div class="clanky-title-row" aria-hidden="true">
+        <span class="clanky-title-emoji">🌿</span>
+        <img class="clanky-logo" src="https://5894bc8f2a.clvaw-cdnwnd.com/9c5c0180b020bd4a2c598d6ffeaae1da/200000927-929ce929d0/%C4%8Dl%C3%A1nky%20o%20rostlin%C3%A1ch%20v%C3%BD%C5%99ez.png?ph=5894bc8f2a" alt="Články o rostlinách" loading="lazy">
+        <span class="clanky-title-emoji">🌿</span>
+      </div>
+      <h1>Správa stránky „Články o rostlinách“</h1>
+      <p class="clanky-meta-links"><a href="/clanky-o-rostlinach/">Zpět na seznam článků</a></p>
+    </div>
+
+    <div class="clanky-sprava-inner">
+      <p class="lead">Jednotlivé články jsou samostatné HTML soubory ve složce projektu <code>články html/rostliny/</code>. Rozcestník s vyhledáváním se <strong>nepíše ručně</strong> – vygeneruje ho skript z názvů souborů a značky <code>&lt;title&gt;</code> v každém článku.</p>
+
+      <h2 class="sprava-h2">Přidání nebo úprava článku</h2>
+      <ul>
+        <li>Uložte nebo upravte soubor <code>články html/rostliny/Váš název rostliny.html</code> (název souboru = soubor na disku; titulek stránky vezměte z <code>&lt;title&gt;</code> v tom souboru).</li>
+        <li>Spusťte přegenerování rozcestníku (viz níže) a pak celý web pro náhled nebo deploy.</li>
+      </ul>
+
+      <h2 class="sprava-h2">Přegenerovat rozcestník (seznam na stránce článků)</h2>
+      <p>V kořeni repozitáře v příkazovém řádku:</p>
+      <pre class="sprava-code">python _generate_clanky_rostliny_index.py</pre>
+      <p>Tím se přepíše <code>site/clanky-o-rostlinach/index.html</code> aktuálním seznamem odkazů.</p>
+
+      <h2 class="sprava-h2">V editoru Cursor / VS Code</h2>
+      <ul>
+        <li><kbd>Ctrl+Shift+B</kbd> (nebo příkazovou paletu: „Tasks: Run Build Task“) – výchozí úloha sestaví celý <code>netlify-site</code> včetně přegenerování rozcestníku článků.</li>
+        <li>Nebo <kbd>Ctrl+Shift+P</kbd> → „Tasks: Run Task“ → <strong>Články: přegenerovat rozcestník rostlin</strong> – jen rozcestník bez kopírování celého webu.</li>
+      </ul>
+
+      <h2 class="sprava-h2">Celý náhled jako na Netlify</h2>
+      <p>Po změnách spusťte <code>python _build_netlify_site.py</code> a pak např. <code>npx --yes serve netlify-site</code> (viz soubor <code>NAHLED-LOKALNE.txt</code>).</p>
+
+      <div class="page-actions clanky-page-actions">
+        <a class="btn-primary" href="/clanky-o-rostlinach/">Zpět na články o rostlinách</a>
+        <a class="btn-primary btn-primary-alt" href="/">Hlavní menu</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

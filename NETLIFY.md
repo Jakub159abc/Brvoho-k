@@ -1,14 +1,17 @@
 # Netlify – struktura webové aplikace
 
+**Rychlý přehled pro začátečníky:** přečtěte si **[NETLIFY-CO-A-JAK.md](NETLIFY-CO-A-JAK.md)** (co se na Netlify veze, co je `public/` vs `netlify-site/`, co udělat po pushi).
+
 ## Zdroj aplikace: složka `site/`
 
 Tady je **menu a jednotlivé sekce** (ne editor ani Excel nástroje):
 
 - `site/index.html` – úvodní stránka s dlaždicemi (jako `menu-vše nejen o bylinkách/menu.html`), odkazy vedou na lokální cesty
 - `site/css/app.css` – společné styly pro menu i vnitřní stránky
-- `site/vyhledavani/index.html` – sekce Vyhledávání rostlin
-- `site/clanky-o-rostlinach/index.html` – rozcestník k článkům
-- `site/dusevni-priciny-nemoci/index.html` – Duševní příčiny nemocí
+- `site/vyhledavani/index.html` – šablona / nápověda; **při buildu** se v `netlify-site` nahradí souborem **`Filtrování rostlin/output.html`** (hotové filtrování rostlin)
+- `site/clanky-o-rostlinach/index.html` – rozcestník k článkům; **při každém buildu** se přegeneruje skriptem **`_generate_clanky_rostliny_index.py`** ze seznamu `články html/rostliny/*.html`
+- `site/clanky-o-rostlinach/sprava.html` – návod ke správě seznamu a odkazům
+- `site/dusevni-priciny-nemoci/index.html` – šablona / nápověda; **při buildu** se v `netlify-site` nahradí souborem **`Duševní příčiny nemocí/index.html`** (filtrování podle problému / nemoci)
 - `site/recepty-a-navody/index.html` – Recepty a návody
 - `site/kalendar-sberu/index.html` – **při každém buildu** se přepíše z `kalendář sběru/kalendar_sberu.html` (hlavní tabulka)
 
@@ -33,7 +36,7 @@ Z kořene projektu:
 python _build_netlify_site.py
 ```
 
-Vznikne složka **`netlify-site/`** (to nasazuje Netlify podle `netlify.toml`).
+Vznikne složka **`netlify-site/`** (to nasazuje Netlify podle `netlify.toml`). Při deployi z GitHubu Netlify **spouští** `_build_netlify_site.py` (viz `netlify.toml`), takže vyhledávání se vždy sestaví z aktuálního `output.html`.
 
 ## Netlify
 

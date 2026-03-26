@@ -40,6 +40,9 @@ export function parseRoute() {
   if (path === '/mental') {
     return { name: 'mental', params: {}, query };
   }
+  if (path === '/obsahove-latky') {
+    return { name: 'obsahoveLatky', params: {}, query };
+  }
 
   return { name: 'notFound', params: {}, query };
 }

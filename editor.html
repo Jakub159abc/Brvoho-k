@@ -1431,9 +1431,27 @@
       padding: 1.25rem 1.5rem;
     }
     #section-clanky .preview-section {
+      /* override univerzálního stylu .preview-section (který dělá sekci na celou šířku okna) */
+      width: 100%;
+      position: static;
+      left: auto;
+      right: auto;
+      margin-left: 0;
+      margin-right: 0;
+      text-align: center;
       padding-left: 1.5rem;
       padding-right: 1.5rem;
       margin-top: 1.5rem;
+    }
+    #section-clanky .preview-section .editor-section-title,
+    #section-clanky .preview-section .hint {
+      text-align: center;
+    }
+    #section-clanky .preview-section .preview-style-toolbar,
+    #section-clanky .preview-section #preview-wrap,
+    #section-clanky .preview-section #preview {
+      margin-left: auto;
+      margin-right: auto;
     }
     @media (max-width: 700px) {
       #section-clanky .library-card {
@@ -1910,6 +1928,19 @@
     .section-block {
       margin-bottom: 0.75rem;
     }
+    /* Pozadí všech sekcí (sjednoceno s iframe "Základní soubor") */
+    .section-block:not(.collapsed) .section-content {
+      background: #e8efe4;
+      background-image:
+        radial-gradient(ellipse 120% 80% at 50% -20%, rgba(109, 139, 95, 0.25), transparent),
+        radial-gradient(ellipse 80% 50% at 100% 50%, rgba(139, 160, 100, 0.12), transparent),
+        radial-gradient(ellipse 80% 50% at 0% 80%, rgba(109, 139, 95, 0.15), transparent);
+      border-radius: var(--radius);
+      padding: 0;
+    }
+    .section-block:not(.collapsed) .section-content > .card {
+      background: transparent;
+    }
     .section-toggle {
       display: block;
       width: 100%;
@@ -2048,47 +2079,20 @@
   <div class="container">
     <h1 class="main-site-link"><a href="https://www.brvohorik.cz" target="_blank" rel="noopener">www.BRVOHORIK.cz</a></h1>
 
-    <div class="section-block collapsed" id="section-promt">
-      <button type="button" class="section-toggle">Promt pro GPT</button>
-      <div class="section-content">
-    <div class="card tag-tool">
-      <h2 class="tag-tool-title">Promt pro GPT</h2>
-      <p class="hint">Načti Excel tabulku s bylinami, vyber rostlinu a zkopíruj vygenerovaný text tagů pro GPT.</p>
-
-      <div class="tag-upload-box">
-        <input type="file" id="tag-file-input" accept=".xlsx,.xls">
-        <label for="tag-file-input">Klikni a vyber Excel soubor (.xlsx)</label>
-      </div>
-
-      <div class="tag-loaded-info" id="tag-loaded-info"></div>
-
-      <div class="tag-select-row">
-        <label for="tag-plant-select">Rostlina:</label>
-        <select id="tag-plant-select" disabled>
-          <option value="">— nejdřív načti tabulku —</option>
-        </select>
-      </div>
-
-      <div class="tag-output-box" id="tag-output"></div>
-      <button type="button" class="tag-copy-btn" id="tag-copy-btn" disabled>Kopírovat tagy do schránky</button>
-    </div>
-      </div>
-    </div>
-
     <div class="section-block collapsed" id="section-kalendar-sberu">
-      <button type="button" class="section-toggle">Správa kalendáře sběru</button>
+      <button type="button" class="section-toggle">Kalendář sběru</button>
       <div class="section-content">
     <div class="card kalendar-sprava-card">
-      <iframe src="kalendář sběru/kalendar_sberu_sprava.html" class="kalendar-sprava-iframe" title="Správa kalendáře sběru"></iframe>
+      <iframe src="kalendář sběru/kalendar_sberu_sprava.html" class="kalendar-sprava-iframe" title="Kalendář sběru"></iframe>
     </div>
       </div>
     </div>
 
     <div class="section-block collapsed" id="section-zakladni-soubor">
-      <button type="button" class="section-toggle">Správa základního souboru</button>
+      <button type="button" class="section-toggle">Základní soubor</button>
       <div class="section-content">
     <div class="card kalendar-sprava-card">
-      <iframe src="Základní soubor/Zapis_do_tabulky.html" class="kalendar-sprava-iframe" title="Správa základního souboru"></iframe>
+      <iframe src="Základní tabulka/Zapis_do_tabulky.html" class="kalendar-sprava-iframe" title="Základní soubor"></iframe>
     </div>
       </div>
     </div>
@@ -2174,7 +2178,7 @@
               <button type="button" class="btn btn-secondary" id="btn-download-seo">Stáhnout SEO (.txt)</button>
             </div>
             <div id="save-changes-log" class="hint hint-compact" style="margin-top:0.35rem;min-height:1.4em;" aria-live="polite"></div>
-            <p class="hint hint-compact">Webnode: blok „HTML kód“ → vlož obsah z „Zkopírovat pro web“.</p>
+            <p class="hint hint-compact">Webnode: blok „HTML kód“ → vlož jen výstup z „Zkopírovat pro web“ (začíná <code>&lt;style&gt;</code>). Stažený soubor z „Stáhnout HTML“ je celá stránka s <code>&lt;html&gt;</code> – do Webnode ho nevkládej. Později můžeš stejné CSS vložit jednou do globálních stylů Webnode a do článků pak jen kód bez <code>&lt;style&gt;</code> (jen obal <code>bylinky-clanek</code>) – méně opakování.</p>
           </section>
 
           <section class="editor-section chatgpt-section">
@@ -2329,70 +2333,6 @@
             <input type="file" id="substance-compare-excel-file" accept=".xlsx,.xls">
             <p class="hint hint-compact" id="substance-compare-info" style="margin-top: 0.4rem;">Nahraj tabulku. Program načte sloupec O (obsahové látky), vypíše skupiny/podskupiny a porovná je s polem Text stránky.</p>
             <div id="substance-compare-results"></div>
-          </section>
-
-          <section class="editor-section chatgpt-section substance-gpt-section">
-            <h3 class="editor-section-title">ChatGPT (zdroj: Text stránky)</h3>
-            <p class="hint">Struktura se bere z pole <strong>Text stránky</strong>. Program postupně volá API: nejdřív text ke každé <strong>skupině</strong>, pak ke každé <strong>podskupině</strong>, potom <strong>látku po látce</strong> podle zadání. Výsledky se průběžně zapisují do „Text stránky“. Výběr „Co generovat“ omezí rozsah.</p>
-            <div class="chatgpt-fields">
-              <label for="substance-gpt-api-key">API klíč OpenAI</label>
-              <input type="password" id="substance-gpt-api-key" placeholder="sk-…" autocomplete="off">
-              <p class="hint hint-compact">Pokud necháš prázdné, použije se klíč ze sekce <strong>Články</strong> → Generování článků.</p>
-              <div id="substance-gpt-source-legacy" style="display:none;">
-                <label for="substance-gpt-excel-file">Excelová tabulka (.xlsx, .xls)</label>
-                <input type="file" id="substance-gpt-excel-file" accept=".xlsx,.xls">
-                <p class="hint hint-compact" id="substance-gpt-excel-info"></p>
-                <label for="substance-gpt-data-scope">Jaká data poslat GPT</label>
-                <select id="substance-gpt-data-scope">
-                  <option value="row">Jeden vybraný řádek</option>
-                  <option value="range">Rozsah řádků (čísla řádků v tabulce)</option>
-                  <option value="all">Celá tabulka (všechny řádky)</option>
-                </select>
-                <label for="substance-gpt-row-select">Vybraný řádek</label>
-                <select id="substance-gpt-row-select" disabled>
-                  <option value="">— nejdřív nahraj tabulku —</option>
-                </select>
-                <div id="substance-gpt-range-wrap">
-                <label for="substance-gpt-row-from">Od řádku</label>
-                <input type="number" id="substance-gpt-row-from" min="1" value="1" style="width: 5rem;">
-                <label for="substance-gpt-row-to">Do řádku</label>
-                <input type="number" id="substance-gpt-row-to" min="1" value="20" style="width: 5rem;">
-                </div>
-              </div>
-              <label for="substance-gpt-instruction">Zadání / instrukce</label>
-              <textarea id="substance-gpt-instruction" rows="6" placeholder="Popiš odborně a poutavě skupiny, podskupiny a látky z Textu stránky."></textarea>
-              <div class="actions" style="margin-top: 0.5rem;">
-                <button type="button" class="btn btn-secondary" id="substance-gpt-btn-load-default-prompt">Načíst výchozí prompt</button>
-              </div>
-
-              <label for="substance-gpt-generate-scope" style="margin-top: 0.75rem;">Co generovat</label>
-              <select id="substance-gpt-generate-scope">
-                <option value="all" selected>Všechny skupiny a látky</option>
-                <option value="groups">Jen vybrané skupiny</option>
-                <option value="substances">Jen vybrané látky</option>
-              </select>
-
-              <div id="substance-gpt-groups-picker" style="margin-top: 0.5rem;">
-                <label class="hint" style="display:block;margin-bottom:0.25rem;">Vybrané skupiny</label>
-                <select id="substance-gpt-group-multi" multiple size="8" style="width: 100%;"></select>
-              </div>
-
-              <div id="substance-gpt-substances-picker" style="margin-top: 0.5rem; display:none;">
-                <label class="hint" style="display:block;margin-bottom:0.25rem;">Vybrané látky</label>
-                <select id="substance-gpt-substance-multi" multiple size="8" style="width: 100%;"></select>
-              </div>
-
-              <label for="substance-gpt-output-mode">Výsledek vložit</label>
-              <select id="substance-gpt-output-mode">
-                <option value="replace">Nahradit celý text stránky</option>
-                <option value="append">Připojit na konec textu</option>
-              </select>
-              <p class="hint hint-compact" style="margin-top: 0.35rem;">Postupné generování vždy přepisuje obsah přímo ve struktuře (zápis po jednotlivých částech). Režim „Připojit na konec“ se u tohoto tlačítka nepoužívá.</p>
-              <div class="actions" style="margin-top: 0.75rem;">
-                <button type="button" class="btn btn-primary" id="substance-gpt-btn-run">Spustit GPT z Textu stránky</button>
-              </div>
-              <p class="hint" id="substance-gpt-status" style="min-height: 1.5em;" aria-live="polite"></p>
-            </div>
           </section>
 
           <div class="actions" style="margin-top: 1rem;">
@@ -3810,7 +3750,7 @@
         'jak se uziva': HEADING_ICON_BASE + '/200000962-b1240b1242/700/logo-jak%20se%20u%C5%BE%C3%ADv%C3%A1%20%E2%80%93%201.webp?ph=5894bc8f2a',
         'na co se pouziva': HEADING_ICON_BASE + '/200000960-abac3abac5/logo-na%20co%20se%20pou%C5%BE%C3%ADv%C3%A1%20%E2%80%93%201.webp?ph=5894bc8f2a',
         'hlavni ucinky': HEADING_ICON_BASE + '/200000966-1d5401d541/450/Z%C3%A1loha_logo-Hlavn%C3%AD%20%C3%BA%C4%8Dinky%20%E2%80%93%201.webp',
-        'obsahove latky': HEADING_ICON_BASE + '/200000963-18a9318a96/logo-obsa%C5%BEen%C3%A9%20l%C3%A1tky%20%E2%80%93%201.webp?ph=5894bc8f2a',
+        'obsahove latky': HEADING_ICON_BASE + '/200000992-a50ffa5102/obsahov%C3%A9%20l%C3%A1tky.webp?ph=5894bc8f2a',
         'kontraindikace': HEADING_ICON_BASE + '/200000952-35caf35cb1/logo-kontraindikace%E2%80%93%201.webp?ph=5894bc8f2a',
         'zajimavosti a tradice': HEADING_ICON_BASE + '/200000964-31d1931d1b/logo-zaj%C3%ADmavosti%20a%20tradice%20%E2%80%93%201.webp?ph=5894bc8f2a',
         'lidove nazvy': HEADING_ICON_BASE + '/200000950-0c7470c748/700/loga-lidov%C3%A9%20n%C3%A1zvy%20%E2%80%93%201.webp?ph=5894bc8f2a'
@@ -3822,12 +3762,14 @@
         return HEADING_ICON_IMAGES[key] || null;
       }
 
-      /** Převod bloku textu na HTML s odstavci a seznamy. Řádek pouze **Název** = podnadpis skupiny (větší/tučný), následující řádky = seznam položek pod ním (např. skupiny látek). */
+      /** Převod bloku textu na HTML s odstavci a seznamy. Řádek pouze **Název** = podnadpis skupiny (větší/tučný), následující řádky = seznam položek pod ním (např. skupiny látek).
+       *  Seznamy: řádky začínající na - / * / • → <ul><li>. V sekci (ne úvod): více po sobě jdoucích neprázdných řádků bez prázdného řádku mezi nimi → jeden <ul> (sémantika pro SEO). */
       function blockContentToHtml(content, isIntro) {
         if (!content || !content.trim()) return '';
         var lines = content.split('\n');
         var html = '';
         var listItems = [];
+        var plainLines = [];
         function formatInline(s) {
           var escaped = escapeHtml(s);
           // Neobálkovat tučně text v závorkách – **(něco)** zůstane jako (něco), ne jako tučné
@@ -3845,37 +3787,52 @@
           html += '</ul>';
           listItems = [];
         }
+        function flushPlain() {
+          if (plainLines.length === 0) return;
+          if (isIntro) {
+            plainLines.forEach(function (ln) {
+              html += '<p>' + formatInline(ln).replace(/\n/g, '<br>') + '</p>';
+            });
+          } else if (plainLines.length === 1) {
+            html += '<p class="under-heading">' + formatInline(plainLines[0]).replace(/\n/g, '<br>') + '</p>';
+          } else {
+            html += '<ul>';
+            plainLines.forEach(function (ln) {
+              html += '<li>' + formatInline(ln) + '</li>';
+            });
+            html += '</ul>';
+          }
+          plainLines = [];
+        }
+        var listLineRe = /^\s*(?:[-*]\s+|[•\u2022]\s*)/;
         var inGroupList = false;
         for (var i = 0; i < lines.length; i++) {
           var line = lines[i];
           var groupMatch = line.match(/^\s*\*\*(.+?)\*\*\s*$/);
           if (groupMatch) {
+            flushPlain();
             flushList();
             inGroupList = true;
             var groupTitle = groupMatch[1].trim();
             html += '<p class="substance-group-heading"><strong>' + escapeHtml(groupTitle) + '</strong></p>';
-          } else if (/^\s*[-*]\s+/.test(line)) {
-            var item = line.replace(/^\s*[-*]\s+/, '').trim();
+          } else if (listLineRe.test(line)) {
+            flushPlain();
+            var item = line.replace(/^\s*[-*]\s+/, '').replace(/^\s*[•\u2022]\s*/, '').trim();
             if (item) listItems.push(item);
+          } else if (!line.trim()) {
+            flushPlain();
           } else {
-            if (line.trim()) {
-              if (inGroupList) {
-                listItems.push(line.trim());
-              } else {
-                flushList();
-                inGroupList = false;
-                var cls = isIntro ? '' : ' class="under-heading"';
-                var content = formatInline(line).replace(/\n/g, '<br>');
-                if (!isIntro) {
-                  var lineTrim = line.trim();
-                  if (lineTrim.indexOf('•') !== 0 && lineTrim.indexOf('- ') !== 0 && lineTrim.indexOf('* ') !== 0)
-                    content = '• ' + content;
-                }
-                html += '<p' + cls + '>' + content + '</p>';
-              }
+            if (inGroupList) {
+              flushPlain();
+              listItems.push(line.trim());
+            } else {
+              flushList();
+              inGroupList = false;
+              plainLines.push(line.trim());
             }
           }
         }
+        flushPlain();
         flushList();
         return html;
       }
@@ -4216,7 +4173,7 @@
         var inner = getArticleInner(plantName, rawText);
         var docTitle = plantName && plantName.trim() ? plantName.trim() : 'Článek';
         var fragment = getWebFragment(inner);
-        return '<!DOCTYPE html>\n<html lang="cs">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>' + escapeHtml(docTitle) + '</title>\n  <style type="text/css">\n' + fragment.style + '  </style>\n</head>\n<body>\n' + fragment.html + '\n</body>\n</html>';
+        return '<!DOCTYPE html>\n<html lang="cs">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>' + escapeHtml(docTitle) + '</title>\n  <style type="text/css">\n' + fragment.style + '  </style>\n</head>\n<body>\n' + fragment.wrapped + '\n</body>\n</html>';
       }
 
       /** V režimu „všechny články“ aplikuje aktuální barvu nadpisů a konturu do uloženého HTML všech článků v knihovně. */
@@ -4345,9 +4302,8 @@
         style += scope + ' .article-disclaimer { color: #c00 !important; font-size: 0.7rem; margin: 0; line-height: 1.45; text-align: center !important; }\n';
         style += scope + ' * { box-sizing: border-box; }\n';
         var wrapped = '<div class="bylinky-clanek">' + articleInner + '</div>';
-        var script = '<script>(function(){ function run(){ var s=document.querySelectorAll(".bylinky-clanek .article-body .section-row > section:not(.article-intro)"); if(s.length===0)return; var m=0; for(var i=0;i<s.length;i++){ var w=s[i].offsetWidth; if(w>m)m=w; } for(var j=0;j<s.length;j++){ s[j].style.width=m+"px"; s[j].style.display="block"; } } if(document.readyState!=="loading") run(); else document.addEventListener("DOMContentLoaded",run); })();<\/script>';
-        var html = '<style type="text/css">' + style + '</style>\n' + wrapped + '\n' + script;
-        return { style: style, html: html };
+        var html = '<style type="text/css">' + style + '</style>\n' + wrapped + '\n';
+        return { style: style, wrapped: wrapped, html: html };
       }
 
       function updateFilenameHint() {
@@ -5562,7 +5518,7 @@
         var body = buildArticleBodyFromBlocks(name, parsed.blocks, sectionAlign, cellSpacerHeight, cellSpacerImage, cellOrder);
         var inner = '<article class="article"><div class="article-body">' + body + '</div></article>';
         var fragment = getWebFragment(inner);
-        var content = '<!DOCTYPE html>\n<html lang="cs">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>' + escapeHtml(name || 'Článek') + '</title>\n  <style type="text/css">\n' + fragment.style + '  </style>\n</head>\n<body>\n' + fragment.html + '\n</body>\n</html>';
+        var content = '<!DOCTYPE html>\n<html lang="cs">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>' + escapeHtml(name || 'Článek') + '</title>\n  <style type="text/css">\n' + fragment.style + '  </style>\n</head>\n<body>\n' + fragment.wrapped + '\n</body>\n</html>';
         var blob = new Blob([content], { type: 'text/html;charset=utf-8' });
         var url = URL.createObjectURL(blob);
         var a = document.createElement('a');
@@ -5585,9 +5541,9 @@
         var inner = '<article class="article"><div class="article-body">' + body + '</div></article>';
         var fragment = getWebFragment(inner);
         navigator.clipboard.writeText(fragment.html).then(function () {
-          alert('Zkopírováno. Vlož CELÝ obsah do bloku „HTML kód“ na Webnode (včetně řádku se <style>), aby se zobrazila barva pruhů i obrázky.');
+          alert('Zkopírováno. Do Webnode vlož jen tento výstup (začíná <style>…) – bez <!DOCTYPE>, <html>, <head>, <body>. Na Webnode nepoužívej celý stažený .html soubor.');
         }, function () {
-          alert('Kopírování se nepovedlo. Zkus stáhnout HTML soubor a z něj zkopírovat obsah uvnitř <body>.');
+          alert('Kopírování se nepovedlo. Zkus znovu nebo otevři stažený .html a zkopíruj jen obsah mezi <body> a </body> (jedna sada stylů v <head> souboru).');
         });
       }
 
@@ -6307,7 +6263,7 @@
         var body = buildArticleBodyFromBlocks(name, parsed.blocks, sectionAlign, cellSpacerHeight, cellSpacerImage, cellOrder);
         var inner = '<article class="article"><div class="article-body">' + body + '</div></article>';
         var fragment = getWebFragment(inner);
-        return '<!DOCTYPE html>\n<html lang="cs">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>' + escapeHtml(name || 'Článek') + '</title>\n  <style type="text/css">\n' + fragment.style + '  </style>\n</head>\n<body>\n' + fragment.html + '\n</body>\n</html>';
+        return '<!DOCTYPE html>\n<html lang="cs">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>' + escapeHtml(name || 'Článek') + '</title>\n  <style type="text/css">\n' + fragment.style + '  </style>\n</head>\n<body>\n' + fragment.wrapped + '\n</body>\n</html>';
       };
 
       /** Vrátí název rostliny z aktuálního článku (pro název souboru). */
@@ -6486,7 +6442,7 @@
           var bodyHtml = getRecipeBodyHtmlForExport();
           var inner = '<article class="article"><div class="article-body">' + bodyHtml + '</div></article>';
           var fragment = getWebFragment(inner, getRecipeHeadingColor());
-          return '<!DOCTYPE html>\n<html lang="cs">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>' + escapeHtml(title) + '</title>\n  <style type="text/css">\n' + fragment.style + '  </style>\n</head>\n<body>\n' + fragment.html + '\n</body>\n</html>';
+          return '<!DOCTYPE html>\n<html lang="cs">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>' + escapeHtml(title) + '</title>\n  <style type="text/css">\n' + fragment.style + '  </style>\n</head>\n<body>\n' + fragment.wrapped + '\n</body>\n</html>';
         }
 
         recipeAddCellBtn.addEventListener('click', function () { addRecipeCell(); });
@@ -6516,7 +6472,7 @@
           var inner = '<article class="article"><div class="article-body">' + bodyHtml + '</div></article>';
           var fragment = getWebFragment(inner, getRecipeHeadingColor());
           navigator.clipboard.writeText(fragment.html).then(function () {
-            alert('Zkopírováno. Vlož CELÝ obsah do bloku „HTML kód“ na Webnode (včetně řádku se <style>), aby se zobrazila barva pruhů.');
+            alert('Zkopírováno. Do Webnode jen tento výstup (<style> + obsah) – ne celý stažený .html soubor s <!DOCTYPE> a <html>.');
           }, function () {
             alert('Kopírování se nepovedlo.');
           });
@@ -6959,8 +6915,18 @@
           return introSection + cellSection;
         }
 
-        function substanceFilterScript() {
-          return '<script>(function(){function b(r){var bar=r.querySelector(".substance-filter-bar");if(!bar)return;var gs=r.querySelectorAll(".substance-page-group");var sa=bar.querySelector(".substance-filter-btn[data-show-all=\'1\']");if(sa){bar.querySelectorAll(".substance-filter-btn").forEach(function(x){x.classList.remove("active");});sa.classList.add("active");}gs.forEach(function(g){g.style.display="";});bar.addEventListener("click",function(e){var t=e.target.closest(".substance-filter-btn");if(!t||!bar.contains(t))return;bar.querySelectorAll(".substance-filter-btn").forEach(function(x){x.classList.remove("active");});t.classList.add("active");var all=t.getAttribute("data-show-all");var gid=t.getAttribute("data-group");gs.forEach(function(g){var show=all||(g.getAttribute("data-group")===gid);g.style.display=show?"":"none";if(show){g.querySelectorAll(".substance-substance-btn").forEach(function(bn){bn.classList.remove("active");});g.querySelectorAll(".substance-substance-article").forEach(function(a){a.style.display="none";});g.querySelectorAll(".substance-subgroup-btn").forEach(function(sb){if(all)sb.classList.remove("active");});g.querySelectorAll(".substance-subgroup-panel").forEach(function(p){p.style.display=all?"":"none";});}});});}function c(r){r.querySelectorAll(".substance-page-group").forEach(function(g){var btns=g.querySelectorAll(".substance-substance-btn");var arts=g.querySelectorAll(".substance-substance-article");if(!btns||!btns.length||!arts||!arts.length)return;btns.forEach(function(bn){bn.classList.remove("active");});arts.forEach(function(a){a.style.display="none";});var show=function(idx){btns.forEach(function(bn){bn.classList.toggle("active", String(bn.getAttribute("data-substance-idx"))===String(idx));});arts.forEach(function(a){var aidx=a.getAttribute("data-substance-idx");a.style.display=(String(aidx)===String(idx))?"":"none";});};btns.forEach(function(bn){if(bn.getAttribute("onclick"))return;bn.addEventListener("click",function(){var idx=bn.getAttribute("data-substance-idx");if(bn.classList.contains("active")){btns.forEach(function(b){b.classList.remove("active");});arts.forEach(function(a){a.style.display="none";});}else{show(idx);}});});});}function d(r){var w=r.querySelector(".substance-search-wrap");if(!w||w.getAttribute("data-search-bound"))return;w.setAttribute("data-search-bound","1");var inp=w.querySelector(".substance-search-input");var ul=w.querySelector(".substance-search-suggestions");var bar=r.querySelector(".substance-filter-bar");var gs=r.querySelectorAll(".substance-page-group");if(!inp||!ul||!bar)return;var idx=[];function N(s){return String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");}function esc(t){return String(t||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}function B(){idx=[];bar.querySelectorAll(".substance-filter-btn").forEach(function(b){var sl=b.getAttribute("data-group");var t=(b.textContent||"").replace(/\s+/g," ").trim();if(sl&&t)idx.push({k:"g",slug:sl,label:t,n:N(t)});});gs.forEach(function(g){var sl=g.getAttribute("data-group");var gh=g.querySelector(".substance-group-heading strong");var gn=gh?(gh.textContent||"").replace(/\s+/g," ").trim():"";g.querySelectorAll(".substance-substance-btn").forEach(function(bn){var lab=(bn.textContent||"").replace(/\s+/g," ").trim();var ix=bn.getAttribute("data-substance-idx");if(lab&&sl!=null)idx.push({k:"s",slug:sl,idx:ix,label:lab,gname:gn,n:N(lab)+" "+N(gn)});});});}function G(slug){bar.querySelectorAll(".substance-filter-btn").forEach(function(x){x.classList.remove("active");});var fb=bar.querySelector(".substance-filter-btn[data-group=\""+slug+"\"]");if(fb)fb.classList.add("active");gs.forEach(function(g){var sh=g.getAttribute("data-group")===slug;g.style.display=sh?"":"none";if(sh){g.querySelectorAll(".substance-substance-btn").forEach(function(b){b.classList.remove("active");});g.querySelectorAll(".substance-substance-article").forEach(function(a){a.style.display="none";});g.querySelectorAll(".substance-subgroup-panel").forEach(function(p){p.style.display="none";});g.querySelectorAll(".substance-subgroup-btn").forEach(function(sb){sb.classList.remove("active");});}});}function S(slug,sid){G(slug);var g=r.querySelector(".substance-page-group[data-group=\""+slug+"\"]");if(!g)return;var bt=g.querySelectorAll(".substance-substance-btn");var ar=g.querySelectorAll(".substance-substance-article");bt.forEach(function(bn){bn.classList.toggle("active",String(bn.getAttribute("data-substance-idx"))===String(sid));});ar.forEach(function(a){a.style.display=String(a.getAttribute("data-substance-idx"))===String(sid)?"":"none";});}function clr(){ul.querySelectorAll(".substance-search-suggestion").forEach(function(li){li.classList.remove("substance-search-suggestion-active");});}function act(li){clr();if(li)li.classList.add("substance-search-suggestion-active");}function rnd(){ul.innerHTML="";var q=N(inp.value.trim());if(!q){ul.hidden=true;return;}if(!idx.length)B();var hit=[];idx.forEach(function(it){if(it.n.indexOf(q)===-1)return;var rk=it.k==="g"?(it.n.indexOf(q)===0?0:1):(N(it.label).indexOf(q)===0?1:2);hit.push({it:it,rank:rk});});hit.sort(function(a,b){if(a.rank!==b.rank)return a.rank-b.rank;return a.it.label.localeCompare(b.it.label,"cs",{sensitivity:"base"});});hit.slice(0,22).forEach(function(h){var it=h.it;var li=document.createElement("li");li.className="substance-search-suggestion";li.setAttribute("role","option");li.setAttribute("data-k",it.k);li.setAttribute("data-slug",it.slug);if(it.k==="s")li.setAttribute("data-idx",it.idx);li.innerHTML=it.k==="g"?("<strong>Skupina</strong><small>"+esc(it.label)+"</small>"):("<strong>Látka</strong><small>"+esc(it.label)+(it.gname?" · "+esc(it.gname):"")+"</small>");ul.appendChild(li);});ul.hidden=!ul.children.length;clr();}function pk(){var li=ul.querySelector(".substance-search-suggestion-active")||ul.querySelector(".substance-search-suggestion");if(!li)return;var k=li.getAttribute("data-k");var sl=li.getAttribute("data-slug");if(k==="g")G(sl);else S(sl,li.getAttribute("data-idx"));ul.hidden=true;inp.value="";}inp.addEventListener("input",rnd);inp.addEventListener("focus",rnd);inp.addEventListener("keydown",function(e){var itm=ul.querySelectorAll(".substance-search-suggestion");if(!itm.length||ul.hidden){if(e.key==="Enter")e.preventDefault();return;}var cu=ul.querySelector(".substance-search-suggestion-active");var ix=cu?Array.prototype.indexOf.call(itm,cu):-1;if(e.key==="ArrowDown"){e.preventDefault();ix=Math.min(ix+1,itm.length-1);act(itm[ix]);}else if(e.key==="ArrowUp"){e.preventDefault();ix=Math.max(ix-1,0);act(itm[ix]);}else if(e.key==="Enter"){e.preventDefault();pk();}else if(e.key==="Escape"){ul.hidden=true;clr();}});document.addEventListener("click",function(e){if(!w.contains(e.target))ul.hidden=true;});ul.addEventListener("mousedown",function(e){e.preventDefault();});ul.addEventListener("click",function(e){var li=e.target.closest(".substance-search-suggestion");if(!li)return;var k=li.getAttribute("data-k");var sl=li.getAttribute("data-slug");if(k==="g")G(sl);else S(sl,li.getAttribute("data-idx"));ul.hidden=true;inp.value="";});}document.querySelectorAll(".brvoho-substance-page-root").forEach(function(r){b(r);c(r);d(r);});})();<\/script>';
+        /** Webnode export bez <script>: skryje filtry/vyhledávání, zobrazí celý obsah. */
+        function substanceStaticExportCss() {
+          return '.brvoho-substance-page-root.substance-export-static .substance-filter-bar,' +
+            '.brvoho-substance-page-root.substance-export-static .substance-filter-hint,' +
+            '.brvoho-substance-page-root.substance-export-static .substance-search-wrap,' +
+            '.brvoho-substance-page-root.substance-export-static .substance-subgroup-buttons,' +
+            '.brvoho-substance-page-root.substance-export-static .substance-substance-buttons { display:none !important; }' +
+            '.brvoho-substance-page-root.substance-export-static .substance-group-subgroups-question,' +
+            '.brvoho-substance-page-root.substance-export-static .substance-group-substances-question { display:none !important; }' +
+            '.brvoho-substance-page-root.substance-export-static .substance-page-group { display:block !important; }' +
+            '.brvoho-substance-page-root.substance-export-static .substance-subgroup-panel,' +
+            '.brvoho-substance-page-root.substance-export-static .substance-substance-article { display:block !important; }';
         }
 
         function substanceExtraCss() {
@@ -8400,12 +8366,12 @@ Pouze výsledný text v předepsané struktuře, bez úvodních/koncových komen
           var articleInner = '<article class="article"><div class="article-body">' + bodyInner + '</div></article>';
           var frag = getWebFragment(articleInner, color);
           var extra = substanceExtraCss().replace(/#3d6b4a/g, color);
-          var fullStyle = frag.style + '\n' + extra;
-          var wrapOpen = '<div class="bylinky-clanek brvoho-substance-page-root">';
+          var fullStyle = frag.style + '\n' + extra + '\n' + substanceStaticExportCss();
+          var wrapOpen = '<div class="bylinky-clanek brvoho-substance-page-root substance-export-static">';
           var wrapClose = '</div>';
-          var htmlBlock = '<style type="text/css">\n' + fullStyle + '</style>\n' + wrapOpen + articleInner + wrapClose + '\n' + substanceFilterScript();
+          var htmlBlock = '<style type="text/css">\n' + fullStyle + '</style>\n' + wrapOpen + articleInner + wrapClose;
           return {
-            doc: '<!DOCTYPE html>\n<html lang="cs">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>' + escapeHtml(title) + '</title>\n  <style type="text/css">\n' + fullStyle + '  </style>\n</head>\n<body>\n' + wrapOpen + articleInner + wrapClose + '\n' + substanceFilterScript() + '\n</body>\n</html>',
+            doc: '<!DOCTYPE html>\n<html lang="cs">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>' + escapeHtml(title) + '</title>\n  <style type="text/css">\n' + fullStyle + '  </style>\n</head>\n<body>\n' + wrapOpen + articleInner + wrapClose + '\n</body>\n</html>',
             copyHtml: htmlBlock
           };
         }

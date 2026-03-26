@@ -24,13 +24,19 @@
 
 .app-top-menu .menu-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 28px;
+  align-items: start;
   justify-items: center;
 }
 
 .app-top-menu .menu-item {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 280px;
 }
 
 .app-top-menu .menu-button {
@@ -43,6 +49,7 @@
   margin: 0;
   text-align: center;
   color: inherit;
+  width: 100%;
 }
 
 .app-top-menu .menu-button:focus-visible {
@@ -52,42 +59,35 @@
 }
 
 .app-top-menu .menu-button img {
-  width: 200px;
-  height: auto;
-  max-height: 200px;
+  width: 220px;
+  height: 220px;
   object-fit: contain;
   border: none;
   border-radius: 0;
   box-shadow: none;
   transition: all 0.3s ease;
   display: block;
+  margin: 0 auto;
 }
 
 .app-top-menu .menu-button:hover img {
-  transform: scale(1.1) translateY(-5px);
+  transform: scale(1.06) translateY(-4px);
 }
 
 .app-top-menu .menu-item:hover .menu-label {
-  transform: scale(1.1);
+  transform: scale(1.05);
   transition: transform 0.3s ease;
 }
 
-.app-top-menu .kalendar-sberu .menu-button img {
-  width: 260px;
-  max-height: 260px;
-}
-
-.app-top-menu .kalendar-sberu .menu-label {
-  margin-left: 38px;
-}
-
 .app-top-menu .menu-label {
-  margin-top: 10px;
+  margin-top: 12px;
   color: #558b2f;
   font-size: 1.1em;
   font-weight: 500;
   transition: transform 0.3s ease;
-  display: inline-block;
+  display: block;
+  width: 100%;
+  text-align: center;
 }
 
 .app-top-menu .menu-img-fallback {
@@ -109,37 +109,23 @@
 
   .app-top-menu .menu-grid {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 28px;
   }
 
   .app-top-menu .menu-button img {
-    width: 200px;
-    max-height: 200px;
-  }
-
-  .app-top-menu .kalendar-sberu .menu-button img {
-    width: 260px;
-    max-height: 260px;
-  }
-
-  .app-top-menu .kalendar-sberu .menu-label {
-    margin-left: 0;
+    width: min(88vw, 220px);
+    height: min(88vw, 220px);
   }
 }
 
 @media (max-width: 480px) {
   .app-top-menu .menu-grid {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 28px;
   }
 
   .app-top-menu .menu-button img {
-    width: 200px;
-    max-height: 200px;
-  }
-
-  .app-top-menu .kalendar-sberu .menu-button img {
-    width: 260px;
-    max-height: 260px;
+    width: min(88vw, 220px);
+    height: min(88vw, 220px);
   }
 }

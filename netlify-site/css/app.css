@@ -48,13 +48,19 @@ body {
 
 .menu-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 28px;
+  align-items: start;
   justify-items: center;
 }
 
 .menu-item {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 280px;
 }
 
 .menu-button {
@@ -67,45 +73,40 @@ body {
   margin: 0;
   text-align: center;
   color: inherit;
+  width: 100%;
 }
 
+/* Stejný „rámeček“ pro všechna loga; obrázek se vejde poměrům díky object-fit */
 .menu-button img {
-  width: 200px;
-  height: auto;
-  max-height: 200px;
+  width: 220px;
+  height: 220px;
   object-fit: contain;
   border: none;
   border-radius: 0;
   box-shadow: none;
   transition: all 0.3s ease;
   display: block;
+  margin: 0 auto;
 }
 
 .menu-button:hover img {
-  transform: scale(1.1) translateY(-5px);
+  transform: scale(1.06) translateY(-4px);
 }
 
 .menu-item:hover .menu-label {
-  transform: scale(1.1);
+  transform: scale(1.05);
   transition: transform 0.3s ease;
 }
 
-.kalendar-sberu .menu-button img {
-  width: 260px;
-  max-height: 260px;
-}
-
-.kalendar-sberu .menu-label {
-  margin-left: 38px;
-}
-
 .menu-label {
-  margin-top: 10px;
+  margin-top: 12px;
   color: var(--green-mid);
   font-size: 1.1em;
   font-weight: 500;
   transition: transform 0.3s ease;
-  display: inline-block;
+  display: block;
+  width: 100%;
+  text-align: center;
 }
 
 @media (max-width: 768px) {
@@ -117,18 +118,11 @@ body {
   }
   .menu-grid {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 28px;
   }
   .menu-button img {
-    width: 200px;
-    max-height: 200px;
-  }
-  .kalendar-sberu .menu-button img {
-    width: 260px;
-    max-height: 260px;
-  }
-  .kalendar-sberu .menu-label {
-    margin-left: 0;
+    width: min(88vw, 220px);
+    height: min(88vw, 220px);
   }
 }
 
@@ -211,4 +205,322 @@ body {
 
 .btn-primary:hover {
   filter: brightness(1.08);
+}
+
+.page-actions .btn-primary-alt {
+  margin-left: 12px;
+  background: #558b2f !important;
+}
+
+.page-shell--wide .site-header {
+  max-width: 1400px;
+}
+
+.page-inner--embed {
+  max-width: 1400px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.muted {
+  color: #5a6b55;
+  font-size: 0.95rem;
+}
+
+.obsahove-latky-iframe {
+  display: block;
+  width: 100%;
+  min-height: min(85vh, 1200px);
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+
+.obsahove-latky-fallback {
+  margin-top: 0.75rem;
+}
+
+/* --- Články o rostlinách (rozcestník – vzhled jako vyhledávání rostlin) --- */
+.clanky-app-body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8f5e9 100%);
+  color: #2d5016;
+  line-height: 1.6;
+  padding: 20px;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.clanky-back-home {
+  display: inline-block;
+  color: #2e7d32;
+  text-decoration: none;
+  font-weight: 600;
+  margin: 0 0 16px 4px;
+}
+
+.clanky-back-home:hover {
+  text-decoration: underline;
+}
+
+.clanky-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  padding: 28px 32px 36px;
+}
+
+.clanky-title-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.clanky-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.clanky-title-emoji {
+  font-size: 1.35em;
+  line-height: 1;
+}
+
+.clanky-logo {
+  max-height: 120px;
+  width: auto;
+  max-width: min(220px, 100%);
+  object-fit: contain;
+  display: block;
+}
+
+.clanky-container h1 {
+  color: #2e7d32;
+  font-size: 2.5em;
+  margin: 8px 0 0;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  font-weight: 700;
+}
+
+.clanky-subtitle {
+  text-align: center;
+  color: #558b2f;
+  margin: 0 0 6px;
+  font-size: 1.05em;
+  max-width: 52rem;
+}
+
+.clanky-subtitle a {
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.clanky-meta-links {
+  text-align: center;
+  font-size: 0.95em;
+  color: #558b2f;
+  margin: 0 0 20px;
+}
+
+.clanky-meta-links a {
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.clanky-search-panel {
+  background: #f1f8f4;
+  border-radius: 15px;
+  padding: 22px 24px 26px;
+  margin-bottom: 28px;
+  border: 2px solid #c8e6c9;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.1);
+}
+
+.clanky-results-counter {
+  background: #ffffff;
+  border: 2px solid #81c784;
+  border-radius: 45px;
+  padding: 11px 22px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin: 0 auto 20px;
+  width: fit-content;
+}
+
+.clanky-results-header {
+  font-weight: 500;
+  color: #2e7d32;
+  font-size: 1.2em;
+  margin-bottom: 5px;
+  line-height: 1.2;
+}
+
+.clanky-results-value {
+  font-size: 1.55em;
+  font-weight: 600;
+  color: #4caf50;
+  line-height: 1.2;
+}
+
+.clanky-search-container {
+  margin: 0;
+  position: relative;
+}
+
+.clanky-search-wrapper {
+  position: relative;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.clanky-search-field {
+  width: 100%;
+  padding: 14px 20px;
+  border: 2px solid #81c784;
+  border-radius: 25px;
+  font-size: 1.1em;
+  color: #2e7d32;
+  background: #ffffff;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+.clanky-search-field:focus {
+  outline: none;
+  border-color: #4caf50;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.clanky-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.clanky-item {
+  margin: 0;
+}
+
+.clanky-item a {
+  display: block;
+  padding: 16px 18px;
+  border: 2px solid #c8e6c9;
+  border-radius: 15px;
+  background: #ffffff;
+  color: #2e7d32;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.clanky-item a:hover {
+  background: #e8f5e9;
+  border-color: #81c784;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+}
+
+.clanky-page-actions {
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(46, 125, 50, 0.2);
+}
+
+@media (max-width: 768px) {
+  .clanky-container {
+    padding: 20px 16px 28px;
+  }
+  .clanky-container h1 {
+    font-size: 1.75em;
+  }
+  .clanky-logo {
+    max-height: 88px;
+  }
+}
+
+.clanky-sprava-inner {
+  max-width: 48rem;
+  margin: 0 auto;
+  color: #2d5016;
+}
+
+.clanky-sprava-inner .lead {
+  color: #3d5c38;
+  font-size: 1.05em;
+  margin-bottom: 20px;
+}
+
+.clanky-sprava-inner ul {
+  margin: 12px 0 12px 1.25rem;
+}
+
+.clanky-sprava-inner li {
+  margin-bottom: 6px;
+}
+
+.clanky-sprava-inner a:not(.btn-primary) {
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.sprava-h2 {
+  font-size: 1.15rem;
+  color: var(--green-dark);
+  margin: 1.5rem 0 0.65rem;
+}
+
+.sprava-code {
+  background: #e8f5e9;
+  border: 1px solid rgba(46, 125, 50, 0.25);
+  border-radius: 8px;
+  padding: 12px 14px;
+  overflow-x: auto;
+  font-size: 0.9rem;
+  margin: 10px 0;
+}
+
+.page-inner kbd,
+.clanky-sprava-inner kbd {
+  display: inline-block;
+  padding: 2px 6px;
+  font-size: 0.85em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #f5f5f5;
+  font-family: inherit;
 }

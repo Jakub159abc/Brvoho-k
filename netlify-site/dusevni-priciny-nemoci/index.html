@@ -1,25 +1,2337 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Duševní příčiny nemocí</title>
-  <link rel="stylesheet" href="/css/app.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duševní příčiny nemocí - Filtrování</title>
+    <link rel="stylesheet" href="/css/app.css">
+    <style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body.page-shell-dusevni {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8f5e9 100%);
+  color: #2d5016;
+  line-height: 1.6;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+/* Šířka hlavičky „Zpět“ jako uvnitř .container */
+body.page-shell-dusevni .site-header.dpn-nav {
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  padding: 30px;
+  position: relative;
+}
+
+h1 {
+  color: #2e7d32;
+  font-size: 2.5em;
+  margin-bottom: 10px;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+  font-weight: 700;
+}
+
+.subtitle {
+  text-align: center;
+  color: #558b2f;
+  margin-bottom: 30px;
+  font-size: 1.1em;
+}
+
+/* ===== VYHLEDÁVACÍ POLE ===== */
+#search-container {
+  margin-bottom: 30px;
+  position: relative;
+}
+
+#search-wrapper {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+#search-input {
+  width: 100%;
+  padding: 15px 20px;
+  font-size: 1.1em;
+  border: 2px solid #81c784;
+  border-radius: 30px;
+  background: #ffffff;
+  color: #2d5016;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+#search-input:focus {
+  border-color: #4caf50;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+  transform: translateY(-2px);
+}
+
+/* ===== ROZBALOVACÍ SEZNAM ===== */
+.problems-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.problem-card {
+  margin: 0;
+  border: 2px solid #c8e6c9;
+  border-radius: 12px;
+  background: #ffffff;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.problem-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, #4caf50 0%, #2e7d32 100%);
+  transition: width 0.25s ease;
+}
+
+.problem-card.expanded::before {
+  width: 6px;
+}
+
+.problem-header {
+  padding: 14px 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: background 0.2s ease;
+  user-select: none;
+}
+
+.problem-header:hover {
+  background: #f1f8f4;
+}
+
+.problem-card.expanded .problem-header {
+  background: #e8f5e9;
+  border-bottom: 1px solid #c8e6c9;
+}
+
+.problem-card h2 {
+  font-weight: 700;
+  font-size: 1.1em;
+  color: #1b5e20;
+  margin: 0;
+  line-height: 1.3;
+  flex: 1;
+}
+
+.accordion-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2e7d32;
+  font-size: 0.85em;
+  transition: transform 0.25s ease;
+}
+
+.problem-card.expanded .accordion-icon {
+  transform: rotate(180deg);
+}
+
+.problem-details {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.problem-card.expanded .problem-details {
+  max-height: 500px;
+}
+
+.problem-details-inner {
+  padding: 16px 18px 18px;
+  background: #fafefa;
+}
+
+.problem-card p {
+  margin: 0 0 10px 0;
+  line-height: 1.5;
+  font-size: 0.95em;
+}
+
+.problem-card p:last-child {
+  margin-bottom: 0;
+}
+
+.problem-card .label {
+  font-weight: 600;
+  color: #2e7d32;
+  font-size: 0.9em;
+}
+
+.problem-card .value {
+  color: #2d5016;
+  line-height: 1.5em;
+}
+
+.problem-card .problem-link {
+  color: #2e7d32;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.problem-card .problem-link:hover {
+  color: #1b5e20;
+  text-decoration: none;
+  background: #c8e6c9;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.no-results {
+  text-align: center;
+  padding: 60px 20px;
+  color: #558b2f;
+  font-size: 1.2em;
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+  
+  h1 {
+    font-size: 1.8em;
+  }
+  
+  
+  #search-input {
+    font-size: 1em;
+    padding: 12px 18px;
+  }
+}
+
+    </style>
 </head>
-<body class="page-shell">
-  <header class="site-header">
-    <a href="/" class="back-home">← Hlavní menu</a>
-  </header>
-  <main class="page-inner">
-    <h1>Duševní příčiny nemocí</h1>
-    <p class="lead">Rozcestník sekce v této aplikaci. Sem můžete postupně přidávat vlastní HTML stránky jako podstránky této složky.</p>
-    <p>
-      Stávající obsah na webu:
-      <a href="https://www.brvohorik.cz/dusevni-priciny-nemoci/" target="_blank" rel="noopener">brvohorik.cz – duševní příčiny nemocí</a>
-    </p>
-    <div class="page-actions">
-      <a class="btn-primary" href="/">Zpět na menu</a>
+<body class="page-shell-dusevni">
+    <header class="site-header dpn-nav">
+        <a href="/" class="back-home">← Hlavní menu</a>
+    </header>
+    <div class="container">
+        <h1>Duševní příčiny nemocí</h1>
+        <p class="subtitle">Vyhledejte problém a zjistěte jeho možnou duševní příčinu</p>
+
+        <div id="search-container">
+            <div id="search-wrapper">
+                <input type="text" id="search-input" placeholder="🔍 Zadejte název problému nebo nemoci..." autocomplete="off">
+            </div>
+        </div>
+
+        <div id="problems" class="problems-grid">
+            <div class="no-results">Načítám data...</div>
+        </div>
     </div>
-  </main>
+
+    <script>
+const allData = [
+  {
+    "PROBLÉM": "ABSCES",
+    "MOŽNÁ PŘÍČINA": "Hlodavé myšlenky na křivdy, urážky, pomstu.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Dovoluji svým myšlenkám, aby se osvobodily. Jsem usmířený."
+  },
+  {
+    "PROBLÉM": "ADDISONOVA NEMOC",
+    "MOŽNÁ PŘÍČINA": "Citová podvýživa. Vztek na sebe sama.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "S láskou pečuji o své tělo, o svou mysl a své city."
+  },
+  {
+    "PROBLÉM": "AFTY",
+    "MOŽNÁ PŘÍČINA": "Nevyřčená jedovatá slova. Obviňování.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Ve svém láskyplném světě vytvářím jen a jen radostné prožitky."
+  },
+  {
+    "PROBLÉM": "AIDS",
+    "MOŽNÁ PŘÍČINA": "Zavržení sebe sama. Sexuální vina. Zakořeněné přesvědčení, že za nic nestojíte.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem od Boha pocházejícím, dokonalým ztělesněním života. Raduji se ze své sexuality. Raduji se ze všeho, čím jsem. Mám se rád."
+  },
+  {
+    "PROBLÉM": "AKNÉ",
+    "MOŽNÁ PŘÍČINA": "Odmítání sebe sama. Štítivost vůči sobě.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem od Boha pocházejícím ztělesněním života. Mám se rád. Beru se takový jaký jsem."
+  },
+  {
+    "PROBLÉM": "ALERGIE",
+    "MOŽNÁ PŘÍČINA": "Na koho jste alergičtí? Odmítání vlastní síly.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Svět je bezpečný a přátelský. Jsem v bezpečí. Jsem usmířený s životem"
+  },
+  {
+    "PROBLÉM": "ALKOHOLISMUS",
+    "MOŽNÁ PŘÍČINA": "Pocit marnosti, viny a neschopnosti. Zavrhování sebe sama. Házení flinty do žita.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Žiji v přítomnosti. Každý okamžik je nový. Vážím si sám sebe. Mám se rád a jsem se sebou spokojený."
+  },
+  {
+    "PROBLÉM": "ALZHEIMEROVA NEMOC",
+    "MOŽNÁ PŘÍČINA": "Touha opustit tuto planetu. Nezpůsobilost brát život takový jaký je.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Všechno probíhá ve správném okamžiku, v čase i prostoru. Bůh vždy jedná správně."
+  },
+  {
+    "PROBLÉM": "AMNÉZIE",
+    "MOŽNÁ PŘÍČINA": "viz ZTRÁTA PAMĚTI",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "ANÉMIE",
+    "MOŽNÁ PŘÍČINA": "Nerozhodné polovičaté postoje. Málo radosti. Strach ze života. Pocit, že za nic nestojím.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mohu se naplno radovat ze života. Jsem v bezpečí. Mám rád život."
+  },
+  {
+    "PROBLÉM": "ANGÍNA",
+    "MOŽNÁ PŘÍČINA": "Strach. Potlačované emoce. Potlačovaná kreativita.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mé dobro proudí bez překážek. Svým prostřednictvím vyjadřuji  své myšlenky pocházející od Boha. Jsem usmířený."
+  },
+  {
+    "PROBLÉM": "ANOREXIE",
+    "MOŽNÁ PŘÍČINA": "viz NECHUTENSTVÍ",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "APATIE",
+    "MOŽNÁ PŘÍČINA": "Vzdorování citům. Strach.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "City jsou bezpečné. Otevírám se životu. Raduji se ze života."
+  },
+  {
+    "PROBLÉM": "ARTERIOSKLERÓZA",
+    "MOŽNÁ PŘÍČINA": "Vzdor. Napětí. Zatvrzelá úzkoprsost. Odmítání vidět dobro.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Cele se otevírám životu a radosti. Na svět se chci dívat s láskou."
+  },
+  {
+    "PROBLÉM": "ARTRITIDA",
+    "MOŽNÁ PŘÍČINA": "viz ZÁNĚT KLOUBŮ",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "ARTRITICKÉ PRSTY",
+    "MOŽNÁ PŘÍČINA": "Touha trestat. Provinilost. Pocit diskriminace.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Dívám se s láskou a pochopením. Veškeré prožitky vystavuji paprskům lásky."
+  },
+  {
+    "PROBLÉM": "ASTIGMATISMUS",
+    "MOŽNÁ PŘÍČINA": "viz OČNÍ POTÍŽE",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "ASTMA BRONCHIALE",
+    "MOŽNÁ PŘÍČINA": "Přemáhání vlastních emocí. „Dusivá láska“ Neschopnost dýchat sám za sebe. Potlačovaný pláč. Provinilost nad tím, co probíhá v mém blízkém okolí.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Je bezpečné převzít zodpovědnost za svůj život. Jsem ochoten být svobodný."
+  },
+  {
+    "PROBLÉM": "ASTMA, DĚTSKÉ",
+    "MOŽNÁ PŘÍČINA": "Strach že života.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Toto dítě je v bezpečí. Je obklopeno láskou a péčí."
+  },
+  {
+    "PROBLÉM": "BOLESTI -AKUTNÍ",
+    "MOŽNÁ PŘÍČINA": "Touha po lásce a bezpečí.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám se rád a jsem se sebou spokojený. Mám rád lidi a oni mají rády mne."
+  },
+  {
+    "PROBLÉM": "     – CHRONICKÉ",
+    "MOŽNÁ PŘÍČINA": "Vina. Vina si vždy hledá trest.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "S láskou se zbavuji minulosti.  Jsem svobodný a „oni“ také. V mém srdci je teď všechno v pořádku."
+  },
+  {
+    "PROBLÉM": "BRADAVICE",
+    "MOŽNÁ PŘÍČINA": "Vyjádření nenávisti. Přesvědčení, že jsem ošklivý.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Plně vyjadřuji lásku a krásu života."
+  },
+  {
+    "PROBLÉM": "BRADAVICE NA CHODIDLE",
+    "MOŽNÁ PŘÍČINA": "Zloba jakožto podstata chápání. Rostoucí frustrace z budoucnosti.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Přirozeně a sebejistě postupuji v před. Věřím v běh života. Oddávám se proudu života."
+  },
+  {
+    "PROBLÉM": "BRIGHTOVA NEMOC",
+    "MOŽNÁ PŘÍČINA": "Pocit, že jsem malé dítě, „které nic neumí pořádně“ a „za nic nestojí“. Neúspěch. Ztráta.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám se rád a jsem se sebou spokojený. Záleží mi na sobě. Dělám vždy všechno správně."
+  },
+  {
+    "PROBLÉM": "BRONCHITIDA",
+    "MOŽNÁ PŘÍČINA": "Rozjitřené rodinné prostředí. Hádky a křik nebo dusné ticho.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Vyhlašuji klid a harmonii v sobě a vůkol sebe. Všechno je v pořádku."
+  },
+  {
+    "PROBLÉM": "BULIMIE",
+    "MOŽNÁ PŘÍČINA": "viz ANOREXIE",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "BURZITIDA",
+    "MOŽNÁ PŘÍČINA": "Potlačovaný hněv, chuť někoho uhodit.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Láska uvolňuje. Láska  se zprošťuje všeho, co je jiné než ona."
+  },
+  {
+    "PROBLÉM": "CELULITIDA",
+    "MOŽNÁ PŘÍČINA": "Lpění na karambolech minulosti. Neschopnost vyrovnat se s křivdami z ranného dětství. Potíže při pohybu vpřed. Strach zvolit si vlastní směr.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Odpouštím si. Odpouštím všem. Odpouštím všemu minulému. Jsem svobodný."
+  },
+  {
+    "PROBLÉM": "CESTOVNÍ NEVOLNOST",
+    "MOŽNÁ PŘÍČINA": "viz KINETÓZA",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "CUKROVKA",
+    "MOŽNÁ PŘÍČINA": "Touha po tom, co by bývalo bylo, kdyby. Potřeba ovládat druhé. Nesmírný smutek. Zatvrzelost.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Tento okamžik je plný radosti. Rád si osladím život."
+  },
+  {
+    "PROBLÉM": "CUSCHINGŮV SYNDROM",
+    "MOŽNÁ PŘÍČINA": "Mentální nevyrovnanost. Příliš se zaobíráme zdrcujícími myšlenkami. Pocit přemožení a porážky.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "S láskou vyvažuji své tělo i svou  mysl. Zabývám se jen myšlenkami, které mi dělají dobře."
+  },
+  {
+    "PROBLÉM": "CYSTICKÁ FIBRÓZA",
+    "MOŽNÁ PŘÍČINA": "Utkvělá představa, že od života nelze čekat nic dobrého. Sebelítost.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Život mně má rád. Mám rád život. Chci ho přijímat naplno a svobodně."
+  },
+  {
+    "PROBLÉM": "CYSTY (viz též PRSA)",
+    "MOŽNÁ PŘÍČINA": "Vzpomínky na dřívější bolestné zážitky. Hýčkání starých křivd. Falešný, nesprávný růst.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem rozhodnut myslet jen na krásné věci. Mám se rád."
+  },
+  {
+    "PROBLÉM": "ČELISTI (SANICE) – POTÍŽE",
+    "MOŽNÁ PŘÍČINA": "Zloba. Zášť. Touha po pomstě.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem rozhodnut změnit způsob uvažování, který mi tento stav přivodil. Mám se rád a jsem se sebou spokojený. Jsem v bezpečí."
+  },
+  {
+    "PROBLÉM": "DALEKOZRAKOST",
+    "MOŽNÁ PŘÍČINA": "viz OČNÍ POTÍŽE",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "DÁSNĚ (viz též KRVÁCENÍ Z DÁSNÍ)",
+    "MOŽNÁ PŘÍČINA": "Neschopnost stát za svým rozhodnutím. Rozbředlost.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem rozhodný. Všechno dotahuji do konce. Láska mi dodává sil."
+  },
+  {
+    "PROBLÉM": "DECH",
+    "MOŽNÁ PŘÍČINA": "Představuje schopnost přijímat život.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Miluji život."
+  },
+  {
+    "PROBLÉM": "DĚLOHA",
+    "MOŽNÁ PŘÍČINA": "Představuje sídlo kreativity.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem ve svém těle doma."
+  },
+  {
+    "PROBLÉM": "DERMATOMYKÓZA (PLÍSEŇ)",
+    "MOŽNÁ PŘÍČINA": "Frustrace z toho, že mě okolí nepřijímá. Neschopnost přirozeně postupovat kupředu.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám se rád a jsem se sebou spokojený. Dovoluji sám sobě jít vpřed. Pohyb je bezpečný."
+  },
+  {
+    "PROBLÉM": "DĚTSKÉ NEMOCI",
+    "MOŽNÁ PŘÍČINA": "Potíže růstu, víra v nesprávné zákonitosti, nesprávné společenské pojmy a v přesně rozvržené harmonogramy. Nedospělé chování lidí v blízkém okolí dětí.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Toto dítě ochraňuje Bůh a obklopuje jej pouze láskou. Žádáme mentální ochranu."
+  },
+  {
+    "PROBLÉM": "DIABETES MELLITUS",
+    "MOŽNÁ PŘÍČINA": "viz CUKROVKA",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "DNA",
+    "MOŽNÁ PŘÍČINA": "Potřeba dominovat, být nadřazený. Netrpělivost, hněv.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem v bezpečí. Jsem usmířený se sebou i ostatními."
+  },
+  {
+    "PROBLÉM": "DRÁŽDIVÝ TRAČNÍK",
+    "MOŽNÁ PŘÍČINA": "Navrstvené nánosy starých, zmatečných myšlenek, které blokují vylučovací kanál. Zabřednutí do lepkavého bahna minulosti.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Zbavuji se minulosti. Myslím zdravě a zřetelně. S radostí a usmířeně prožívám přítomnost."
+  },
+  {
+    "PROBLÉM": "DUŠEVNÍ CHOROBA",
+    "MOŽNÁ PŘÍČINA": "Útěk od rodiny. Únik před skutečností, stažení se do sebe. Násilné odtržení od života.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Tato mysl zná svou pravou totožnost. Je vyjádřením Boží kreativity."
+  },
+  {
+    "PROBLÉM": "DUŠNOST",
+    "MOŽNÁ PŘÍČINA": "Strach, nedůvěra v proces života. Ustrnutí v dětství.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Je bezpečné vyrůst a stát se dospělým. Svět je bezpečný. Jsem v bezpečí."
+  },
+  {
+    "PROBLÉM": "DUTINY",
+    "MOŽNÁ PŘÍČINA": "Alergie na jednu konkrétní osobu, na někoho blízkého.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Vždy mě prostupuje a obklopuje klid a harmonie. Všechno je v pořádku."
+  },
+  {
+    "PROBLÉM": "DÝCHACÍ POTÍŽE",
+    "MOŽNÁ PŘÍČINA": "Strach či odmítání naplno přijímat život. Pocit, že nemáte právo zabírat prostor či dokonce vůbec existovat.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mým přirozeným právem je žít naplno a svobodně. Jsem hoden lásky. Jsem  rozhodnut žít naplno."
+  },
+  {
+    "PROBLÉM": "DYSPEPSIE",
+    "MOŽNÁ PŘÍČINA": "Strach. hrůza, úzkost. Nadávání a brblání.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Klidně a radostně trávím a vstřebávám všechny nové zážitky."
+  },
+  {
+    "PROBLÉM": "DYSTROFIE SVALSTVA",
+    "MOŽNÁ PŘÍČINA": "viz SVALOVÁ DYSTROFIE",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "EDÉMY",
+    "MOŽNÁ PŘÍČINA": "viz OTOKY",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "EKZÉM",
+    "MOŽNÁ PŘÍČINA": "Vnitřní protiklady. „Mentální vyrážka“.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Ve mně i kolem mě je harmonie, klid, láska a radost."
+  },
+  {
+    "PROBLÉM": "ENDOKRINNÍ POTÍŽE (viz též ŽLÁZY)",
+    "MOŽNÁ PŘÍČINA": "Špatná distribuce myšlenek podporujících rozhodnost a aktivitu.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Bůh mi poskytuje všechny potřebné myšlenky. Jsem aktivní. Právě nyní, v tomto okamžiku postupuji kupředu."
+  },
+  {
+    "PROBLÉM": "EPILEPSIE",
+    "MOŽNÁ PŘÍČINA": "Pocit perzekuce. Zavrhování života. Obrovský vnitřní zápas. Násilí vůči sobě.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem ochoten vidět život jako věčný a plný radosti. Jsem věčný a usmířený. Mám radost."
+  },
+  {
+    "PROBLÉM": "EXANTÉM",
+    "MOŽNÁ PŘÍČINA": "viz VYRÁŽKA",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "FIBROIDNÍ NÁDORY A CYSTY",
+    "MOŽNÁ PŘÍČINA": "Urážka ženského ega. Lpění na křivdě ze strany partnera.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Zbavuji se mentálního návyku, který vyvolal tento zážitek. Ve svém životě vytvářím jen dobro."
+  },
+  {
+    "PROBLÉM": "FRIBIDITA",
+    "MOŽNÁ PŘÍČINA": "viz ZÁNĚT ŽIL",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "FLUOR",
+    "MOŽNÁ PŘÍČINA": "viz VÝTOK",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "FRIGITIDA",
+    "MOŽNÁ PŘÍČINA": "Strach. Popírání rozkoše. Přesvědčení  že sex  je něco špatného. Necitliví partneři.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Radovat se z vlastního těla je bezpečné. Raduji se z toho, že jsem žena."
+  },
+  {
+    "PROBLÉM": "GANGRÉNA",
+    "MOŽNÁ PŘÍČINA": "viz SNĚŤ",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "GASTRITIDA",
+    "MOŽNÁ PŘÍČINA": "Dlouhotrvající nejistota. Pocit, že špatný osud mně nemine.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám se rád a jsem se sebou spokojený. Jsem v bezpečí."
+  },
+  {
+    "PROBLÉM": "GENITÁLIE",
+    "MOŽNÁ PŘÍČINA": "Představují mužský a ženský princip.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Je bezpečné být sám sebou."
+  },
+  {
+    "PROBLÉM": "GENITÁLIE – POTÍŽE",
+    "MOŽNÁ PŘÍČINA": "Obavy, že za nic nestojím.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Raduji se z toho, jak vyjadřuji život. Jsem dokonalý takový jaký jsem. Mám se rád a jsem se sebou spokojený."
+  },
+  {
+    "PROBLÉM": "GLAUKOM",
+    "MOŽNÁ PŘÍČINA": "viz OČNÍ POTÍŽE",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "HAVÁRIE",
+    "MOŽNÁ PŘÍČINA": "viz NEHODY",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "HEMEROIDY",
+    "MOŽNÁ PŘÍČINA": "Strach z termínů. Zloba z minulosti. Strach zbavit se minulosti. Pocit břemene.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Zbavuji se všeho, co není láska. Ke všemu, co chci udělat, mám dost času i prostoru."
+  },
+  {
+    "PROBLÉM": "HEPATITIDA",
+    "MOŽNÁ PŘÍČINA": "viz ZÁNĚT JATER",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "HERPES",
+    "MOŽNÁ PŘÍČINA": "viz OPAR",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "HERPES ZOSTER",
+    "MOŽNÁ PŘÍČINA": "viz OPAR PÁSOVÝ",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "HLUCHOTA",
+    "MOŽNÁ PŘÍČINA": "Odmítání, tvrdohlavost, izolace. Co nechcete slyšet?",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Naslouchám Bohu a raduji se ze všeho, co mohu slyšet. Jsem součástí vesmíru."
+  },
+  {
+    "PROBLÉM": "HNISAJÍCÍ VŘED",
+    "MOŽNÁ PŘÍČINA": "viz ABSCES",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "HNISAVÁ ANGÍNA",
+    "MOŽNÁ PŘÍČINA": "Silné přesvědčení, že si nemůžete říct o to, co potřebujete.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Je mým přirozeným právem uspokojit všechny své potřeby. S láskou a spontánně si říkám o všechno, co chci."
+  },
+  {
+    "PROBLÉM": "HODGKINOVA NEMOC",
+    "MOŽNÁ PŘÍČINA": "Provinilost a obrovský strach, že za nic nestojíte. Nesmírná touha prosadit se. V honbě za uznáním se zapomíná na radost ze života.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Vyhovuje mi být sám sebou. Jsem dost dobrý takový jaký jsem. Mám se rád a jsem se sebou spokojený. Vydávám a přijímám radost."
+  },
+  {
+    "PROBLÉM": "HOREČKY",
+    "MOŽNÁ PŘÍČINA": "Zloba, rozhořčení.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem klidným a vyrovnaným ztělesněním harmonie a lásky."
+  },
+  {
+    "PROBLÉM": "HYPERFUNKCE ŠTÍTNÉ ŽLÁZY",
+    "MOŽNÁ PŘÍČINA": "viz ŠTÍTNÁ ŽLÁZA",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "HYPERGLYKÉMIE",
+    "MOŽNÁ PŘÍČINA": "viz CUKROVKA",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "HYPERVENTILACE",
+    "MOŽNÁ PŘÍČINA": "Strach. Odpor ke změně. Nedůvěra v běh života.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Všude ve vesmíru jsem v bezpečí. Mám se rád a věřím v běh života."
+  },
+  {
+    "PROBLÉM": "HYPOFÝZA",
+    "MOŽNÁ PŘÍČINA": "Představuje sídlo sebeovládání.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Má mysl a mé tělo jsou v dokonalé rovnováze. Ovládám své myšlenky."
+  },
+  {
+    "PROBLÉM": "HYPOGLYKÉMIE",
+    "MOŽNÁ PŘÍČINA": "Únava, zmoženost. Život je příliš těžké břemeno.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem ochoten učinit svůj život světlým, lehkým, plným radosti."
+  },
+  {
+    "PROBLÉM": "HÝŽDĚ",
+    "MOŽNÁ PŘÍČINA": "Představují sílu. Ochablé hýždě indikují ztrátu síly.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Moudře investuji svou sílu. Jsem silný. Cítím se bezpečně. Všechno je v pořádku."
+  },
+  {
+    "PROBLÉM": "CHODIDLA",
+    "MOŽNÁ PŘÍČINA": "Představují chápání – sebe sama, života, ostatních.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Všemu jasně rozumím a jsem ochoten měnit se zároveň s časem. Jsem v bezpečí."
+  },
+  {
+    "PROBLÉM": "CHODIDLA – POTÍŽE",
+    "MOŽNÁ PŘÍČINA": "Strach z budoucnosti a z ustrnutí na místě.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Přirozeně a s radostí postupuji kupředu."
+  },
+  {
+    "PROBLÉM": "CHOLESTEROL",
+    "MOŽNÁ PŘÍČINA": "Ucpává průchody radosti. Strach přijímat radost.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem ochoten mít rád život. Volně mnou proudí radost. Přijímat je bezpečné."
+  },
+  {
+    "PROBLÉM": "CHRÁPÁNÍ",
+    "MOŽNÁ PŘÍČINA": "Tvrdohlavé odmítání zbavit se starých mentálních návyků.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Vypouštím z mysli vše, co se nepodobá lásce a radosti. Od minulosti směřuji ke všemu novému, svěžímu a vitálnímu."
+  },
+  {
+    "PROBLÉM": "CHRONICKÉ NEMOCI",
+    "MOŽNÁ PŘÍČINA": "Odmítání změn. Strach z budoucnosti. Pocit nejistoty.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem ochoten růst a měnit se. Vytvářím si bezpečnou budoucnost."
+  },
+  {
+    "PROBLÉM": "CHŘIPKA",
+    "MOŽNÁ PŘÍČINA": "Reakce na všeobecnou negativitu a všeobecná přesvědčení. Strach. Víra v pravdivost statistik.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem mimo dosah společenských předsudků. Nepodléhám žádným vlivům."
+  },
+  {
+    "PROBLÉM": "CHUDEKREVNOST",
+    "MOŽNÁ PŘÍČINA": "viz ANÉMIE",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "CHUŤ K JÍDLU – NADMĚRNÁ",
+    "MOŽNÁ PŘÍČINA": "Strach. Potřeba ochrany. Posuzování citů.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem v bezpečí. To, co cítím je bezpečné, normální a přijatelné."
+  },
+  {
+    "PROBLÉM": "– ZTRÁTA",
+    "MOŽNÁ PŘÍČINA": "Strach. Sebeobrana. Nedůvěra v život.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám se rád a jsem se sebou spokojený. Jsem v bezpečí. Život je bezpečný a plný radosti."
+  },
+  {
+    "PROBLÉM": "IMPOTENCE",
+    "MOŽNÁ PŘÍČINA": "Sexuální tlak, napětí, vina. Společenské předsudky. Nevraživost vůči bývalému partnerovi. Strach z matky.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Nechávám s radostí a spontánně působit sílu svého pohlavního principu."
+  },
+  {
+    "PROBLÉM": "INFARKT",
+    "MOŽNÁ PŘÍČINA": "Vypuzení veškeré radosti z těla kvůli penězům, postavení, funkci atd.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Navracím svému srdci radost. Všemu vyjadřuji lásku."
+  },
+  {
+    "PROBLÉM": "INFEKCE",
+    "MOŽNÁ PŘÍČINA": "Podrážděnost, hněv, rozladěnost.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem rozhodnut žít v klidu a harmonii. Tím, že pečuji o sebe, pečuji i o své bližní, jsem k sobě laskavý a bezpečný."
+  },
+  {
+    "PROBLÉM": "ISCHIAS",
+    "MOŽNÁ PŘÍČINA": "Pokrytectví. Strach z peněz a z budoucnosti.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Směřuji ke svému vyššímu dobru. Mé dobro je všude a ve všem."
+  },
+  {
+    "PROBLÉM": "INKONTINENCE (NESCHOPNOST UDRŽET STOLICI ČI MOČ)",
+    "MOŽNÁ PŘÍČINA": "Pocit, že se citově neovládám.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Všechno je v pořádku."
+  },
+  {
+    "PROBLÉM": "JÁTRA",
+    "MOŽNÁ PŘÍČINA": "Sídlo hněvu a primitivních emocí.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Znám pouze lásku, klid a radost."
+  },
+  {
+    "PROBLÉM": "JÁTRA – POTÍŽE",
+    "MOŽNÁ PŘÍČINA": "Neustálé stížnosti a nadávky. Pocit, že jste špatní. Ustavičnou kritikou jen obelháváte sami sebe.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Hledám lásku a nacházím ji všude a ve všem."
+  },
+  {
+    "PROBLÉM": "KANDIDÓZA",
+    "MOŽNÁ PŘÍČINA": "Pocit silné roztříštěnosti. Značná frustrace a zloba. Přílišné nároky a nedůvěra ve vztahu k druhým.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Zasluhuji jen to nejlepší. Mám rád sebe i ostatní. Vážím si sebe i ostatních."
+  },
+  {
+    "PROBLÉM": "KARBUNKL",
+    "MOŽNÁ PŘÍČINA": "Jedovatá zloba na všechny osobní křivdy.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Zbavuji se minulosti. Nechávám čas aby zhojil chvíli mého života."
+  },
+  {
+    "PROBLÉM": "KAŠEL",
+    "MOŽNÁ PŘÍČINA": "viz BRONCHITIDA",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "KATAR – HORNÍCH CEST DÝCHACÍCH",
+    "MOŽNÁ PŘÍČINA": "viz RÝMA",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "    – PRŮDUŠEK",
+    "MOŽNÁ PŘÍČINA": "viz BRONCHITIDA",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "    – ŽALUDKU",
+    "MOŽNÁ PŘÍČINA": "viz GASTRITIDA",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "KERATITIDA",
+    "MOŽNÁ PŘÍČINA": "viz ZÁNĚT OČNÍ ROHOVKY",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "KINETÓZA",
+    "MOŽNÁ PŘÍČINA": "Strach, že nemám vše pod kontrolou.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Své myšlenky ovládám v každé situaci. Mám se rád a jsem se sebou spokojený."
+  },
+  {
+    "PROBLÉM": "KLIMAKTERICKÉ POTÍŽE",
+    "MOŽNÁ PŘÍČINA": "Strach, že už mě nikdo bude chtít. Strach ze stárnutí. Zavržení sama sebe. „Nestojím za nic“.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Při všech změnách cyklů jsem klidná a vyvážená. S láskou žehnám svému tělu."
+  },
+  {
+    "PROBLÉM": "KLOUBY",
+    "MOŽNÁ PŘÍČINA": "Představují změny životního směru a lehkost s jakou probíhají.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Snadno a přirozeně se měním. Můj život opatruje Bůh a proto se vždy ubírám tím nejlepším směrem."
+  },
+  {
+    "PROBLÉM": "KOKTÁNÍ",
+    "MOŽNÁ PŘÍČINA": "Nejistota. Nedostatek sebevyjádření. Není dovoleno plakat.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mohu se svobodně vyjadřovat. Je to bezpečné. Se všemi komunikuji jen s láskou."
+  },
+  {
+    "PROBLÉM": "KOLENO",
+    "MOŽNÁ PŘÍČINA": "Představuje hrdost a ego.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem pružný a přizpůsobivý."
+  },
+  {
+    "PROBLÉM": "KOLENO – POTÍŽĚ",
+    "MOŽNÁ PŘÍČINA": "Tvrdohlavé ego. Hrdost. Nepřizpůsobivost. Strach. Nepružnost. Neústupnost. Neschopnost přiznat porážku.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Odpuštění. Pochopení. Soucit. Snadno se přizpůsobuji. Všechno je v pořádku."
+  },
+  {
+    "PROBLÉM": "KOLITIDA",
+    "MOŽNÁ PŘÍČINA": "viz ZÁNĚT TLUSTÉHO STŘEVA",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "KOLPITIDA",
+    "MOŽNÁ PŘÍČINA": "viz ZÁNĚT POCHVY",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "KOLIKA DĚTSKÁ",
+    "MOŽNÁ PŘÍČINA": "Podřazenost, netrpělivost a rozmrzelost v blízkosti dítěte.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Toto dítě léčí jen láska a láskyplné myšlenky. Všechno je v pořádku."
+  },
+  {
+    "PROBLÉM": "KÓMA",
+    "MOŽNÁ PŘÍČINA": "Strach. Útěk před někým nebo něčím.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Obklopujeme tě bezpečím a láskou. Vytváříme prostor, aby ses vyléčil. Jsi láska."
+  },
+  {
+    "PROBLÉM": "KONEČNÍK",
+    "MOŽNÁ PŘÍČINA": "Místo, kde se tělo zbavuje odpadu.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Snadno a přirozeně se zbavuji všeho, co už nepotřebuji."
+  },
+  {
+    "PROBLÉM": "– ABSCES",
+    "MOŽNÁ PŘÍČINA": "Zloba spojená s tím, čeho se nechcete zbavit.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Je bezpečné zbavovat se všeho nepotřebného. Z mého těla odchází jen to, co už nepotřebuji."
+  },
+  {
+    "PROBLÉM": "– BOLESTI",
+    "MOŽNÁ PŘÍČINA": "Vina. Touha po trestu. Pocit, že za nic nestojím.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Minulost skončila. Jsem rozhodnut mít se rád a být spokojený s tím, jaký jsem."
+  },
+  {
+    "PROBLÉM": "– FISTULY (PÍŠTĚLE)",
+    "MOŽNÁ PŘÍČINA": "Neúplné vypouštění odpadu. Lpění na odpadcích z minulosti.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "S láskou a bezezbytku se zbavuji minulosti. Jsem svobodný. Jsem láska."
+  },
+  {
+    "PROBLÉM": "– KRVÁCENÍ",
+    "MOŽNÁ PŘÍČINA": "Zloba a frustrace.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Věřím v běh života. Vše, co se děje v mém životě, je správné a dobré."
+  },
+  {
+    "PROBLÉM": "– SVĚDĚNÍ",
+    "MOŽNÁ PŘÍČINA": "Vina z minulosti. Výčitky svědomí.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "S láskou si odpouštím. Jsem svobodný."
+  },
+  {
+    "PROBLÉM": "KOPŘIVKA",
+    "MOŽNÁ PŘÍČINA": "Zveličování problémů, děláme „z komára velblouda“. Utajovaný strach.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Vnáším klid do každého okamžiku svého života."
+  },
+  {
+    "PROBLÉM": "KOSTI",
+    "MOŽNÁ PŘÍČINA": "Představují strukturu Vesmíru.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem dobře členěný a vyvážený."
+  },
+  {
+    "PROBLÉM": "– ZLOMENINY",
+    "MOŽNÁ PŘÍČINA": "Vzpoura proti autoritě (rodičům, partnerovi, nadřízenému).",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem ve svém světě autoritou, protože jen já ovládám svou mysl."
+  },
+  {
+    "PROBLÉM": "– DEFORMACE",
+    "MOŽNÁ PŘÍČINA": "Mentální tlak a upjatost. Svaly se nemohou protáhnout. Ztráta mentální pohyblivosti.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Zhluboka vdechuji život. Uvolňuji se a věřím v běh života."
+  },
+  {
+    "PROBLÉM": "KOTNÍK",
+    "MOŽNÁ PŘÍČINA": "Představuje pohyblivost a směr.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Snadno se pohybuji životem kupředu."
+  },
+  {
+    "PROBLÉM": "KOŽNÍ POTÍŽE (viz též KŮŽE)",
+    "MOŽNÁ PŘÍČINA": "Úzkost, strach. Staré, zasuté harampádí minulosti. Pocit ohrožení.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Láskyplně se chráním harmonickými a klidnými myšlenkami. Minulost je odpuštěna a zapomenuta. Jsem svobodný."
+  },
+  {
+    "PROBLÉM": "KRÁTKOZRAKOST",
+    "MOŽNÁ PŘÍČINA": "viz OČNÍ POTÍŽE",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "KRČNÍ PÁTEŘ  (viz též ŠÍJE)",
+    "MOŽNÁ PŘÍČINA": "Odmítání vidět jiné stránky problému. Tvrdohlavost, nepružnost.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Pružně a nenuceně beru v úvahu všechny stránky problému. Věci lze vidět nekonečně mnoha způsoby. Jsem v bezpečí."
+  },
+  {
+    "PROBLÉM": "KREV",
+    "MOŽNÁ PŘÍČINA": "Představuje radost volně obíhající v těle.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Dávám a přijímám radost ze života."
+  },
+  {
+    "PROBLÉM": "– POTÍŽE",
+    "MOŽNÁ PŘÍČINA": "Málo radosti. Malá cirkulace myšlenek. Vleklé problémy s rodiči.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Kolují ve mne radostné myšlenky a nové myšlenky."
+  },
+  {
+    "PROBLÉM": "– ANEMICKÉ POTÍŽE",
+    "MOŽNÁ PŘÍČINA": "viz ANÉMIE",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "– KREVNÍ SRAŽENINY",
+    "MOŽNÁ PŘÍČINA": "Zablokovaný průchod radosti.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Probouzím v sobě nový život. Plynu."
+  },
+  {
+    "PROBLÉM": "KREVNÍ TLAK – VYSOKÝ",
+    "MOŽNÁ PŘÍČINA": "Dlouhodobě nevyřešený problém.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "S radostí se zbavuji minulosti. Jsem usmířený."
+  },
+  {
+    "PROBLÉM": "             – NÍZKÝ",
+    "MOŽNÁ PŘÍČINA": "Málo lásky v dětství. Poraženectví. Pocit, že nic nemá cenu, protože se to beztak nepovede.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem ochoten žít ve věčně harmonické přítomnosti. Můj život je radost."
+  },
+  {
+    "PROBLÉM": "KRK",
+    "MOŽNÁ PŘÍČINA": "Průchod sebevyjádření a tvořivosti.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Otevírám své srdce a zpívám o radostech lásky."
+  },
+  {
+    "PROBLÉM": "– POTÍŽE",
+    "MOŽNÁ PŘÍČINA": "Neschopnost. Polykaná zloba. Potlačovaná kreativita. Odmítání změn.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Vyjadřuji se s radostí, svobodně a tvořivě. Snadno a přirozeně se hlásím o svá práva. Jsem ochoten se změnit."
+  },
+  {
+    "PROBLÉM": "KRVÁCENÍ",
+    "MOŽNÁ PŘÍČINA": "Z těla uniká radost. Zloba.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Vyváženě dávám a přijímám radost ze života."
+  },
+  {
+    "PROBLÉM": "– Z DÁSNÍ",
+    "MOŽNÁ PŘÍČINA": "Málo radosti z životních rozhodnutí.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Věřím, že v mém životě všechno probíhá správně. Jsem usmířený."
+  },
+  {
+    "PROBLÉM": "– Z KONEČNÍKU",
+    "MOŽNÁ PŘÍČINA": "viz KONEČNÍK",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "– Z NOSU",
+    "MOŽNÁ PŘÍČINA": "Potřeba upozornit na sebe. Pocit, že si mě nikdo nevšímá. Touha po lásce.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám se rád a jsem se sebou spokojený Uznávám svou skutečnou cenu Jsem dokonalý."
+  },
+  {
+    "PROBLÉM": "KŘEČE",
+    "MOŽNÁ PŘÍČINA": "Napětí. Strach. Lpění na někom nebo na něčem.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem uvolněný. Dovoluji, aby se má mysl usmířila."
+  },
+  {
+    "PROBLÉM": "– V KRAJINĚ BŘIŠNÍ",
+    "MOŽNÁ PŘÍČINA": "Strach. Snaha zastavit běh života.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Věřím v běh života. jsem v bezpečí."
+  },
+  {
+    "PROBLÉM": "KŘEČOVÉ ŽÍLY",
+    "MOŽNÁ PŘÍČINA": "Setrvávání v nepříjemné situaci či postavení. Sklíčenost. Pocit přepracovanosti a přetíženosti.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Spočívám v pravdě. Raduji se z pohybu. Pohybuji se přirozeně a spontánně. Mám život rád a raduji se z každého okamžiku."
+  },
+  {
+    "PROBLÉM": "KŘIVICE",
+    "MOŽNÁ PŘÍČINA": "Citová podvýživa. Nedostatek lásky a bezpečí.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem v bezpečí. Živí mě láska samotného vesmíru."
+  },
+  {
+    "PROBLÉM": "KŮŽE",
+    "MOŽNÁ PŘÍČINA": "Ochraňuje naší individualitu. Smyslový orgán.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Je bezpečné být sám sebou."
+  },
+  {
+    "PROBLÉM": "KYČLE",
+    "MOŽNÁ PŘÍČINA": "Nesou tělo v dokonalé rovnováze. Stimulují pohyb vpřed.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Raduji se z každého dne."
+  },
+  {
+    "PROBLÉM": "– POTÍŽE",
+    "MOŽNÁ PŘÍČINA": "Strach postupovat vpřed na základě důležitých  rozhodnutí. Bezcílnost.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem v dokonalé rovnováze. V každém věku postupuji snadno a s radostí kupředu."
+  },
+  {
+    "PROBLÉM": "KÝLA",
+    "MOŽNÁ PŘÍČINA": "Roztržky. Napětí, tíha povinnosti a zodpovědnosti. Nesprávně směrované tvůrčí vyjádření.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Má mysl je laskavá a harmonická. Mám se rád a jsem se sebou spokojený. Mohu být sám sebou."
+  },
+  {
+    "PROBLÉM": "LARYNGITIDA",
+    "MOŽNÁ PŘÍČINA": "Máte takový vztek, že ani nemůžeme mluvit. Strach promluvit nahlas. Odpor vůči autoritám.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mohu svobodně požádat, oč chci. Je bezpečné vyjadřovat sebe sama. Jsem usmířený."
+  },
+  {
+    "PROBLÉM": "LEDVINOVÉ POTÍŽE (viz též ZÁNĚT LEDVIN, BRICHTOVA NEMOC)",
+    "MOŽNÁ PŘÍČINA": "Kritika, zklamání,  neúspěch. Hanba. Reakce na úrovni malého dítěte.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "V mém životě vždy probíhá všechno správně. Z každé mé zkušenosti pochází jen dobro. Je bezpečné vyrůst."
+  },
+  {
+    "PROBLÉM": "LEPRA",
+    "MOŽNÁ PŘÍČINA": "Neschopnost jakkoli zvládnout životní zkušenosti. Dlouhodobé přesvědčení, že nejsem dost dobrý nebo dost čistý.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Povznáším se nad všechna omezení. Bůh mne vede a inspiruje. Láska hojí vše živé."
+  },
+  {
+    "PROBLÉM": "LEUKÉMIE",
+    "MOŽNÁ PŘÍČINA": "Brutální ubíjení inspirace. Pocit, že nic nemá cenu.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Přenáším se přes minulá omezení do svobodné přítomnosti. Je bezpečné být sám sebou."
+  },
+  {
+    "PROBLÉM": "LOKET",
+    "MOŽNÁ PŘÍČINA": "Představuje změnu a přijímání nových životních zkušeností.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Snadno se přizpůsobuji novým zkušenostem, směrům a změnám."
+  },
+  {
+    "PROBLÉM": "LUPÉNKA",
+    "MOŽNÁ PŘÍČINA": "Strach, že mi někdo ublíží. Umrtvování smyslů a ega. Odmítání přijmout zodpovědnost za vlastní city.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Žiji proto, abych se radoval ze života. Zasloužím si v životě to nejlepší. Přijímám své dobro. Mám se rád a jsem se sebou spokojený."
+  },
+  {
+    "PROBLÉM": "LUPUS",
+    "MOŽNÁ PŘÍČINA": "Celková kapitulace. Raději zemřít než se přihlásit o svá práva. Zloba a trest.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Spontánně a přirozeně se beru o svá práva. Znám svou sílu. Mám se rád a jsem se sebou spokojený. Jsem svobodný. Jsem v bezpečí."
+  },
+  {
+    "PROBLÉM": "LYMFATICKÉ POTÍŽE",
+    "MOŽNÁ PŘÍČINA": "Varování, že mysl potřebuje soustředit na nejzákladnější životní skutečnosti, na lásku a radost.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem zcela soustředěný na lásku a radost ze života. Přizpůsobuji se životu. Jsem klidný."
+  },
+  {
+    "PROBLÉM": "MALÁTNOST",
+    "MOŽNÁ PŘÍČINA": "viz ÚNAVA",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "MALOMOCENSTVÍ",
+    "MOŽNÁ PŘÍČINA": "viz LEPRA",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "MASTOIDITIDA",
+    "MOŽNÁ PŘÍČINA": "Zloba a frustrace. Touha neslyšet, většinou u dětí. Strach infikující chápání života.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Ve mně i kolem mně panuje Božský klid a harmonie. Jsem oázou klidu, lásky a radosti. V mém světě je vše v pořádku."
+  },
+  {
+    "PROBLÉM": "MDLOBY",
+    "MOŽNÁ PŘÍČINA": "Strach. Neschopnost vyrovnat se s danou situací.  „Vokno“.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám sílu, schopnost i znalosti na to, abych všechno v životě zvládl."
+  },
+  {
+    "PROBLÉM": "MENSTRUAČNÍ POTÍŽE",
+    "MOŽNÁ PŘÍČINA": "Odmítání vlastního ženství. Provinilost. Strach. Přesvědčení že genitálie jsou hříšné a nečisté.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Plně přijímám své ženství a své tělesné pochody pokládám za normální a přirozené. Mám se ráda a jsem sebou spokojená."
+  },
+  {
+    "PROBLÉM": "MIGRÉNA (viz též BOLESTI HLAVY)",
+    "MOŽNÁ PŘÍČINA": "Znechucení z nátlaku a manipulace ze strany druhých. Sexuální obavy. (Migrénu lze většinou odstranit masturbací).",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Přizpůsobuji se běhu života. Nechávám život aby mi příjemně a snadno zajistil vše, co potřebuji. Život je tu pro mne."
+  },
+  {
+    "PROBLÉM": "MÍŠNÍ MENINGITÍDA",
+    "MOŽNÁ PŘÍČINA": "Mimořádně závažný rodinný konflikt. Život v atmosféře zloby a strachu. Velký vnitřní zmatek. Málo opory ze strany druhých.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem ochoten vytvářet ve své mysli, ve svém těle i ve svém světě klid a harmonii. Všechno je v pořádku. Jsem v bezpečí a všichni mně mají rádi."
+  },
+  {
+    "PROBLÉM": "MOČOVÝ MĚCHÝŘ (viz též URETRITIDA a URETERITIDA)",
+    "MOŽNÁ PŘÍČINA": "Úzkost. Lpění na starých myšlenkách a názorech. Strach zbavit se minulosti. Vztek, většinou na partnera.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Snadno a spontánně se zbavuji starého a vítám nové. Jsem v bezpečí."
+  },
+  {
+    "PROBLÉM": "MONILIÁZA",
+    "MOŽNÁ PŘÍČINA": "viz KANDIDÓZA",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "MONONUKLEÓZA",
+    "MOŽNÁ PŘÍČINA": "Návyk znevažovat a bagatelizovat život,  přesvědčovat ostatní,  že nemají pravdu. Hodně sebekritiky.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem zajedno se životem. Vidím se v druhých a to, co vidím mám rád. Raduji se z toho, že žiji."
+  },
+  {
+    "PROBLÉM": "MOŘSKÁ NEMOC",
+    "MOŽNÁ PŘÍČINA": "Strach. Strach ze smrti. Nedostatečné ovládání myšlenek.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Ve Vesmíru jsem v bezpečí. Jsem usmířený, ať jsem kdekoli. Věřím životu"
+  },
+  {
+    "PROBLÉM": "MOUČNIVKA",
+    "MOŽNÁ PŘÍČINA": "viz KANDIDÓZA",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "MOZEK",
+    "MOŽNÁ PŘÍČINA": "Představuje „počítač“, řídicí centrum.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "S láskou řídím svou mysl."
+  },
+  {
+    "PROBLÉM": "MOZKOVÁ MRTVICE",
+    "MOŽNÁ PŘÍČINA": "Kapitulace. Odpor. Raději zemřít, než se změnit. Zvržení života.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Život je změna a já se snadno přizpůsobuji všemu novému. Přijímám život – minulý, přítomný i budoucí."
+  },
+  {
+    "PROBLÉM": "MOZKOVÝ NÁDOR",
+    "MOŽNÁ PŘÍČINA": "Nesprávné, naprogramované úsudky. Tvrdohlavost. Odmítání změnit staré mentální návyky.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Snadno měním své myšlení. Celý život je změna a má mysl se neustále proměňuje."
+  },
+  {
+    "PROBLÉM": "NADLEDVINKY – POTÍŽE",
+    "MOŽNÁ PŘÍČINA": "Úzkost. Poraženectví. Zanedbaná péče o sebe sama.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám se rád a jsem se sebou spokojený. Je bezpečné o sebe pečovat."
+  },
+  {
+    "PROBLÉM": "NÁDORY",
+    "MOŽNÁ PŘÍČINA": "Lpění na starých křivdách. Rostoucí odpor.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Snadno  odpouštím. Mám se rád a odměňuji se pochvalnými myšlenkami."
+  },
+  {
+    "PROBLÉM": "NADÝMÁNÍ",
+    "MOŽNÁ PŘÍČINA": "viz PLYNATOST",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "NARKOLEPSIE",
+    "MOŽNÁ PŘÍČINA": "Velký strach. Touha všemu uniknout. Tvrzení typu: „Nezvládnu to“, „Nechci tady být“.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Spoléhám na to, že Boží moudrost a rada mne vždy ochrání. Jsem v bezpečí."
+  },
+  {
+    "PROBLÉM": "NARKOMANIE",
+    "MOŽNÁ PŘÍČINA": "Útěk od sebe sama. Strach. Neznalost, jak mít rád sám sebe.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Objevuji, jak jsem dokonalý. Jsem ochoten mít rád sám sebe. Jsem ochoten mít ze sebe radost."
+  },
+  {
+    "PROBLÉM": "NEFRITIDA",
+    "MOŽNÁ PŘÍČINA": "viz ZÁNĚT LEDVIN",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "NEFROSKLERÓZA",
+    "MOŽNÁ PŘÍČINA": "viz BRICHTOVA NEMOC",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "NEHODY",
+    "MOŽNÁ PŘÍČINA": "Neschopnost brát se za svá práva. Vzpoura proti autoritě. Víra v násilí.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Zbavuji se návyku, který tuto situaci způsobil. Jsem usmířený. Zasloužím si dobro."
+  },
+  {
+    "PROBLÉM": "NEHTY",
+    "MOŽNÁ PŘÍČINA": "Představují ochranu.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "S důvěrou vztahuji ruce."
+  },
+  {
+    "PROBLÉM": "NEHTY – KOUSÁNÍ",
+    "MOŽNÁ PŘÍČINA": "Frustrace. Sžíravé myšlenky. Nenávist k jednomu z rodičů.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Je bezpečné vyrůst. Radostně a lehce zvládám svůj život."
+  },
+  {
+    "PROBLÉM": "VROSTLÉ DO MASA",
+    "MOŽNÁ PŘÍČINA": "Vina a obavy ze svého práva postupovat vpřed.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Je mým přirozeným právem zvolit si v životě vlastní směr. Jsem v bezpečí. Jsem svobodný."
+  },
+  {
+    "PROBLÉM": "NECHUTENSTVÍ (a CHODROBNÁ ŽRAVOST)",
+    "MOŽNÁ PŘÍČINA": "Odpírání si života. Extrémní strach, sebenenávist  a odmítavost.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Je bezpečné být sám sebou. Jsem dokonalý takový jaký jsem. Jsem ochoten žít. Raduji se a beru se takový, jaký jsem."
+  },
+  {
+    "PROBLÉM": "NEPLODNOST",
+    "MOŽNÁ PŘÍČINA": "Strach a odpor vůči životu nebo člověk. který nemá potřebu prožít rodičovství.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Věřím v běh života. Jsem vždy na pravém místě a dělám pravou věc v pravý čas. Mám se rád a jsem se sebou spokojený."
+  },
+  {
+    "PROBLÉM": "NERVOVÉ ZHROUCENÍ",
+    "MOŽNÁ PŘÍČINA": "Egocentrismus. Zablokovaná komunikace.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Otevírám své srdce a ke všem se obracím jen s láskou. Jsem v bezpečí. Jsem v pořádku."
+  },
+  {
+    "PROBLÉM": "NERVOZITA",
+    "MOŽNÁ PŘÍČINA": "Strach, úzkost, svár, shon. Nedůvěra v běh života.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem na nekonečné cestě věčnosti a na všechno je dost času. Komunikuji se svým srdcem. Všechno je v pořádku."
+  },
+  {
+    "PROBLÉM": "NERVY",
+    "MOŽNÁ PŘÍČINA": "Představují komunikaci. Vnímaví zpravodajové.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Komunikuji snadno a s radostí."
+  },
+  {
+    "PROBLÉM": "NESPAVOST",
+    "MOŽNÁ PŘÍČINA": "Strach. Nedůvěra v běh života. Vina.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "S láskou opouštím den a oddávám se klidnému spánku, neboť vím, že zítřek se sám o sebe postará."
+  },
+  {
+    "PROBLÉM": "NEURALGIE",
+    "MOŽNÁ PŘÍČINA": "Trest za vinu. Úzkost z komunikace.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Odpouštím si. Mám se rád a jsem sebou spokojený. Ke všem a všemu se obracím s láskou."
+  },
+  {
+    "PROBLÉM": "NEVOLNOST",
+    "MOŽNÁ PŘÍČINA": "Strach. Odmítání určité myšlenky či zážitku.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem v bezpečí. Věřím, že běh života mi přináší jen dobro."
+  },
+  {
+    "PROBLÉM": "„NEVYLÉČITELNÉ NEMOCI“",
+    "MOŽNÁ PŘÍČINA": "V tomto stavu nemoc nemůže být vyléčena vnějším zásahem. Skutečné vyléčení vyžaduje proniknout hluboko do pacientova nitra.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Každý den se dějí zázraky. Pronikám hluboko do svého nitra, abych se zbavil návyku, který tuto nemoc způsobil. Přijímám Boží lék. Je tomu tak!"
+  },
+  {
+    "PROBLÉM": "NEŽITY",
+    "MOŽNÁ PŘÍČINA": "Překypující, kvasící  zloba.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Vyjadřuji lásku a radost. Jsem usmířený."
+  },
+  {
+    "PROBLÉM": "NOHY – POTÍŽE",
+    "MOŽNÁ PŘÍČINA": "Nesou nás v životě vpřed.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Život je tu pro mne."
+  },
+  {
+    "PROBLÉM": "– STEHNA",
+    "MOŽNÁ PŘÍČINA": "Lpění na traumatech z dětství.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "S pochopením, vědomím a znalostmi, které měli, dělali to nejlepší, co mohli. Osvobozuji se."
+  },
+  {
+    "PROBLÉM": "– LÝTKA",
+    "MOŽNÁ PŘÍČINA": "Strach z budoucnosti. Nechuť k pohybu.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "S radostí a sebedůvěrou postupuji vpřed, neboť vím, že v mé budoucnosti je vše v pořádku."
+  },
+  {
+    "PROBLÉM": "NOS",
+    "MOŽNÁ PŘÍČINA": "Představuje sebepoznání.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem si vědom svých intuitivních schopností."
+  },
+  {
+    "PROBLÉM": "NOSNÍ MANDLE",
+    "MOŽNÁ PŘÍČINA": "Rodinné neshody, hádky. Dítě se cítí nevítané.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Toto dítě obklopuje láska. Toto dítě chceme a přijímáme."
+  },
+  {
+    "PROBLÉM": "OBEZITA",
+    "MOŽNÁ PŘÍČINA": "Strach. Potřeba ochrany. Útěk před city. Nejistota, zavrhování sama sebe. Hledání seberealizace a naplnění.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem usmířený s vlastními pocity. Jsem v bezpečí. Vytvářím si bezpečné prostředí. Mám se rád a jsem se sebou spokojený."
+  },
+  {
+    "PROBLÉM": "OBLIČEJ",
+    "MOŽNÁ PŘÍČINA": "Představuje to, co ukazujeme světu.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Je bezpečné být sám sebou. Vyjadřuji, kdo jsem."
+  },
+  {
+    "PROBLÉM": "OBRNA",
+    "MOŽNÁ PŘÍČINA": "Ochromující žárlivost. Touha někoho zastavit.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Všeho je dost pro všechny. Láskyplnými myšlenkami si vytvářím radost a svobodu."
+  },
+  {
+    "PROBLÉM": "OČI",
+    "MOŽNÁ PŘÍČINA": "Představují schopnost zřetelně vidět.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Dívám se radostnýma a laskavýma očima."
+  },
+  {
+    "PROBLÉM": "OČNÍ POTÍŽE",
+    "MOŽNÁ PŘÍČINA": "Nespokojenost s tím, co vidím ve svém životě.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Právě v tomto okamžiku se vytvářím život, na který se rád dívám."
+  },
+  {
+    "PROBLÉM": "– ASTIGMATISMUS",
+    "MOŽNÁ PŘÍČINA": "Strach doopravdy vidět sama sebe.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem ochoten vidět se v celé své kráse a vznešenosti."
+  },
+  {
+    "PROBLÉM": "– DALEKOZRAKOST",
+    "MOŽNÁ PŘÍČINA": "Strach z přítomnosti.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Vidím, že právě v tomto okamžiku a právě tady jsem v bezpečí."
+  },
+  {
+    "PROBLÉM": "– DĚTSKÉ",
+    "MOŽNÁ PŘÍČINA": "Odmítání vidět, co se děje v rodině.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Toto dítě nyní obklopuje harmonie a radost, krása a bezpečí."
+  },
+  {
+    "PROBLÉM": "GLAUKOM (ZELENÝ ZÁKAL)",
+    "MOŽNÁ PŘÍČINA": "Tvrdošíjné neodpouštění. Tlak ze starých urážek a křivd. Znavenost životem.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Dívám se něžně a laskavě."
+  },
+  {
+    "PROBLÉM": "KRÁTKOZRAKOST",
+    "MOŽNÁ PŘÍČINA": "Strach z budoucnosti.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Nechávám se vést Bohem a jsem vždy v bezpečí."
+  },
+  {
+    "PROBLÉM": "ŠEDÝ ZÁKAL",
+    "MOŽNÁ PŘÍČINA": "Temná budoucnost. Neschopnost hledět s radostí do budoucna.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Život je věčný a plný radosti."
+  },
+  {
+    "PROBLÉM": "ŠILHAVOST – ROZBÍHAVÁ",
+    "MOŽNÁ PŘÍČINA": "Strach prohlédnout na bezprostřední přítomnost.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám se rád a jsem spokojený s tím, jaký jsem."
+  },
+  {
+    "PROBLÉM": "           – SBÍHAVÁ",
+    "MOŽNÁ PŘÍČINA": "Odmítání vidět okolní svět. Nedorozumění.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Je bezpečné vidět svět. Jsem usmířený."
+  },
+  {
+    "PROBLÉM": "OCHABLÉ RYSY",
+    "MOŽNÁ PŘÍČINA": "Ochablé rysy v obličeji jsou způsobeny ochablými myšlenkami. Nechuť k životu.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Vyjadřuji radost ze života. Mohu se naplno radovat z každičkého okamžiku každého dne. Jsem opět mladý."
+  },
+  {
+    "PROBLÉM": "OPAR",
+    "MOŽNÁ PŘÍČINA": "Všeobecné přesvědčení o sexuální vině a potřebě trestu. Veřejná hanba. Víra v trestajícího Boha. zavrhování genitálií.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mé chápání Boha je mi oporou. Jsem normální a přirozený. Raduji se ze své sexuality a ze svého těla. Jsem dokonalý."
+  },
+  {
+    "PROBLÉM": "OPAR, PÁSOVÝ",
+    "MOŽNÁ PŘÍČINA": "Strach a napětí. Přecitlivělost. Čekání, kdy to praskne.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem uvolněný a usmířený, protože věřím v běh života. V mém světě je všechno v pořádku."
+  },
+  {
+    "PROBLÉM": "OSTEOMYELITIDA",
+    "MOŽNÁ PŘÍČINA": "viz ZÁNĚT KOSTNÍ DŘENĚ",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "OTLAKY",
+    "MOŽNÁ PŘÍČINA": "Zbytnělé názory a myšlenky. Vykrystalizovaný strach.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Je bezpečné nově myslet a žít. Přijímám dobro."
+  },
+  {
+    "PROBLÉM": "OTOKY",
+    "MOŽNÁ PŘÍČINA": "Čeho nebo koho se nechcete zbavit?",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Rád se zbavuji všeho minulého. Je to bezpečný. Jsem svobodný."
+  },
+  {
+    "PROBLÉM": "OTUPĚLOST",
+    "MOŽNÁ PŘÍČINA": "Mentální umrtvení. Potlačování projevů lásky a účasti.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Sdílím své pocity a svou lásku. Reaguji na lásku v každém člověku."
+  },
+  {
+    "PROBLÉM": "PADOUCNICE",
+    "MOŽNÁ PŘÍČINA": "viz EPILEPSIE",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "PÁCHNOUCÍ DECH",
+    "MOŽNÁ PŘÍČINA": "Zloba a pomstychtivé myšlenky. Zkažené zahnívající myšlení, špinavé pomluvy.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Hovořím vlídně a laskavě. Vydechuji jen dobro."
+  },
+  {
+    "PROBLÉM": "PÁCHNOUCÍ POT",
+    "MOŽNÁ PŘÍČINA": "Strach. Strach z ostatních. Štítivost vůči sobě sama.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám se rád a jsem se sebou spokojený. Jsem v bezpečí."
+  },
+  {
+    "PROBLÉM": "PÁLENÍ ŽÁHY",
+    "MOŽNÁ PŘÍČINA": "Strach. Strach. Strach. Svíravý strach.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Dýchám zhluboka a svobodně. Jsem v bezpečí. Víra v běh života."
+  },
+  {
+    "PROBLÉM": "PARADENTÓZA",
+    "MOŽNÁ PŘÍČINA": "Zloba na vlastní nerozhodnost. Od slov daleko k činům.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem se sebou spokojený. Vždy se rozhoduji správně."
+  },
+  {
+    "PROBLÉM": "PARALÝZA",
+    "MOŽNÁ PŘÍČINA": "Strach. hrůza, útěk před nějakým člověkem či situací. Odpor.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem zajedno se životem. jsem v bezpečí. S přehledem zvládám všechny situace,."
+  },
+  {
+    "PROBLÉM": "PARKINSONOVA NEMOC",
+    "MOŽNÁ PŘÍČINA": "Strach. Intenzivní potřeba všechny a všechno ovládat.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Uvolňuji se, neboť vím, že jsem v bezpečí. Život je tu pro mne. Věřím v běh života."
+  },
+  {
+    "PROBLÉM": "PÁTEŘ",
+    "MOŽNÁ PŘÍČINA": "Představuje životní oporu.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Vím, že život je mi vždy oporou."
+  },
+  {
+    "PROBLÉM": "– BEDERNÍ PÁTEŘ",
+    "MOŽNÁ PŘÍČINA": "Vina. Ustrnutí v problémech minulosti. Touha mít od všech pokoj.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Zbavuji se minulosti. Jsem svobodný, abych mohl s láskou v srdci postupovat vpřed."
+  },
+  {
+    "PROBLÉM": "– HRUDNÍ PÁTEŘ",
+    "MOŽNÁ PŘÍČINA": "Nedostatek citové opory. Pocit, že mne nikdo nemá rád. Potlačování projevů lásky.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám se rád a jsem se sebou spokojený. Život mně má rád a je mi oporou."
+  },
+  {
+    "PROBLÉM": "– KOSTRČ A KŘÍŽOVÁ PÁTEŘ",
+    "MOŽNÁ PŘÍČINA": "Strach z peněz. Nedostatek finanční podpory.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Věřím v běh života. O vše, co potřebuji je vždy postaráno. Jsem v bezpečí."
+  },
+  {
+    "PROBLÉM": "– KRČNÍ PÁTEŘ",
+    "MOŽNÁ PŘÍČINA": "Odmítání vidět druhou stránku problému. Tvrdošíjnost a nepružnost.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Pružně a snadno vidím všechny stránky problému. Věci jde dělat nekonečně mnoha způsoby. Jsem v bezpečí."
+  },
+  {
+    "PROBLÉM": "– ZAKŘIVENÍ PÁTEŘE",
+    "MOŽNÁ PŘÍČINA": "viz ZAKŘIVENÍ",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "PAŽE",
+    "MOŽNÁ PŘÍČINA": "Představují schopnost a způsobilost přijímat životní zkušenosti.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Láskyplně, s radostí a přirozeně přijímám všechny své životní zkušenosti."
+  },
+  {
+    "PROBLÉM": "PEPTICKÝ VŘED (viz též VŘEDY, ŽALUDEK)",
+    "MOŽNÁ PŘÍČINA": "Strach. Úzkostlivá snaha zavděčit se všem. Přesvědčení, že za nic nestojím.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám se rád a jsem se sebou spokojený. Jsem se sebou usmířený. Jsem dokonalý."
+  },
+  {
+    "PROBLÉM": "PÍŠTĚL",
+    "MOŽNÁ PŘÍČINA": "Strach. Překážka v procesu zbavování.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem v bezpečí. Bezvýhradně věřím v běh života. Život je tu pro mne."
+  },
+  {
+    "PROBLÉM": "PLÁČ",
+    "MOŽNÁ PŘÍČINA": "Slzy jsou řekou života. Kanou z radosti i ze žalu a strachu.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem usmířený se svými emocemi. Mám se rád a jsem se sebou spokojený."
+  },
+  {
+    "PROBLÉM": "PLÍCE",
+    "MOŽNÁ PŘÍČINA": "Schopnost přijímat život.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Přijímám život v dokonalé rovnováze."
+  },
+  {
+    "PROBLÉM": "PLICNÍ POTÍŽE",
+    "MOŽNÁ PŘÍČINA": "Deprese. Smutek. Strach přijímat život. Pocit, že nejsem hoden žít naplno.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem schopen naplno přijímat život."
+  },
+  {
+    "PROBLÉM": "PLÍSNĚ",
+    "MOŽNÁ PŘÍČINA": "viz DERMATOMYKÓZA, KANDIDÓZA, TRICHOFYCIE",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "PLOTÉNKY",
+    "MOŽNÁ PŘÍČINA": "Nerozhodnost. Pocit, že v životě nemám žádnou oporu.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Život podporuje všechny mé myšlenky, a proto se mám rád, jsem se sebou spokojený a v mém světě je všechno v pořádku."
+  },
+  {
+    "PROBLÉM": "PLYNATOST",
+    "MOŽNÁ PŘÍČINA": "Svíravé pocity. Strach. Nestrávené myšlenky.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem uvolněný. Dovoluji životu, aby mnou volně proudil."
+  },
+  {
+    "PROBLÉM": "PMS",
+    "MOŽNÁ PŘÍČINA": "viz PREMENSTRUAČNÍ SYNDROM",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "PODVĚSEK MOZKOVÝ",
+    "MOŽNÁ PŘÍČINA": "viz HYPOFÝZA",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "PODVRTNUTÍ",
+    "MOŽNÁ PŘÍČINA": "viz VÝRON",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "POHLAVNÍ NEMOCI",
+    "MOŽNÁ PŘÍČINA": "Sexuální vina. Potřeba trestu. Přesvědčení, že genitálie jsou hříšné a nečisté. Zneužívání druhých.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Láskyplně a radostně přijímám svou sexualitu a její vyjádření. Přijímám jen myšlenky, které mne podporují a dělají mi dobře."
+  },
+  {
+    "PROBLÉM": "POHMOŽDĚNINY",
+    "MOŽNÁ PŘÍČINA": "Drobné životní nesnáze. Trestání sama sebe.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám se rád a láskyplně o sebe pečuji. Chovám se k sobě laskavě a něžně. Všechno je v pořádku."
+  },
+  {
+    "PROBLÉM": "POMOČOVÁNÍ (U DĚTÍ) (viz též INKONTINENCE)",
+    "MOŽNÁ PŘÍČINA": "Strach z rodiče, většinou otce.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Dívám se na toto dítě s láskou, soucitem a pochopením. Všechno je v pořádku."
+  },
+  {
+    "PROBLÉM": "PÓRY",
+    "MOŽNÁ PŘÍČINA": "viz UCPANÉ PÓRY",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "POTRAT",
+    "MOŽNÁ PŘÍČINA": "Strach. Strach z budoucnosti. Nesprávná volba času.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Bůh v mém životě vždy určí pravou chvíli. Mám se ráda a jsem se sebou spokojená. Všechno je v pořádku."
+  },
+  {
+    "PROBLÉM": "PREMENSTRUAČNÍ SYNDROM (PMS)",
+    "MOŽNÁ PŘÍČINA": "Podléhání zmatečným a zavádějícím názorům a vnějším vlivům. Zavrhování ženství.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem zcela zodpovědná za svou mysl a za svůj život. Jsem silná a energická. Každičká část mého těla dokonale pracuje. Mám se ráda."
+  },
+  {
+    "PROBLÉM": "PROSTATA",
+    "MOŽNÁ PŘÍČINA": "Představuje mužský princip.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Přijímám své mužství a raduji se z něj."
+  },
+  {
+    "PROBLÉM": "– POTÍŽE",
+    "MOŽNÁ PŘÍČINA": "Mentální obavy oslabují potenci. Sexuální tlak a vina. Přesvědčení, že člověk musí zestárnout. Kapitulace.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám se rád a jsem se sebou spokojený. Přijímám svou vlastní sílu. Jsem navěky mladý duchem."
+  },
+  {
+    "PROBLÉM": "PRSA",
+    "MOŽNÁ PŘÍČINA": "Představují mateřskou péči a výživu.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Přijímám a vydávám výživu v dokonalé rovnováze."
+  },
+  {
+    "PROBLÉM": "– UZLINY, CYSTY, NÁDORY (viz též CYSTY)",
+    "MOŽNÁ PŘÍČINA": "Přílišná péče. Přehnaná starostlivost. Panovačnost. Překážky druhým v růstu.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mohu být sama sebou a nechávám ostatním volnost, aby byli tím, kým jsou. Pro všechny z nás je bezpečné dospět a vyrůst."
+  },
+  {
+    "PROBLÉM": "PRSTY",
+    "MOŽNÁ PŘÍČINA": "Představují detaily života.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem usmířený s detaily života."
+  },
+  {
+    "PROBLÉM": "– MALÍČEK",
+    "MOŽNÁ PŘÍČINA": "Představuje rodinu a předstírání.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Je mi dobře s rodinou života."
+  },
+  {
+    "PROBLÉM": "– NA NOHOU",
+    "MOŽNÁ PŘÍČINA": "Představují detaily budoucnosti.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Všechny detaily se vyřeší samy."
+  },
+  {
+    "PROBLÉM": "– PALEC",
+    "MOŽNÁ PŘÍČINA": "Představuje intelekt a obavy.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Má mysl je usmířená."
+  },
+  {
+    "PROBLÉM": "– PROSTŘEDNÍČEK",
+    "MOŽNÁ PŘÍČINA": "Představuje vztek a sexualitu.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Je příjemný být mužem/ženou."
+  },
+  {
+    "PROBLÉM": "– PRSTENÍČEK",
+    "MOŽNÁ PŘÍČINA": "Představuje svazky a smutek.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Miluji klidně a laskavě."
+  },
+  {
+    "PROBLÉM": "– UKAZOVÁČEK",
+    "MOŽNÁ PŘÍČINA": "Představuje ego a strach.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem v bezpečí."
+  },
+  {
+    "PROBLÉM": "PRŮJEM",
+    "MOŽNÁ PŘÍČINA": "Strach. Odmítání. Útěk před někým nebo před něčím.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Zcela normálně přijímám, asimiluji a vylučuji. Jsem usmířený se životem."
+  },
+  {
+    "PROBLÉM": "PSORIÁZA",
+    "MOŽNÁ PŘÍČINA": "viz LUPÉNKA",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "PUCHÝŘE",
+    "MOŽNÁ PŘÍČINA": "Odpor. Nedostatek citové ochrany.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Snadno se přizpůsobuji životu a každé nové zkušenosti."
+  },
+  {
+    "PROBLÉM": "RAKOVINA",
+    "MOŽNÁ PŘÍČINA": "Velká křivda. Dlouhodobý odpor a zášť. Skryté tajemství či zármutek, který člověka vnitřně stravuje. Tajená nenávist. Pocit, že nic nemá smysl. Nevyřešené vztahy v minulosti.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Zbavuji se celé své minulosti a s láskou jí odpouštím. Jsem ochoten naplnit svůj život radostí. Mám se rád a jsem se sebou spokojený."
+  },
+  {
+    "PROBLÉM": "RAMENA",
+    "MOŽNÁ PŘÍČINA": "Jsou od toho, aby nesla radost, nikoli břemena.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mohu se svobodně radovat."
+  },
+  {
+    "PROBLÉM": "RAMENA KULATÁ",
+    "MOŽNÁ PŘÍČINA": "viz SKOLIÓZA",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "REVMATICKÁ ARTRIDA",
+    "MOŽNÁ PŘÍČINA": "Kritika autority. Pocit, že mne někdo ovládá a šikanuje.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem si svou vlastní a jedinou autoritou. Mám se rád a jsem se sebou spokojený. Život je dobrý."
+  },
+  {
+    "PROBLÉM": "REVMATISMUS",
+    "MOŽNÁ PŘÍČINA": "Pocit diskriminace. Nedostatek lásky. Chronická zatrpklost. Odpor a zášť.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Své zážitky si vytvářím sám. Mé životní zkušenosti jsou čím dál tím příjemnější, protože mám rád sám sebe i ostatní a jsem se sebou i s nimi spokojený."
+  },
+  {
+    "PROBLÉM": "ROZEDMA PLIC",
+    "MOŽNÁ PŘÍČINA": "Strach přijímat život. Pocit, že nejsem hoden života.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mým přirozeným právem je žít spontánně a naplno. Mám se rád. Mám rád život."
+  },
+  {
+    "PROBLÉM": "ROZTROUŠENÁ SKLERÓZA",
+    "MOŽNÁ PŘÍČINA": "Zatvrzelost, nepřístupnost, neoblomnost, nepružnost. Strach.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Vybírám si láskyplné a radostné myšlenky a vytvářím si tak láskyplný a radostný svět. Jsem v bezpečí. Jsem svobodný."
+  },
+  {
+    "PROBLÉM": "RUCE",
+    "MOŽNÁ PŘÍČINA": "Všemožné způsoby, jak nakládat se zkušenostmi. Držení a manipulace. Sevření a povolení. Pohlazení. Štípnutí. Stisk a chňapnutí.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Snadno, radostně a láskyplně využívám všechny své zkušenosti."
+  },
+  {
+    "PROBLÉM": "RÝMA",
+    "MOŽNÁ PŘÍČINA": "Příliš mnoho událostí najednou. Mentální zmatek. Drobné křivdy. Přesvědčení typu „Každý rok chytnu třikrát za zimu rýmu.“",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Dovoluji své mysli, aby se uvolnila a usmířila. Všude ve mně i kolem mne panuje čistota a harmonie."
+  },
+  {
+    "PROBLÉM": "RÝMA, CHRONICKÁ",
+    "MOŽNÁ PŘÍČINA": "Vnitřní pláč. „Dětské“ slzy. Oběť.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Uznávám, že ve svém světě jsem jedinou tvůrčí silou. Jsem ochoten radovat se ze života."
+  },
+  {
+    "PROBLÉM": "RÝMA, SENNÁ",
+    "MOŽNÁ PŘÍČINA": "Nahromaděné emoce. Strach z přesného časového harmonogramu. Přesvědčení, že mne někdo nebo něco pronásleduje. Vina.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem zajedno s veškerým životem. Jsem vždy v bezpečí."
+  },
+  {
+    "PROBLÉM": "ŘÍHÁNÍ",
+    "MOŽNÁ PŘÍČINA": "Strach. Příliš rychlé hltání života.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Na všechno, co potřebuji udělat, je čas i prostor. Jsem usmířený."
+  },
+  {
+    "PROBLÉM": "SANICE",
+    "MOŽNÁ PŘÍČINA": "viz ČELIST",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "SENILITA",
+    "MOŽNÁ PŘÍČINA": "Návrat do bezpečí dětství. Vyžadování péče a pozornosti. Způsob ovládání bližních. Únik.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Boží ochrana. Bezpečí. Klid. Vesmírná Inteligence působí na každé úrovni života."
+  },
+  {
+    "PROBLÉM": "SKLERODERMIE",
+    "MOŽNÁ PŘÍČINA": "Pocit nejistoty a zranitelnosti. Pocit, že mne ostatní ohrožují a dráždí. Vytváření vlastní ochrany.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Bůh mne vždy ochraňuje. Všechno, co dělám, je v pořádku. Přináší mi to lásku, kterou s radostí a s potěšením přijímám."
+  },
+  {
+    "PROBLÉM": "SKLERÓZA",
+    "MOŽNÁ PŘÍČINA": "viz ARTERIOSKLERÓZA",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "SKLERÓZA MULTIPLEX",
+    "MOŽNÁ PŘÍČINA": "viz ROZTROUŠENÁ SKLERÓZA",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "SKOLIÓZA",
+    "MOŽNÁ PŘÍČINA": "Vláčení břemen života. Bezmoc a beznaděj.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Stojím vzpřímeně a svobodně. Mám se rád a jsem se sebou spokojený. Můj život je den ode dne lepší a radostnější."
+  },
+  {
+    "PROBLÉM": "SLEZINA",
+    "MOŽNÁ PŘÍČINA": "Posedlost. Utkvělé představy, nutkavé myšlenky.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám se rád a jsem se sebou spokojený. Věřím, že život je tu pro mne. Jsem v bezpečí. Všechno je v pořádku."
+  },
+  {
+    "PROBLÉM": "SLINIVKA (viz též ZÁNĚT SLINIVKY)",
+    "MOŽNÁ PŘÍČINA": "Představuje sladkost života.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám sladký život."
+  },
+  {
+    "PROBLÉM": "SNĚŤ",
+    "MOŽNÁ PŘÍČINA": "Mentální morbidita. Utápění radosti v jedovatých myšlenkách.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Vybírám si jen harmonické myšlenky. Dovoluji, aby mnou volně proudila radost."
+  },
+  {
+    "PROBLÉM": "SPÁLENINY",
+    "MOŽNÁ PŘÍČINA": "Zloba. Vztek. Vznětlivost.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "V sobě i kolem sebe vytvářím pouze klid a harmonii. Zasloužím si, aby mi bylo dobře."
+  },
+  {
+    "PROBLÉM": "SRDCE",
+    "MOŽNÁ PŘÍČINA": "Představuje centrum lásky a bezpečí.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mé srdce bije v rytmu lásky."
+  },
+  {
+    "PROBLÉM": "SRDEČNÍ POTÍŽE (viz též INFARKT)",
+    "MOŽNÁ PŘÍČINA": "Dlouhotrvající citové problémy. Málo radosti. Zatvrzelost v srdci. Přesvědčení, že je nutné žít v napětí a stresu. Vytěsnění lásky a intimity ze svého života.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Radost. Radost. Radost. S láskou nechávám radost prostoupit celou svou myslí, svým tělem a všemi svými zážitky."
+  },
+  {
+    "PROBLÉM": "STÁRNUTÍ – POTÍŽE",
+    "MOŽNÁ PŘÍČINA": "Společenské předsudky. Staré myšlení. Strach být sám sebou. Zavrhování přítomnosti.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám se rád a jsem se sebou spokojený v každém věku. Každý okamžik života je dokonalý."
+  },
+  {
+    "PROBLÉM": "STRABISMUS",
+    "MOŽNÁ PŘÍČINA": "viz OČNÍ POTÍŽE, ŠILHAVOST",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "STRNULOST",
+    "MOŽNÁ PŘÍČINA": "Strnulé, rigidní myšlení.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mohu uvažovat pružně, neboť jsem v naprostém bezpečí."
+  },
+  {
+    "PROBLÉM": "STRUMA",
+    "MOŽNÁ PŘÍČINA": "Nenávist pramenící z pocitu ublížení a porážky. Oběť. Pocit zmařeného života. Nenaplnění.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Svůj život ovládám jen já. Mohu být sám sebou."
+  },
+  {
+    "PROBLÉM": "STYDKÁ KOST",
+    "MOŽNÁ PŘÍČINA": "Představuje ochranu genitálií.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Má sexualita je v bezpečí."
+  },
+  {
+    "PROBLÉM": "STŘEVA",
+    "MOŽNÁ PŘÍČINA": "Místo, kde se tělo zbavuje odpadu.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Snadno se zbavuji všeho, co nepotřebuji."
+  },
+  {
+    "PROBLÉM": "– POTÍŽE",
+    "MOŽNÁ PŘÍČINA": "Strach zbavit se všeho starého a nepotřebného.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Snadno a přirozeně se zbavuji všeho starého a s radostí vítám nové."
+  },
+  {
+    "PROBLÉM": "SVALOVÁ DYSTROFIE",
+    "MOŽNÁ PŘÍČINA": "Obrovský strach. nesmírná touha ovládat všechno a všechny. Naléhavá potřeba bezpečí. Ztráta víry a důvěry.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Je bezpečné být naživu. Je bezpečné být sám sebou. Jsem dost dobrý takový, jaký jsem. Věřím si."
+  },
+  {
+    "PROBLÉM": "SVĚDĚNÍ",
+    "MOŽNÁ PŘÍČINA": "Touhy a přání, která jsou člověku proti mysli. Nespokojenost. Výčitky svědomí. Svrbění odejít nebo utéct.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Je mi dobře tam, kde jsem. Přijímám to, co mi prospívá, neboť vím, že všechny mé touhy a potřeby dojdou naplnění."
+  },
+  {
+    "PROBLÉM": "SVRAB",
+    "MOŽNÁ PŘÍČINA": "Infikované myšlení. Dovolujete ostatním, aby se vám dostali pod kůži.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem živoucím, milujícím a radostným ztělesněním života. Jsem sám sebou."
+  },
+  {
+    "PROBLÉM": "SYFILIS",
+    "MOŽNÁ PŘÍČINA": "viz POHLAVNÍ NEMOCI",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "ŠEDIVĚNÍ VLASŮ",
+    "MOŽNÁ PŘÍČINA": "Stres. Přesvědčení, že je nezbytné žít pod neustálým tlakem a v napětí.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem harmonický. Jsem silný a schopný."
+  },
+  {
+    "PROBLÉM": "ŠEDÝ ZÁKAL",
+    "MOŽNÁ PŘÍČINA": "viz OČNÍ POTÍŽE",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "ŠILHAVOST",
+    "MOŽNÁ PŘÍČINA": "viz OČNÍ POTÍŽE",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "ŠTÍTNÁ ŽLÁZA – POTÍŽE",
+    "MOŽNÁ PŘÍČINA": "Ponížení. Pocit, že se nikdy nedostanu k tomu, co chci dělat.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Přenáším se přes hranice svých omezení. Nyní se mohu vyjadřovat svobodně a tvořivě."
+  },
+  {
+    "PROBLÉM": "– HYPERFUNKCE",
+    "MOŽNÁ PŘÍČINA": "Mimořádné zklamání, že nejsem schopen dělat to, co chci. Uspokojování druhých, ne sebe.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Navracím svou sílu tam, kam patří. Činím svá vlastní rozhodnutí. Uspokojuji své vlastní touhy a potřeby."
+  },
+  {
+    "PROBLÉM": "TASEMNICE",
+    "MOŽNÁ PŘÍČINA": "Silné přesvědčení, že jsem pouhou obětí druhých. Pocit, že jsem nečistý. Bezmoc nad postoji ostatních.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mé okolí je odrazem dobrých pocitů, které ze sebe mám. Mám se rád a schvaluji všechno, čím jsem."
+  },
+  {
+    "PROBLÉM": "TEPNY (viz též ARTERIOSKLERÓZA)",
+    "MOŽNÁ PŘÍČINA": "Rozvádějí radost ze života.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Překypuji radostí. Proudí mnou každým úderem mého srdce."
+  },
+  {
+    "PROBLÉM": "TETANUS",
+    "MOŽNÁ PŘÍČINA": "Potřeba zbavit se zlostných, hlodavých myšlenek.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Dovoluji lásce ve svém srdci, aby mne celého omyla a očistila a aby zhojila mé celé tělo a všechny mé city."
+  },
+  {
+    "PROBLÉM": "TONSILITIDA",
+    "MOŽNÁ PŘÍČINA": "viz ANGÍNA",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "TOXIKOMANIE",
+    "MOŽNÁ PŘÍČINA": "viz NARKOMANIE",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "TRICHOFYCIE",
+    "MOŽNÁ PŘÍČINA": "Pocit, že nejsem dost dobrý nebo dost čistý. Podléhání tlaku ze strany druhých.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám se rád a jsem se sebou spokojený. Jsem svobodný. Jsem mimo dosah vlivu kohokoli a čehokoli."
+  },
+  {
+    "PROBLÉM": "TRISMUS (ZTÍŽENÉ OTEVÍRÁNÍ ÚST)",
+    "MOŽNÁ PŘÍČINA": "Zloba. Touha ovládat někoho nebo něco. Odmítání vyjadřovat své pocity.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Věřím v běh života. Snadno si říkám o to, co chci. Život mne podporuje."
+  },
+  {
+    "PROBLÉM": "TROMBÓZA",
+    "MOŽNÁ PŘÍČINA": "Pocit osamělosti a strachu. pocit, že za nic nestojím, že toho nedělám dost, že nikdy nic nezvládnu.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Splývám se životem. Vesmír mne bezvýhradně podporuje. Všechno je v pořádku."
+  },
+  {
+    "PROBLÉM": "TRUDOVITOST",
+    "MOŽNÁ PŘÍČINA": "viz AKNÉ",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "TUBERKULÓZA",
+    "MOŽNÁ PŘÍČINA": "Sobectví a panovačnost. Kruté myšlenky. Odplata.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám se rád a jsem se sebou spokojený. Vytvářím si tak klidný svět plný radosti."
+  },
+  {
+    "PROBLÉM": "TUK",
+    "MOŽNÁ PŘÍČINA": "Představuje ochranu. Přecitlivělost.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Ochraňuje mne Boží láska. jsem vždy v bezpečí."
+  },
+  {
+    "PROBLÉM": "UCPANÉ PÓRY",
+    "MOŽNÁ PŘÍČINA": "Pocit, že jsem nečistý a že mě nikdo nemá rád.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám se rád a jsem se sebou spokojený. Mám rád lidi a oni mají rádi mne."
+  },
+  {
+    "PROBLÉM": "ÚNAVA",
+    "MOŽNÁ PŘÍČINA": "Odpor, nuda. Málo lásky k tomu, co dělám.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem plný energie a nadšení ze života."
+  },
+  {
+    "PROBLÉM": "URETERITIDA a URETRITIDA",
+    "MOŽNÁ PŘÍČINA": "Vztek, většinou na opačné pohlaví nebo na partnera. Obviňování ostatních.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Zbavuji se návyku ve svém vědomí, který způsobil tento stav. Jsem ochoten se změnit. Mám se rád a jsem se sebou spokojený."
+  },
+  {
+    "PROBLÉM": "ÚSTA",
+    "MOŽNÁ PŘÍČINA": "Představují přijímání výživy a nových myšlenek.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem živ z lásky."
+  },
+  {
+    "PROBLÉM": "– POTÍŽE",
+    "MOŽNÁ PŘÍČINA": "Zakořeněné názory. Nepřístupná mysl. Neschopnost přijímat nové myšlenky.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Vítám nové myšlenky a pojmy a připravuji se na proces trávení a asimilace."
+  },
+  {
+    "PROBLÉM": "UŠI",
+    "MOŽNÁ PŘÍČINA": "Představují schopnost slyšet.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Naslouchám s láskou."
+  },
+  {
+    "PROBLÉM": "UŠNÍ BOLESTI",
+    "MOŽNÁ PŘÍČINA": "Zloba. Odmítání slyšet. Přílišný rozruch a zmatek. Hádky rodičů.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Obklopuje mne harmonie. S láskou naslouchám všemu dobrému a příjemnému. Jsem středem lásky."
+  },
+  {
+    "PROBLÉM": "ÚZKOST",
+    "MOŽNÁ PŘÍČINA": "Nedůvěra v přirozený běh života.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám se rád a jsem se sebou spokojený. Věřím v běh života. Jsem v bezpečí."
+  },
+  {
+    "PROBLÉM": "VAJEČNÍKY",
+    "MOŽNÁ PŘÍČINA": "Představují stvoření i tvořivost.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem vyvážená ve své tvořivosti."
+  },
+  {
+    "PROBLÉM": "VARLATA",
+    "MOŽNÁ PŘÍČINA": "Představují mužský princip.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Je bezpečné být mužem."
+  },
+  {
+    "PROBLÉM": "VITILIGO",
+    "MOŽNÁ PŘÍČINA": "Pocit, že jsem zcela mimo hru, outsider, a nezapadám do žádného společenství.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem v samém středu života. jsem spojen s láskou."
+  },
+  {
+    "PROBLÉM": "VOLE",
+    "MOŽNÁ PŘÍČINA": "viz STRUMA",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "VROZENÉ VADY",
+    "MOŽNÁ PŘÍČINA": "Karmické. Zvolili jste si takto přijít na svět. Rodiče si vybíráme sami.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Pro můj růst je vhodná každá zkušenost. Jsem usmířený s tím, kde jsem."
+  },
+  {
+    "PROBLÉM": "VŘEDY (ŽALUDEČNÍ A DVANÁCTNÍKOVÉ)",
+    "MOŽNÁ PŘÍČINA": "Strach. Silné přesvědčení, za nic nestojíte. Co vás užírá?",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám se rád a jsem se sebou spokojený. Jsem usmířený. Jsem klidný. Všechno je v pořádku."
+  },
+  {
+    "PROBLÉM": "VULVA",
+    "MOŽNÁ PŘÍČINA": "Představuje zranitelnost a citlivost.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Je bezpečné být zranitelný a citlivý."
+  },
+  {
+    "PROBLÉM": "VYPADÁVÁNÍ VLASŮ",
+    "MOŽNÁ PŘÍČINA": "Strach. Napětí. Snaha vše ovládat. Nedůvěra v běh života.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem v bezpečí. Mám se rád a jsem se sebou spokojený. Věřím životu."
+  },
+  {
+    "PROBLÉM": "VYRÁŽKA (EXANTÉM)",
+    "MOŽNÁ PŘÍČINA": "Podrážděnost nad odkládanými záležitostmi. Dětský způsob, jak si vynutit pozornost.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám se rád a jsem se sebou spokojený. Jsem usmířen s během života."
+  },
+  {
+    "PROBLÉM": "VÝRON",
+    "MOŽNÁ PŘÍČINA": "Zloba a odpor. Odmítání postupovat v životě určitým směrem.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Věřím, že život mne dovede k mému nejvyššímu dobru. Jsem usmířený."
+  },
+  {
+    "PROBLÉM": "VÝTOK, BÍLÝ",
+    "MOŽNÁ PŘÍČINA": "Přesvědčení, že ženy jsou ovládány opačným pohlavím. Zlost na partnera.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Všechny své zážitky si vytvářím sama. Jsem jedinou silou ve svém životě. Raduji se z toho, že jsem žena. Jsem svobodná."
+  },
+  {
+    "PROBLÉM": "VZTEKLINA",
+    "MOŽNÁ PŘÍČINA": "Vztek. Přesvědčení, že odpovědí na vše je násilí.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Ve mně i kolem mne panuje klid a mír."
+  },
+  {
+    "PROBLÉM": "ZÁCPA",
+    "MOŽNÁ PŘÍČINA": "Odmítání zbavit se starých myšlenek. Uvíznutí v minulosti. Někdy i lakomost.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Zbavuji se starého a to, co přichází, je nové, svěží a plné života. Nechávám život proudit celou svou bytostí."
+  },
+  {
+    "PROBLÉM": "ZÁDA",
+    "MOŽNÁ PŘÍČINA": "viz PÁTEŘ",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "ZAKŘIVENÍ PÁTEŘE",
+    "MOŽNÁ PŘÍČINA": "Strach a snaha lpět na starých myšlenkách. Nedůvěra v život. nedostatek mravní čistoty. Člověk bez nadšení a zapálených přesvědčení.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Zbavuji se veškerého strachu. Věřím v běh života. Vím ,že život je tu pro mne. S láskou stojím rovně a vzpřímeně."
+  },
+  {
+    "PROBLÉM": "ZÁNĚT (všeobecně)",
+    "MOŽNÁ PŘÍČINA": "Strach. Zloba a frustrace z toho, co se děje ve vašem životě.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem ochoten změnit všechny své návyky a kritiky. Mám se rád a jsem se sebou spokojený. Mám mysl je pokojná, klidná a vyvážená."
+  },
+  {
+    "PROBLÉM": "ZÁNĚT JATER",
+    "MOŽNÁ PŘÍČINA": "Odpor vůči změně. Strach, zloba a nenávist. Játra jsou sídlem zloby a vzteku.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám mysl je čistá a svobodná. Zbavuji se minulosti a vítám vše nové. Všechno je v pořádku."
+  },
+  {
+    "PROBLÉM": "ZÁNĚT KLOUBŮ",
+    "MOŽNÁ PŘÍČINA": "Pocit, že mne nikdo nemá rád. Kritika, zášť.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem láska. Jsem ochoten mít se rád a být se sebou spokojený. S láskou se dívám na své okolí."
+  },
+  {
+    "PROBLÉM": "ZÁNĚT KOSTNÍ DŘENĚ",
+    "MOŽNÁ PŘÍČINA": "Frustrace a zloba na samu podstatu života. Pocit, že mne nikdo nepodporuje.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Věřím v běh života a jsem s ním usmířený. Jsem v bezpečí."
+  },
+  {
+    "PROBLÉM": "Z. KYČELNÍKU",
+    "MOŽNÁ PŘÍČINA": "Strach. Obavy. Přesvědčení, že za nic nestojím.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám se rád a jsem se sebou spokojený. Snažím se ze všech sil. Jsem dokonalý. Jsem usmířený."
+  },
+  {
+    "PROBLÉM": "Z. LEDVIN",
+    "MOŽNÁ PŘÍČINA": "Přecitlivělá reakce na zklamání a neúspěch.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "V mém životě se dějí jen správné věci. Zbavuji se starého a vítám nové. Všechno je v pořádku."
+  },
+  {
+    "PROBLÉM": "Z. MANDLÍ",
+    "MOŽNÁ PŘÍČINA": "viz ANGÍNA",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "ZÁNĚT OČNÍ ROHOVKY",
+    "MOŽNÁ PŘÍČINA": "Nesmírná zloba. Touha udeřit osobu či věci, které vidíte.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Dovoluji, aby láska plynoucí z mého srdce zhojila vše, co vidím. V mém světě je všechno v pořádku."
+  },
+  {
+    "PROBLÉM": "ZÁNĚT POCHVY",
+    "MOŽNÁ PŘÍČINA": "Zloba na partnera. Sexuální vina. Trestání sama sebe.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám se ráda a jsem se sebou spokojená. Druzí zrcadlí mé kladné pocity. Raduji se ze své sexuality."
+  },
+  {
+    "PROBLÉM": "ZÁNĚT SEDACÍHO NERVU",
+    "MOŽNÁ PŘÍČINA": "viz ISCHIAS",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "ZÁNĚT SLEPÉHO STŘEVA",
+    "MOŽNÁ PŘÍČINA": "Strach. Strach ze života. Zablokování proudu dobra.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem v bezpečí. Uvolňuji se a nechávám život radostně plynout."
+  },
+  {
+    "PROBLÉM": "ZÁNĚT SLINIVKY",
+    "MOŽNÁ PŘÍČINA": "Odmítání. Zloba a frustrace z pocitu, že život pozbyl veškeré sladkosti.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám se rád a jsem se sebou spokojený. Jen já sám si mohu osladit život a naplnit jej radostí."
+  },
+  {
+    "PROBLÉM": "ZÁNĚT SPOJIVEK",
+    "MOŽNÁ PŘÍČINA": "Zloba a frustrace z toho, na co se v životě dívám.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Hledím očima lásky. Existuje harmonické řešení, které přijímám."
+  },
+  {
+    "PROBLÉM": "ZÁNĚT SPOJIVEK, INFEKČNÍ",
+    "MOŽNÁ PŘÍČINA": "Zloba a frustrace. Odmítání vidět.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Zbavuji se potřeby mít za každých okolností pravdu. Jsem usmířený. Mám se rád a jsem se sebou spokojený."
+  },
+  {
+    "PROBLÉM": "ZÁNĚT TLUSTÉHO STŘEVA",
+    "MOŽNÁ PŘÍČINA": "Přehnané nároky ze strany rodičů. Pocit útlaku a porážky. Silná potřeba lásky a náklonnosti.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mám se rád a jsem se sebou spokojený. Vytvářím si svou vlastní radost. Jsem rozhodnut být úspěšný."
+  },
+  {
+    "PROBLÉM": "ZÁNĚT ŽIL",
+    "MOŽNÁ PŘÍČINA": "Zloba a frustrace. Málo radosti v životě. Obviňování ostatních za svá vlastní omezení.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Dovoluji, aby mnou volně proudila radost. Jsem usmířený se životem."
+  },
+  {
+    "PROBLÉM": "ZÁPAL PLIC",
+    "MOŽNÁ PŘÍČINA": "Zoufalství. Únava ze života. Citové rány, kterým není dovoleno, aby se zhojily.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Spontánně přijímám myšlenky, které jsou prodchnuty dechem a Inteligencí života. Tento okamžik je nový."
+  },
+  {
+    "PROBLÉM": "ZÁPĚSTÍ",
+    "MOŽNÁ PŘÍČINA": "Představuje pohyb a uvolněnost.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Všechny své životní zkušenosti zvládám snadno, s láskou a moudrostí."
+  },
+  {
+    "PROBLÉM": "ZÁVRAŤ",
+    "MOŽNÁ PŘÍČINA": "Přelétavé, roztěkané myšlení. Odmítání podívat se na něco nebo na někoho.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem hluboce soustředěný. Jsem vyvážený a usmířený. Je bezpečné žít a radovat se."
+  },
+  {
+    "PROBLÉM": "ZBYTNĚNÍ KOŽNÍHO VAZIVA",
+    "MOŽNÁ PŘÍČINA": "viz SKLERODERMIE",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "ZDUŘENÍ",
+    "MOŽNÁ PŘÍČINA": "Slepá ulička, bezradnost v myšlení. Omezující, bolestné myšlenky.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Mé myšlenky plynou lehce a spontánně."
+  },
+  {
+    "PROBLÉM": "ZIMNICE",
+    "MOŽNÁ PŘÍČINA": "Mentální třes. Touha stáhnout se do sebe. Tvrzení typu „Nechte mě na pokoji“.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem vždy v bezpečí. Jsem obklopen láskou. Chrání mne. Všechno je v pořádku."
+  },
+  {
+    "PROBLÉM": "ZLOMENINY",
+    "MOŽNÁ PŘÍČINA": "viz KOSTI",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "ZTRÁTA PAMĚTI",
+    "MOŽNÁ PŘÍČINA": "Strach. Útěk před životem. Neschopnost brát se za svá práva.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Inteligence, odvaha a sebeúcta jsou všudypřítomné. Je bezpečné být naživu."
+  },
+  {
+    "PROBLÉM": "ZTRÁTA ROVNOVÁHY",
+    "MOŽNÁ PŘÍČINA": "Roztříštěné myšlení. Nevyrovnanost.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Bezpečně nacházím svůj střed. Přijímám dokonalost svého života. Všechno je v pořádku."
+  },
+  {
+    "PROBLÉM": "ZTVRDLÁ KŮŽE NA NOHOU",
+    "MOŽNÁ PŘÍČINA": "viz OTLAKY",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "ZTUHNUTÍ ŠÍJE",
+    "MOŽNÁ PŘÍČINA": "Neústupná paličatost.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Je bezpečné znát názory ostatních."
+  },
+  {
+    "PROBLÉM": "ZUBY",
+    "MOŽNÁ PŘÍČINA": "Představují rozhodnutí.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  },
+  {
+    "PROBLÉM": "ZUBNÍ POTÍŽE",
+    "MOŽNÁ PŘÍČINA": "Dlouhotrvající nerozhodnost. Neschopnost analyzovat myšlenky a činit příslušná rozhodnutí.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Rozhoduji se na základě principů pravdy. Cítím se bezpečně, neboť vím, že v mém životě se dějí jen správné věci."
+  },
+  {
+    "PROBLÉM": "ZUBY MOUDROSTI, TĚŽKÉ PROŘEZÁVÁNÍ",
+    "MOŽNÁ PŘÍČINA": "Nedostatečný mentální prostor pro vytvoření pevného základu.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Otevírám své vědomí rozmachu života. Mám dost prostoru na to, abych mohl růst a měnit se."
+  },
+  {
+    "PROBLÉM": "ŽALUDEK",
+    "MOŽNÁ PŘÍČINA": "Obsahuje výživu. Zažívá myšlenky.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Snadno a přirozeně zažívám život."
+  },
+  {
+    "PROBLÉM": "ŽALUDEČNÍ POTÍŽE",
+    "MOŽNÁ PŘÍČINA": "Hrůza. Strach z nového. Neschopnost asimilovat nové.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Život mi dělá dobře. Každým okamžikem asimiluji všechno, co je nové. Všechno je v pořádku."
+  },
+  {
+    "PROBLÉM": "ŽENSKÉ NEMOCI",
+    "MOŽNÁ PŘÍČINA": "Popírání sebe sama. Zavrhování ženství a ženského principu.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Raduji se ze svého ženství. jsem ráda, že jsem žena. Mám ráda své tělo."
+  },
+  {
+    "PROBLÉM": "ŽÍLY",
+    "MOŽNÁ PŘÍČINA": "Rozvádějí radost ze života.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Naplňuje mě radost. Proudí mnou s každým úderem srdce."
+  },
+  {
+    "PROBLÉM": "ŽLÁZY (viz též ENDOKRINNÍ POTÍŽE)",
+    "MOŽNÁ PŘÍČINA": "Představují iniciativu a aktivitu.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem tvůrčí silou ve svém světě."
+  },
+  {
+    "PROBLÉM": "ŽLOUTENKA",
+    "MOŽNÁ PŘÍČINA": "Předsudky vůči sobě i druhým. Nevyrovnanost.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "Jsem tolerantní, soucítící a láskyplný vůči všem lidem i k sobě samému."
+  },
+  {
+    "PROBLÉM": "ŽLUČOVÉ KAMENY",
+    "MOŽNÁ PŘÍČINA": "Zahořklost. Zatvrzelé myšlenky. Odsuzování druhých. Pýcha.",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": "S radostí se zbavuji minulosti. Život je příjemný. Je mi sladce."
+  },
+  {
+    "PROBLÉM": "ŽRAVOST",
+    "MOŽNÁ PŘÍČINA": "viz NECHUTENSTVÍ",
+    "NOVÝ MENTÁLNÍ NÁVYK – AFIRMACE": ""
+  }
+];
+    </script>
+    <script>
+// Data jsou načtena z data.js
+let filteredData = [];
+
+// Funkce pro inicializaci aplikace
+function initializeApp() {
+    // Počkat, až se načte data.js
+    if (typeof allData !== 'undefined' && allData && allData.length > 0) {
+        filteredData = allData;
+        displayResults(filteredData);
+        
+        // Nastavení vyhledávání
+        const searchInput = document.getElementById('search-input');
+        if (searchInput) {
+            searchInput.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase().trim();
+                filterProblems(searchTerm);
+            });
+        }
+        console.log('Aplikace úspěšně načtena. Počet záznamů:', allData.length);
+    } else {
+        const problemsContainer = document.getElementById('problems');
+        if (problemsContainer) {
+            problemsContainer.innerHTML = '<div class="no-results">Chyba: Data se nepodařilo načíst.<br>Zkontrolujte:<br>1. Zda existuje soubor data.js ve stejném adresáři<br>2. Konzoli prohlížeče (F12) pro více informací</div>';
+        }
+        console.error('Data nejsou k dispozici.');
+        console.error('Zkontrolujte, zda je soubor data.js správně načten a ve stejném adresáři jako index.html');
+        
+        // Zkusit načíst data.js znovu
+        const script = document.createElement('script');
+        script.src = 'data.js';
+        script.onerror = function() {
+            console.error('Nepodařilo se načíst data.js. Zkontrolujte cestu k souboru.');
+        };
+        document.head.appendChild(script);
+    }
+}
+
+// Inicializace při načtení stránky
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeApp);
+} else {
+    // DOM je už načten
+    initializeApp();
+}
+
+// Zkusit také při window.onload pro případ, že data.js se načte později
+window.addEventListener('load', function() {
+    if (typeof allData !== 'undefined' && allData && allData.length > 0 && filteredData.length === 0) {
+        initializeApp();
+    }
+});
+
+// Filtrování problémů
+function filterProblems(searchTerm) {
+    if (typeof allData === 'undefined' || !allData) return;
+    
+    if (searchTerm === '') {
+        filteredData = allData;
+    } else {
+        filteredData = allData.filter(item => {
+            // Prohledat všechny hodnoty v objektu
+            return Object.values(item).some(value => {
+                if (value === null || value === undefined) return false;
+                return String(value).toLowerCase().includes(searchTerm);
+            });
+        });
+    }
+    
+    displayResults(filteredData);
+}
+
+// Zobrazení výsledků – jen názvy, rozbalovací detaily
+function displayResults(data) {
+    const problemsContainer = document.getElementById('problems');
+    
+    if (data.length === 0) {
+        problemsContainer.innerHTML = '<div class="no-results">Žádné výsledky nenalezeny</div>';
+        return;
+    }
+    
+    const columns = Object.keys(data[0]);
+    const problemColumn = columns[0];
+    
+    let html = '';
+    data.forEach((item, index) => {
+        const problemName = item[problemColumn] || `Záznam ${index + 1}`;
+        const problemId = `problem-${index}-${problemName.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+        
+        html += `<div class="problem-card" id="${problemId}" data-problem-name="${escapeHtml(String(problemName))}">`;
+        html += `<div class="problem-header" role="button" aria-expanded="false" tabindex="0">`;
+        if (problemName && String(problemName).trim() !== '') {
+            html += `<h2>${escapeHtml(String(problemName))}</h2>`;
+        }
+        html += `<span class="accordion-icon" aria-hidden="true">▼</span>`;
+        html += `</div>`;
+        html += `<div class="problem-details">`;
+        html += `<div class="problem-details-inner">`;
+        
+        columns.forEach((column, colIndex) => {
+            if (colIndex === 0) return;
+            const value = item[column];
+            if (value && String(value).trim() !== '') {
+                let processedValue = escapeHtml(String(value));
+                if (column === 'MOŽNÁ PŘÍČINA' || column.includes('PŘÍČINA')) {
+                    processedValue = processVizLinks(processedValue, data, problemColumn);
+                }
+                html += `<p><span class="label">${escapeHtml(column)}:</span> <span class="value">${processedValue}</span></p>`;
+            }
+        });
+        
+        html += `</div></div></div>`;
+    });
+    
+    problemsContainer.innerHTML = html;
+    
+    // Kliknutí na hlavičku = rozbal / sbal
+    problemsContainer.querySelectorAll('.problem-header').forEach(header => {
+        header.addEventListener('click', function() {
+            const card = this.closest('.problem-card');
+            card.classList.toggle('expanded');
+            this.setAttribute('aria-expanded', card.classList.contains('expanded'));
+        });
+        header.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                this.click();
+            }
+        });
+    });
+    
+    attachLinkListeners();
+}
+
+// Zpracování odkazů "viz (něco)"
+function processVizLinks(text, allData, problemColumn) {
+    // Regex pro detekci "viz (něco)" nebo "viz něco"
+    const vizPattern = /viz\s+([A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ\s]+)/gi;
+    
+    return text.replace(vizPattern, (match, problemName) => {
+        const trimmedName = problemName.trim();
+        const upperTrimmed = trimmedName.toUpperCase();
+        
+        // Najít problém v datech - nejdřív přesná shoda, pak shoda na začátku
+        let foundProblem = allData.find(item => {
+            const itemProblem = item[problemColumn];
+            if (!itemProblem) return false;
+            const upperItem = String(itemProblem).trim().toUpperCase();
+            return upperItem === upperTrimmed;
+        });
+        
+        // Pokud přesná shoda neexistuje, hledat problém, který začíná hledaným textem
+        if (!foundProblem) {
+            foundProblem = allData.find(item => {
+                const itemProblem = item[problemColumn];
+                if (!itemProblem) return false;
+                const upperItem = String(itemProblem).trim().toUpperCase();
+                return upperItem.startsWith(upperTrimmed + ' ') || upperItem.startsWith(upperTrimmed + '(');
+            });
+        }
+        
+        if (foundProblem) {
+            const problemIndex = allData.indexOf(foundProblem);
+            const actualProblemName = String(foundProblem[problemColumn]).trim();
+            const problemId = `problem-${problemIndex}-${actualProblemName.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+            return `viz <a href="#" class="problem-link" data-target="${problemId}">${trimmedName}</a>`;
+        }
+        
+        // Pokud problém nenalezen, vrátit původní text
+        return match;
+    });
+}
+
+// Přidat event listenery na odkazy
+function attachLinkListeners() {
+    const links = document.querySelectorAll('.problem-link');
+    links.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('data-target');
+            const targetElement = document.getElementById(targetId);
+            
+            if (targetElement) {
+                // Rozbalit cílovou kartu, aby byl obsah vidět
+                targetElement.classList.add('expanded');
+                const header = targetElement.querySelector('.problem-header');
+                if (header) header.setAttribute('aria-expanded', 'true');
+                
+                // Zvýraznit
+                targetElement.style.transition = 'all 0.3s ease';
+                targetElement.style.boxShadow = '0 8px 25px rgba(76, 175, 80, 0.4)';
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                setTimeout(() => {
+                    targetElement.style.boxShadow = '';
+                }, 2000);
+            }
+        });
+    });
+}
+
+// Escape HTML pro bezpečnost
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+    </script>
 </body>
 </html>

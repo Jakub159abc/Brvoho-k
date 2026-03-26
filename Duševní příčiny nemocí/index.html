@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Duševní příčiny nemocí - Filtrování</title>
+    <link rel="stylesheet" href="/css/app.css">
     <style>
 * {
   box-sizing: border-box;
@@ -11,13 +12,20 @@
   padding: 0;
 }
 
-body {
+body.page-shell-dusevni {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(135deg, #f5f7fa 0%, #e8f5e9 100%);
   color: #2d5016;
   line-height: 1.6;
   padding: 20px;
   min-height: 100vh;
+}
+
+/* Šířka hlavičky „Zpět“ jako uvnitř .container */
+body.page-shell-dusevni .site-header.dpn-nav {
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .container {
@@ -233,7 +241,10 @@ h1 {
 
     </style>
 </head>
-<body>
+<body class="page-shell-dusevni">
+    <header class="site-header dpn-nav">
+        <a href="/" class="back-home">← Hlavní menu</a>
+    </header>
     <div class="container">
         <h1>Duševní příčiny nemocí</h1>
         <p class="subtitle">Vyhledejte problém a zjistěte jeho možnou duševní příčinu</p>

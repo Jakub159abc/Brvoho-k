@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+.git_add_list
+.git_menu_add
+.git_slug_add

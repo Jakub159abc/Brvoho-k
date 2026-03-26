@@ -39,7 +39,8 @@
           if (fname) {
             window.open("/články html/rostliny/" + encodeURIComponent(fname), "_blank");
           } else {
-            window.open(url, "_blank");
+            // Standalone režim: místo externího brvohorik.cz otevřeme lokální seznam článků.
+            window.open("/clanky-o-rostlinach/", "_blank");
           }
         });
       });
