@@ -18,6 +18,7 @@
       src="/obsahove-latky/aplikace.html"
       loading="lazy"
       referrerpolicy="no-referrer-when-downgrade"
+      id="obsahove-latky-frame"
     ></iframe>
     <p class="muted obsahove-latky-fallback">
       Pokud se obsah nezobrazí, zkuste stránku znovu načíst nebo otevřít
@@ -27,5 +28,13 @@
       <a class="btn-primary" href="/">Zpět na menu</a>
     </div>
   </main>
+  <script>
+  (function () {
+    var q = window.location.search;
+    if (!q) return;
+    var f = document.getElementById("obsahove-latky-frame");
+    if (f) f.src = "/obsahove-latky/aplikace.html" + q;
+  })();
+  </script>
 </body>
 </html>
