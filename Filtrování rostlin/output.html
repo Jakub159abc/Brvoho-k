@@ -4,6 +4,50 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Databáze léčivých rostlin - Filtrování</title>
+<script>
+(function () {
+  function brvohorikSlugFromDataUrl(url) {
+    try {
+      var u = new URL(url);
+      var parts = u.pathname.split("/").filter(Boolean);
+      return decodeURIComponent(parts[parts.length - 1] || "");
+    } catch (e) {
+      return "";
+    }
+  }
+  var slugMapPromise = null;
+  function loadSlugMap() {
+    if (!slugMapPromise) {
+      slugMapPromise = fetch("/články html/rostliny/slug-to-local-file.json")
+        .then(function (r) {
+          return r.ok ? r.json() : {};
+        })
+        .catch(function () {
+          return {};
+        });
+    }
+    return slugMapPromise;
+  }
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".bylinka").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var url = b.getAttribute("data-url");
+        if (!url) return;
+        loadSlugMap().then(function (map) {
+          var slug = brvohorikSlugFromDataUrl(url);
+          var fname = map[slug];
+          if (fname) {
+            window.open("/články html/rostliny/" + encodeURIComponent(fname), "_blank");
+          } else {
+            // Standalone režim: místo externího brvohorik.cz otevřeme lokální seznam článků.
+            window.open("/clanky-o-rostlinach/", "_blank");
+          }
+        });
+      });
+    });
+  });
+})();
+</script>
 <style>
 * {
   box-sizing: border-box;
@@ -3673,13 +3717,6 @@ document.addEventListener("DOMContentLoaded", () => {
   extractFilters();
   updateResultsCount(); // Inicializace počtu při načtení
 
-  document.querySelectorAll(".bylinka").forEach(b => {
-    b.addEventListener("click", () => {
-      const url = b.dataset.url;
-      if (url) window.open(url, "_blank");
-    });
-  });
-
 });
 </script>
 
@@ -4101,13 +4138,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   extractFilters();
   updateResultsCount(); // Inicializace počtu při načtení
-
-  document.querySelectorAll(".bylinka").forEach(b => {
-    b.addEventListener("click", () => {
-      const url = b.dataset.url;
-      if (url) window.open(url, "_blank");
-    });
-  });
 
 });
 </script>
