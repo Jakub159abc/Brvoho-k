@@ -1993,6 +1993,9 @@
     #recipe-preview .article-body .article-two-columns .article-column { display: flex; flex-direction: column; gap: 1.5cm; flex: 1; min-width: 0; }
     #recipe-preview .article-body .article-two-columns .article-column .article-grid-cell { margin: 0; box-sizing: border-box; min-width: 0; }
     #recipe-preview .article-body .section-row { width: 100%; display: flex; justify-content: flex-start; margin-bottom: 3rem; box-sizing: border-box; }
+    #recipe-preview .article-body .section-row.recipe-title-row { justify-content: center; margin-bottom: 1rem; margin-top: 0; }
+    #recipe-preview .article-body .section-row.recipe-title-row .article-heading.recipe-page-title { width: 100%; margin: 0; justify-content: center; text-align: center; white-space: normal; flex-wrap: wrap; border-radius: 10px; }
+    #recipe-preview .article-body .section-row.recipe-title-row .recipe-page-title .heading-title { white-space: normal; max-width: 100%; text-align: center; line-height: 1.25; }
     #recipe-preview .article-body section { display: block; padding: 0 1rem 1rem 1rem; background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url('https://5894bc8f2a.clvaw-cdnwnd.com/9c5c0180b020bd4a2c598d6ffeaae1da/200000943-8ae8b8ae8d/wood-texture-floor-brown-tile-grunge-1161621-pxhere.com.webp?ph=5894bc8f2a'); background-repeat: no-repeat; background-position: center; background-size: cover; background-color: #faf9f5; border-radius: 10px; border: 1px solid #d4d0c4; box-shadow: 0 2px 6px rgba(61,107,74,0.06); box-sizing: border-box; }
     #recipe-preview .article-body section.article-intro { width: 100%; padding-top: 1rem; background-color: #f6f4ee; border-color: #e2dfd4; }
     #recipe-preview .article-body .article-two-columns .article-grid-cell section { display: block !important; width: 100% !important; padding: 0 0 1rem 0; }
@@ -2380,13 +2383,19 @@
         <div class="library-list-wrap" id="recipe-library-list"></div>
         <div class="library-editor-main">
       <label for="recipe-title" class="create-article-title">Editor receptu</label>
-      <p class="hint" style="margin-bottom: 0.5rem;">Úvod i buňky přidávej a piš přímo v náhledu. Buňky lze přesouvat (táhni za ≡) a zvětšovat (táhni za spodní okraj).</p>
+      <p class="hint" style="margin-bottom: 0.5rem;">Úvod i buňky přidávej a piš přímo v náhledu, nebo je z jednoho textu vygeneruj podle pravidla níže. Buňky lze přesouvat (táhni za ≡) a zvětšovat (táhni za spodní okraj).</p>
       <label for="recipe-title">Název receptu</label>
       <input type="text" id="recipe-title" placeholder="Např. Čaj z lípy">
       <label for="recipe-heading-color" style="margin-top: 1rem;">Barva nadpisů</label>
       <div style="display: flex; align-items: center; gap: 0.75rem; margin-top: 0.35rem;">
         <input type="color" id="recipe-heading-color" value="#3d6b4a" style="width: 48px; height: 40px; padding: 2px; border: 1px solid var(--border); border-radius: 8px; cursor: pointer;">
         <span class="hint" id="recipe-heading-color-value">#3d6b4a</span>
+      </div>
+      <label for="recipe-plain-text" style="margin-top: 1rem;">Text receptu (jeden zápis)</label>
+      <textarea id="recipe-plain-text" rows="14" placeholder="Úvod (volitelně), pak opakuj: (Nadpis buňky) &quot;obsah v uvozovkách&quot; – detail v nápovědě pod polem."></textarea>
+      <p class="hint hint-compact" style="margin-top: 0.35rem;"><strong>Zápis:</strong> <strong>Nadpis buňky</strong> = text v závorce <code>(…)</code> hned za ním obsah buňky v <strong>rovných uvozovkách</strong> <code>&quot;…&quot;</code> (uvozovky mohou být i přes více řádků). <strong>Úvod článku</strong> = vše před první závorkou <code>(</code>. Bloků <code>(nadpis) &quot;text&quot;</code> můžeš napsat libovolně mnoho za sebou. Název receptu vyplň výše; tlačítkem se naplní úvod a buňky v náhledu (stávající obsah náhledu se nahradí).</p>
+      <div style="margin-top: 0.5rem;">
+        <button type="button" class="btn btn-primary" id="recipe-btn-from-plain-text">Vytvořit z textu do náhledu</button>
       </div>
       <div id="recipe-preview-wrap" style="margin-top: 1rem;">
         <label style="display: block; font-weight: 500; margin-bottom: 0.5rem;">Recept – piš přímo do úvodu a buněk, přetahuj a měň velikost</label>
@@ -3038,11 +3047,16 @@
         if (!html || !html.trim()) return state;
         var parser = new DOMParser();
         var doc = parser.parseFromString(html, 'text/html');
-        var titleEl = doc.querySelector('title');
-        if (titleEl && titleEl.textContent) state.title = titleEl.textContent.trim();
+        var titleElMeta = doc.querySelector('title');
+        if (titleElMeta && titleElMeta.textContent) state.title = titleElMeta.textContent.trim();
 
         var bodyEl = doc.querySelector('.article-body') || doc.querySelector('article .article-body') || doc.body;
         if (!bodyEl) return state;
+
+        var pageTitleSpan = bodyEl.querySelector('.recipe-page-title .heading-title');
+        if (pageTitleSpan && pageTitleSpan.textContent.trim()) {
+          state.title = pageTitleSpan.textContent.trim();
+        }
 
         var firstHeading = bodyEl.querySelector('.article-heading');
         if (firstHeading && firstHeading.getAttribute('style')) {
@@ -4231,6 +4245,9 @@
         style += scope + ' .article-body .section-row.section-row-left { justify-content: flex-start; }\n';
         style += scope + ' .article-body .section-row.section-row-center { justify-content: center; }\n';
         style += scope + ' .article-body .section-row.section-row-right { justify-content: flex-end; }\n';
+        style += scope + ' .article-body .section-row.recipe-title-row { justify-content: center; margin-bottom: 1rem; margin-top: 0; box-sizing: border-box; }\n';
+        style += scope + ' .article-body .section-row.recipe-title-row .article-heading.recipe-page-title { width: 100% !important; margin: 0 !important; max-width: 100%; justify-content: center; text-align: center; white-space: normal; flex-wrap: wrap; border-radius: 10px; }\n';
+        style += scope + ' .article-body .section-row.recipe-title-row .recipe-page-title .heading-title { white-space: normal; max-width: 100%; text-align: center; line-height: 1.25; }\n';
         style += scope + ' .article-body .article-intro-between-row { width: 100%; display: flex; justify-content: center; align-items: center; margin: 0 0 1.75rem 0; padding: 0 1rem; box-sizing: border-box; }\n';
         style += scope + ' .article-body .article-intro-between-row .article-image { margin: 0 auto; max-width: 100%; display: block; }\n';
         style += scope + ' .article-body .article-intro-between-row img { max-width: 100%; height: auto; border-radius: 12px; display: block; }\n';
@@ -6284,6 +6301,8 @@
         var recipeAddCellBtn = document.getElementById('recipe-add-cell');
         var recipeBtnDownload = document.getElementById('recipe-btn-download');
         var recipeBtnCopyWeb = document.getElementById('recipe-btn-copy-web');
+        var recipePlainTextEl = document.getElementById('recipe-plain-text');
+        var recipeBtnFromPlain = document.getElementById('recipe-btn-from-plain-text');
 
         if (!recipePreviewEl || !recipeAddCellBtn) return;
 
@@ -6313,6 +6332,56 @@
           return recipePreviewEl.querySelector('.recipe-intro-content');
         }
 
+        /** Synchronizuje zelený pruh názvu v náhledu s polem „Název receptu“. */
+        function syncRecipeTitleToPreview() {
+          var span = recipePreviewEl.querySelector('.recipe-page-title-text');
+          if (!span) return;
+          var t = (recipeTitleEl && recipeTitleEl.value.trim()) || 'Recept';
+          span.textContent = t;
+        }
+
+        /** Parsuje zápis (nadpis) "obsah" opakovaně → úvod před první ( a pole buněk. */
+        function parseRecipePlainText(text) {
+          var intro = '';
+          var cells = [];
+          var s = text || '';
+          var n = s.length;
+          var i = 0;
+          var firstBlock = true;
+          while (i < n) {
+            var p0 = s.indexOf('(', i);
+            if (p0 === -1) {
+              if (firstBlock) intro = s.slice(i).trim();
+              break;
+            }
+            if (p0 > i && firstBlock) intro = s.slice(i, p0).trim();
+            var chunk = s.slice(p0);
+            var m = chunk.match(/^\(([^)]*)\)\s*"/);
+            if (!m) {
+              i = p0 + 1;
+              continue;
+            }
+            var heading = m[1].trim();
+            var bodyStart = p0 + m[0].length;
+            var j = bodyStart;
+            var bodyEnd = -1;
+            while (j < n) {
+              if (s[j] === '"' && s[j - 1] !== '\\') {
+                bodyEnd = j;
+                break;
+              }
+              j++;
+            }
+            if (bodyEnd === -1) break;
+            var body = s.slice(bodyStart, bodyEnd);
+            cells.push({ heading: heading, body: body.trim() });
+            i = bodyEnd + 1;
+            firstBlock = false;
+          }
+          if (cells.length === 0 && !intro.trim()) intro = s.trim();
+          return { intro: intro, cells: cells };
+        }
+
         /** Vytvoří počáteční strukturu: úvod (contenteditable) + prázdné article-two-columns. */
         function buildRecipePreviewStructure() {
           var color = getRecipeHeadingColor();
@@ -6325,9 +6394,16 @@
                     '<div class="recipe-intro-content" contenteditable="true" data-placeholder="Sem napiš úvod receptu…"></div>' +
                   '</section>' +
                 '</div>' +
+                '<div class="section-row recipe-title-row">' +
+                  '<h2 class="article-heading recipe-page-title" style="background:' + escapeHtml(rgba) + '">' +
+                    '<span class="heading-title recipe-page-title-text">Recept</span>' +
+                  '</h2>' +
+                '</div>' +
                 '<div class="article-two-columns"><div class="article-column article-column-left"></div><div class="article-column article-column-right"></div></div>' +
               '</div>' +
             '</article>';
+          syncRecipeTitleToPreview();
+          applyRecipeHeadingColor();
         }
 
         /** Přidá jednu buňku (podnadpis + obsah editovatelné, úchop na přesun, resize dole). */
@@ -6447,6 +6523,28 @@
 
         recipeAddCellBtn.addEventListener('click', function () { addRecipeCell(); });
 
+        if (recipeTitleEl) {
+          recipeTitleEl.addEventListener('input', syncRecipeTitleToPreview);
+          recipeTitleEl.addEventListener('change', syncRecipeTitleToPreview);
+        }
+
+        if (recipeBtnFromPlain && recipePlainTextEl) {
+          recipeBtnFromPlain.addEventListener('click', function () {
+            var parsed = parseRecipePlainText(recipePlainTextEl.value);
+            if (!parsed.intro.trim() && (!parsed.cells || !parsed.cells.length)) {
+              alert('Vlož text: úvod před první závorkou a bloky (nadpis) „obsah“ v rovných uvozovkách.');
+              return;
+            }
+            var title = (recipeTitleEl && recipeTitleEl.value.trim()) || 'Recept';
+            window.loadRecipeIntoEditor({
+              title: title,
+              intro: parsed.intro,
+              cells: parsed.cells,
+              headingColor: getRecipeHeadingColor()
+            });
+          });
+        }
+
         if (recipeHeadingColorEl && recipeHeadingColorValueEl) {
           recipeHeadingColorEl.addEventListener('input', function () {
             recipeHeadingColorValueEl.textContent = recipeHeadingColorEl.value;
@@ -6527,6 +6625,7 @@
         /** Vyčistí editor pro nový recept (Nový recept v sekci Recepty). */
         window.clearRecipeEditor = function () {
           if (recipeTitleEl) recipeTitleEl.value = '';
+          if (recipePlainTextEl) recipePlainTextEl.value = '';
           if (recipeHeadingColorEl) {
             recipeHeadingColorEl.value = '#3d6b4a';
             if (recipeHeadingColorValueEl) recipeHeadingColorValueEl.textContent = '#3d6b4a';
