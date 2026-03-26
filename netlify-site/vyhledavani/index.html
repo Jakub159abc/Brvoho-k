@@ -15,10 +15,28 @@
       return "";
     }
   }
+  function slugMapUrl() {
+    if (location.protocol === "file:") {
+      return new URL("../články html/rostliny/slug-to-local-file.json", location.href).href;
+    }
+    return "/články html/rostliny/slug-to-local-file.json";
+  }
+  function articlesDirUrl() {
+    if (location.protocol === "file:") {
+      return new URL("../články html/rostliny/", location.href).href;
+    }
+    return "/články html/rostliny/";
+  }
+  function fallbackClankyUrl() {
+    if (location.protocol === "file:") {
+      return new URL("../../site/clanky-o-rostlinach/index.html", location.href).href;
+    }
+    return "/clanky-o-rostlinach/";
+  }
   var slugMapPromise = null;
   function loadSlugMap() {
     if (!slugMapPromise) {
-      slugMapPromise = fetch("/články html/rostliny/slug-to-local-file.json")
+      slugMapPromise = fetch(slugMapUrl())
         .then(function (r) {
           return r.ok ? r.json() : {};
         })
@@ -28,21 +46,32 @@
     }
     return slugMapPromise;
   }
+  function openArticleForCard(card) {
+    var url = card.getAttribute("data-url");
+    if (!url) return;
+    loadSlugMap().then(function (map) {
+      var slug = brvohorikSlugFromDataUrl(url);
+      var fname = map[slug];
+      if (fname) {
+        var articleUrl = articlesDirUrl() + encodeURIComponent(fname);
+        window.open(articleUrl, "_blank", "noopener,noreferrer");
+      } else {
+        window.open(fallbackClankyUrl(), "_blank", "noopener,noreferrer");
+      }
+    });
+  }
   document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".bylinka").forEach(function (b) {
+      b.setAttribute("role", "button");
+      b.setAttribute("tabindex", "0");
       b.addEventListener("click", function () {
-        var url = b.getAttribute("data-url");
-        if (!url) return;
-        loadSlugMap().then(function (map) {
-          var slug = brvohorikSlugFromDataUrl(url);
-          var fname = map[slug];
-          if (fname) {
-            window.open("/články html/rostliny/" + encodeURIComponent(fname), "_blank");
-          } else {
-            // Standalone režim: místo externího brvohorik.cz otevřeme lokální seznam článků.
-            window.open("/clanky-o-rostlinach/", "_blank");
-          }
-        });
+        openArticleForCard(b);
+      });
+      b.addEventListener("keydown", function (ev) {
+        if (ev.key === "Enter" || ev.key === " ") {
+          ev.preventDefault();
+          openArticleForCard(b);
+        }
       });
     });
   });
@@ -277,6 +306,20 @@ h1 {
 
 .bylinka:hover::before {
   width: 8px;
+}
+
+.bylinka:focus {
+  outline: 3px solid #4caf50;
+  outline-offset: 2px;
+}
+
+.bylinka:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.bylinka:focus-visible {
+  outline: 3px solid #4caf50;
+  outline-offset: 2px;
 }
 
 .bylinka .cz {

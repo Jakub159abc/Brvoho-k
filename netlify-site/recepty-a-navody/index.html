@@ -6,20 +6,74 @@
   <title>Recepty a návody</title>
   <link rel="stylesheet" href="/css/app.css">
 </head>
-<body class="page-shell">
-  <header class="site-header">
-    <a href="/" class="back-home">← Hlavní menu</a>
-  </header>
-  <main class="page-inner">
-    <h1>Recepty a návody</h1>
-    <p class="lead">Rozcestník sekce v této aplikaci. Obsah můžete doplňovat vlastními soubory v této složce v projektu.</p>
-    <p>
-      Stávající obsah na webu:
-      <a href="https://www.brvohorik.cz/recepty-a-navody/" target="_blank" rel="noopener">brvohorik.cz – recepty a návody</a>
-    </p>
-    <div class="page-actions">
+<body class="clanky-app-body">
+  <a href="/" class="clanky-back-home">← Hlavní menu</a>
+  <div class="clanky-container">
+    <div class="clanky-title-block">
+      <h1>Recepty a návody</h1>
+      <p class="clanky-subtitle">Recepty z projektu. Uvnitř receptu označ související bylinky tagem <strong>#název</strong> (např. <strong>#bez černý</strong>) – u článku dané bylinky se pak zobrazí odkaz na recept.</p>
+      <p class="clanky-meta-links"><a href="/clanky-o-rostlinach/">Články o rostlinách</a> · <a href="/vyhledavani/">Databáze rostlin</a></p>
+    </div>
+    <div class="clanky-search-panel">
+      <div class="clanky-results-counter">
+        <div class="clanky-results-header">Počet receptů</div>
+        <div class="clanky-results-value" id="recepty-count-num" aria-live="polite">1</div>
+      </div>
+      <div class="clanky-search-container">
+        <div class="clanky-search-wrapper">
+          <label class="visually-hidden" for="recepty-search">Hledat recept</label>
+          <input type="search" id="recepty-search" class="clanky-search-field" placeholder="🔍 Hledat v názvu nebo tagu…" autocomplete="off">
+        </div>
+      </div>
+    </div>
+    <ul id="recepty-list" class="clanky-list">
+      <li class="recepty-item" data-tags-norm="bez cerny"><a href="/články html/recepty/sirup-z-kv%C4%9Bt%C5%AF-%C4%8Dern%C3%A9ho-bezu.html">Sirup z květů černého bezu</a> <span class="recepty-tag-note">(#bez černý)</span></li>
+    </ul>
+    <div class="page-actions clanky-page-actions">
       <a class="btn-primary" href="/">Zpět na menu</a>
     </div>
-  </main>
+  </div>
+  <script>
+(function() {
+  var input = document.getElementById("recepty-search");
+  var list = document.getElementById("recepty-list");
+  var numEl = document.getElementById("recepty-count-num");
+  if (!input || !list) return;
+  var items = list.querySelectorAll(".recepty-item");
+  function stripDiacritics(s) {
+    try { return s.normalize("NFD").replace(/\p{M}/gu, ""); } catch (e) { return s; }
+  }
+  var params = new URLSearchParams(location.search);
+  var tagParam = params.get("tag");
+  var tagFromUrl = false;
+  if (tagParam) {
+    input.value = decodeURIComponent(tagParam);
+    tagFromUrl = true;
+  }
+  function filter() {
+    var q = stripDiacritics((input.value || "").trim().toLowerCase());
+    var n = 0;
+    items.forEach(function(li) {
+      var show = false;
+      if (!q) {
+        show = true;
+      } else if (tagFromUrl) {
+        var norms = (li.getAttribute("data-tags-norm") || "").split("|").filter(Boolean);
+        show = norms.some(function(s) {
+          return stripDiacritics(s.toLowerCase()) === q;
+        });
+      } else {
+        var t = stripDiacritics(li.textContent.toLowerCase());
+        show = t.indexOf(q) !== -1;
+      }
+      li.style.display = show ? "" : "none";
+      if (show) n++;
+    });
+    if (numEl) numEl.textContent = String(n);
+  }
+  input.addEventListener("input", function() { tagFromUrl = false; filter(); });
+  filter();
+})();
+  </script>
 </body>
 </html>

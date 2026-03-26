@@ -1,0 +1,1672 @@
+{
+  "recipes": [
+    {
+      "file": "sirup-z-květů-černého-bezu.html",
+      "title": "Sirup z květů černého bezu",
+      "tags": [
+        "bez černý"
+      ],
+      "tagsNorm": [
+        "bez cerny"
+      ]
+    }
+  ],
+  "recipesByPlantFile": {
+    "bez-černý.html": [
+      {
+        "title": "Sirup z květů černého bezu",
+        "href": "/články html/recepty/sirup-z-kv%C4%9Bt%C5%AF-%C4%8Dern%C3%A9ho-bezu.html"
+      }
+    ]
+  },
+  "plantFiles": [
+    {
+      "norm": "andelika cinska",
+      "file": "Andělika čínská.html"
+    },
+    {
+      "norm": "andelika lekarska angelica archangelica",
+      "file": "andělika-lékařská-angelica-archangelica.html"
+    },
+    {
+      "norm": "anginovnik cinsky belamcanda chinensis nove razeny jako iris domestica",
+      "file": "angínovník-čínský-belamcanda-chinensis-nově-řazený-jako-iris-domestica.html"
+    },
+    {
+      "norm": "arganie trnita argania spinosa",
+      "file": "argánie-trnitá-argania-spinosa.html"
+    },
+    {
+      "norm": "bakopa drobnolista bacopa monnieri",
+      "file": "bakopa-drobnolistá-bacopa-monnieri.html"
+    },
+    {
+      "norm": "bazalka posvatna ocimum tenuiflorum znama take jako tulsi",
+      "file": "bazalka-posvátná-ocimum-tenuiflorum-známá-také-jako-tulsi.html"
+    },
+    {
+      "norm": "bazalka prava ocimum basilicum",
+      "file": "bazalka-pravá-ocimum-basilicum.html"
+    },
+    {
+      "norm": "bazanka vytrvala",
+      "file": "bažanka-vytrvalá.html"
+    },
+    {
+      "norm": "bez chebdi",
+      "file": "bez-chebdí.html"
+    },
+    {
+      "norm": "bez cerny",
+      "file": "bez-černý.html"
+    },
+    {
+      "norm": "bez cerveny",
+      "file": "bez-červený.html"
+    },
+    {
+      "norm": "bledule jarni",
+      "file": "bledule-jarní.html"
+    },
+    {
+      "norm": "bodlak obecny",
+      "file": "Bodlák obecný.html"
+    },
+    {
+      "norm": "bolehlav plamaty",
+      "file": "bolehlav-plamatý.html"
+    },
+    {
+      "norm": "bolsevnik obecny",
+      "file": "bolševník-obecný.html"
+    },
+    {
+      "norm": "borovice primorska",
+      "file": "borovice-přímořská.html"
+    },
+    {
+      "norm": "borovice sosna",
+      "file": "borovice-sosna.html"
+    },
+    {
+      "norm": "borovice cerna",
+      "file": "borovice-černá.html"
+    },
+    {
+      "norm": "broskvon obecna",
+      "file": "broskvoň-obecná.html"
+    },
+    {
+      "norm": "brslen evropsky",
+      "file": "brslen-evropský.html"
+    },
+    {
+      "norm": "brusnice boruvka",
+      "file": "brusnice-borůvka.html"
+    },
+    {
+      "norm": "brusnice brusinka",
+      "file": "brusnice-brusinka.html"
+    },
+    {
+      "norm": "brutnak lekarsky",
+      "file": "brutnák-lékařský.html"
+    },
+    {
+      "norm": "brslice kozi",
+      "file": "bršlice-kozí.html"
+    },
+    {
+      "norm": "buk lesni",
+      "file": "buk-lesní.html"
+    },
+    {
+      "norm": "bukvice lekarska",
+      "file": "bukvice-lékařská.html"
+    },
+    {
+      "norm": "burina srdecnik",
+      "file": "buřina-srdečník.html"
+    },
+    {
+      "norm": "belotrn kulatohlavy",
+      "file": "bělotrn-kulatohlavý.html"
+    },
+    {
+      "norm": "belotrn modry",
+      "file": "bělotrn-modrý.html"
+    },
+    {
+      "norm": "brectan popinavy",
+      "file": "břečťan-popínavý.html"
+    },
+    {
+      "norm": "briza belokora",
+      "file": "bříza-bělokorá.html"
+    },
+    {
+      "norm": "briza pyrita",
+      "file": "bříza-pýřitá.html"
+    },
+    {
+      "norm": "cesmina ostrolista",
+      "file": "cesmína-ostrolistá.html"
+    },
+    {
+      "norm": "chaluha bublinatka",
+      "file": "chaluha-bublinatka.html"
+    },
+    {
+      "norm": "chmel otacivy",
+      "file": "chmel-otáčivý.html"
+    },
+    {
+      "norm": "chrpa lucni",
+      "file": "Chrpa luční.html"
+    },
+    {
+      "norm": "chrpa modra",
+      "file": "Chrpa modrá.html"
+    },
+    {
+      "norm": "chrpa modra",
+      "file": "chrpa-modrá.html"
+    },
+    {
+      "norm": "chryzantema",
+      "file": "Chryzantéma (Chrysanthemum).html"
+    },
+    {
+      "norm": "chryzantema chrysanthemum",
+      "file": "chryzantéma-chrysanthemum.html"
+    },
+    {
+      "norm": "denivka plava",
+      "file": "Denivka plavá.html"
+    },
+    {
+      "norm": "denivka plava",
+      "file": "denivka-plavá.html"
+    },
+    {
+      "norm": "devetsil bily",
+      "file": "Devětsil bílý.html"
+    },
+    {
+      "norm": "devetsil lekarsky",
+      "file": "Devětsil lékařský.html"
+    },
+    {
+      "norm": "devetsil bily",
+      "file": "devětsil-bílý.html"
+    },
+    {
+      "norm": "devetsil lekarsky",
+      "file": "devětsil-lékařský.html"
+    },
+    {
+      "norm": "divizna brunatna",
+      "file": "Divizna brunátná.html"
+    },
+    {
+      "norm": "divizna malokveta",
+      "file": "Divizna malokvětá.html"
+    },
+    {
+      "norm": "divizna cerna",
+      "file": "Divizna černá.html"
+    },
+    {
+      "norm": "divizna brunatna",
+      "file": "divizna-brunátná.html"
+    },
+    {
+      "norm": "divizna malokveta",
+      "file": "divizna-malokvětá.html"
+    },
+    {
+      "norm": "divizna cerna",
+      "file": "divizna-černá.html"
+    },
+    {
+      "norm": "dobromysl obecna",
+      "file": "Dobromysl obecná.html"
+    },
+    {
+      "norm": "dobromysl obecna",
+      "file": "dobromysl-obecná.html"
+    },
+    {
+      "norm": "dracinec draci",
+      "file": "Dračínec dračí.html"
+    },
+    {
+      "norm": "dracinec rumelkovy",
+      "file": "Dračínec rumělkový.html"
+    },
+    {
+      "norm": "dracinec draci",
+      "file": "dračínec-dračí.html"
+    },
+    {
+      "norm": "dracinec rumelkovy",
+      "file": "dračínec-rumělkový.html"
+    },
+    {
+      "norm": "drmek obecny",
+      "file": "Drmek obecný.html"
+    },
+    {
+      "norm": "dub letni",
+      "file": "Dub letní.html"
+    },
+    {
+      "norm": "dub zimni",
+      "file": "Dub zimní.html"
+    },
+    {
+      "norm": "durman obecny",
+      "file": "Durman obecný.html"
+    },
+    {
+      "norm": "drin obecny",
+      "file": "Dřín obecný.html"
+    },
+    {
+      "norm": "eukalyptus",
+      "file": "Eukalyptus (Eucalyptus.html"
+    },
+    {
+      "norm": "fenykl divoky",
+      "file": "Fenykl divoký.html"
+    },
+    {
+      "norm": "habr obecny",
+      "file": "Habr obecný.html"
+    },
+    {
+      "norm": "hadinec obecny",
+      "file": "Hadinec obecný.html"
+    },
+    {
+      "norm": "hadi mord",
+      "file": "Hadí mord.html"
+    },
+    {
+      "norm": "hermanek pravy",
+      "file": "Heřmánek pravý.html"
+    },
+    {
+      "norm": "hermanek tercovity",
+      "file": "Heřmánek terčovitý.html"
+    },
+    {
+      "norm": "hlavacek jarni",
+      "file": "Hlaváček jarní.html"
+    },
+    {
+      "norm": "hlavacek letni",
+      "file": "Hlaváček letní.html"
+    },
+    {
+      "norm": "hloh obecny",
+      "file": "Hloh obecný.html"
+    },
+    {
+      "norm": "hluchavka bila",
+      "file": "Hluchavka bílá.html"
+    },
+    {
+      "norm": "hluchavka nachova",
+      "file": "Hluchavka nachová.html"
+    },
+    {
+      "norm": "hliva ustricna",
+      "file": "Hlíva ústřičná.html"
+    },
+    {
+      "norm": "hojnik horsky",
+      "file": "Hojník horský.html"
+    },
+    {
+      "norm": "houzevnatec jedly",
+      "file": "Houževnatec jedlý.html"
+    },
+    {
+      "norm": "horec zluty",
+      "file": "Hořec žlutý.html"
+    },
+    {
+      "norm": "horecek brvity",
+      "file": "Hořeček brvitý.html"
+    },
+    {
+      "norm": "horcice bila",
+      "file": "Hořčice bílá.html"
+    },
+    {
+      "norm": "hrachor hliznaty",
+      "file": "Hrachor hlíznatý.html"
+    },
+    {
+      "norm": "hrachor jarni",
+      "file": "Hrachor jarní.html"
+    },
+    {
+      "norm": "hrusen obecna",
+      "file": "Hrušeň obecná.html"
+    },
+    {
+      "norm": "hvozdik kartouzek",
+      "file": "Hvozdík kartouzek.html"
+    },
+    {
+      "norm": "hvozdik kropenaty",
+      "file": "Hvozdík kropenatý.html"
+    },
+    {
+      "norm": "hvozdik pisecny",
+      "file": "Hvozdík písečný.html"
+    },
+    {
+      "norm": "hrebickovec korenny",
+      "file": "Hřebíčkovec kořenný.html"
+    },
+    {
+      "norm": "jablecnik obecny",
+      "file": "Jablečník obecný.html"
+    },
+    {
+      "norm": "jablon",
+      "file": "Jabloň (Malus).html"
+    },
+    {
+      "norm": "jablon plana",
+      "file": "Jabloň planá.html"
+    },
+    {
+      "norm": "jahodnik obecny",
+      "file": "Jahodník obecný.html"
+    },
+    {
+      "norm": "jalovec obecny",
+      "file": "Jalovec obecný.html"
+    },
+    {
+      "norm": "jam hunaty",
+      "file": "Jam huňatý.html"
+    },
+    {
+      "norm": "jam cinsky",
+      "file": "Jam čínský.html"
+    },
+    {
+      "norm": "jasan ztepily",
+      "file": "Jasan ztepilý.html"
+    },
+    {
+      "norm": "jaternik podleska",
+      "file": "Jaterník podléška.html"
+    },
+    {
+      "norm": "javor babyka",
+      "file": "Javor babyka.html"
+    },
+    {
+      "norm": "javor klen",
+      "file": "Javor klen.html"
+    },
+    {
+      "norm": "javor mlec",
+      "file": "Javor mléč.html"
+    },
+    {
+      "norm": "jedle belokora",
+      "file": "Jedle bělokorá.html"
+    },
+    {
+      "norm": "jehlice trnita",
+      "file": "Jehlice trnitá.html"
+    },
+    {
+      "norm": "jeleni jazyk",
+      "file": "Jelení jazyk.html"
+    },
+    {
+      "norm": "jestrabina lekarska",
+      "file": "Jestřabina lékařská.html"
+    },
+    {
+      "norm": "jestrabnik chlupacek",
+      "file": "Jestřábník chlupáček.html"
+    },
+    {
+      "norm": "jestrabnik oranzovy",
+      "file": "Jestřábník oranžový.html"
+    },
+    {
+      "norm": "jetel bily",
+      "file": "Jetel bílý.html"
+    },
+    {
+      "norm": "jetel inkarnat",
+      "file": "Jetel inkarnát.html"
+    },
+    {
+      "norm": "jetel lucni",
+      "file": "Jetel luční.html"
+    },
+    {
+      "norm": "jerab oskeruse",
+      "file": "Jeřáb oskeruše.html"
+    },
+    {
+      "norm": "jerab ptaci",
+      "file": "Jeřáb ptačí.html"
+    },
+    {
+      "norm": "jidasovo ucho",
+      "file": "Jidášovo ucho.html"
+    },
+    {
+      "norm": "jilm drsny",
+      "file": "Jilm drsný.html"
+    },
+    {
+      "norm": "jilm habrolisty",
+      "file": "Jilm habrolistý.html"
+    },
+    {
+      "norm": "jilm plavy",
+      "file": "Jilm plavý.html"
+    },
+    {
+      "norm": "jilm vaz",
+      "file": "Jilm vaz.html"
+    },
+    {
+      "norm": "jitrocel kopinaty",
+      "file": "Jitrocel kopinatý.html"
+    },
+    {
+      "norm": "jitrocel prostredni",
+      "file": "Jitrocel prostřední.html"
+    },
+    {
+      "norm": "jitrocel vetsi",
+      "file": "Jitrocel větší.html"
+    },
+    {
+      "norm": "jmeli bile",
+      "file": "Jmelí bílé.html"
+    },
+    {
+      "norm": "jirovec madal",
+      "file": "Jírovec maďal.html"
+    },
+    {
+      "norm": "kadidlovnik",
+      "file": "Kadidlovník (Boswellia).html"
+    },
+    {
+      "norm": "kakost hnedocerveny",
+      "file": "Kakost hnědočervený.html"
+    },
+    {
+      "norm": "kakost lesni",
+      "file": "Kakost lesní.html"
+    },
+    {
+      "norm": "kakost lucni",
+      "file": "Kakost luční.html"
+    },
+    {
+      "norm": "kakost smrduty",
+      "file": "Kakost smrdutý.html"
+    },
+    {
+      "norm": "kalina obecna",
+      "file": "Kalina obecná.html"
+    },
+    {
+      "norm": "kaprad samec",
+      "file": "Kapraď samec.html"
+    },
+    {
+      "norm": "karbinec evropsky",
+      "file": "Karbinec evropský.html"
+    },
+    {
+      "norm": "kardamovnik obecny",
+      "file": "Kardamovník obecný.html"
+    },
+    {
+      "norm": "klitorie ternatska",
+      "file": "Klitorie ternatská.html"
+    },
+    {
+      "norm": "kmin korenny",
+      "file": "Kmín kořenný.html"
+    },
+    {
+      "norm": "kohoutek lucni",
+      "file": "Kohoutek luční.html"
+    },
+    {
+      "norm": "kokorik mnohokvety",
+      "file": "Kokořík mnohokvětý.html"
+    },
+    {
+      "norm": "kokoska pastusi",
+      "file": "Kokoška pastuší.html"
+    },
+    {
+      "norm": "komonice bila",
+      "file": "Komonice bílá.html"
+    },
+    {
+      "norm": "komonice lekarska",
+      "file": "Komonice lékařská.html"
+    },
+    {
+      "norm": "konopice polni",
+      "file": "Konopice polní.html"
+    },
+    {
+      "norm": "konopi sete",
+      "file": "Konopí seté.html"
+    },
+    {
+      "norm": "kontryhel obecny",
+      "file": "Kontryhel obecný.html"
+    },
+    {
+      "norm": "konvalinka vonna",
+      "file": "Konvalinka vonná.html"
+    },
+    {
+      "norm": "kopr vonny",
+      "file": "Kopr vonný.html"
+    },
+    {
+      "norm": "kopretina bila",
+      "file": "Kopretina bílá.html"
+    },
+    {
+      "norm": "kopretina rimbaba",
+      "file": "Kopretina řimbaba.html"
+    },
+    {
+      "norm": "kopriva dvoudoma",
+      "file": "Kopřiva dvoudomá.html"
+    },
+    {
+      "norm": "kosatec nemecky",
+      "file": "Kosatec německý.html"
+    },
+    {
+      "norm": "kosatec zluty",
+      "file": "Kosatec žlutý.html"
+    },
+    {
+      "norm": "kostival lekarsky",
+      "file": "Kostival lékařský.html"
+    },
+    {
+      "norm": "kotvicnik zemni",
+      "file": "Kotvičník zemní.html"
+    },
+    {
+      "norm": "kozinec sladkolisty",
+      "file": "Kozinec sladkolistý.html"
+    },
+    {
+      "norm": "kozlik lekarsky",
+      "file": "Kozlík lékařský.html"
+    },
+    {
+      "norm": "kozlicek polnicek",
+      "file": "Kozlíček polníček.html"
+    },
+    {
+      "norm": "kozi brada",
+      "file": "Kozí brada.html"
+    },
+    {
+      "norm": "krabilice mamiva",
+      "file": "Krabilice mámivá.html"
+    },
+    {
+      "norm": "krticnik hliznaty",
+      "file": "Krtičník hlíznatý.html"
+    },
+    {
+      "norm": "krucinka barvirska",
+      "file": "Kručinka barvířská.html"
+    },
+    {
+      "norm": "krvavec mensi",
+      "file": "Krvavec menší.html"
+    },
+    {
+      "norm": "krvavec toten",
+      "file": "Krvavec toten.html"
+    },
+    {
+      "norm": "kuklik mestsky",
+      "file": "Kuklík městský.html"
+    },
+    {
+      "norm": "kuklik potocni",
+      "file": "Kuklík potoční.html"
+    },
+    {
+      "norm": "kurkumovnik dlouhy",
+      "file": "Kurkumovník dlouhý.html"
+    },
+    {
+      "norm": "kustovnice cinska",
+      "file": "Kustovnice čínská.html"
+    },
+    {
+      "norm": "kyprej vrbice",
+      "file": "Kyprej vrbice.html"
+    },
+    {
+      "norm": "kren selsky",
+      "file": "Křen selský.html"
+    },
+    {
+      "norm": "kridlatka japonska",
+      "file": "Křídlatka japonská.html"
+    },
+    {
+      "norm": "lebeda leskla",
+      "file": "Lebeda lesklá.html"
+    },
+    {
+      "norm": "lebeda rozkladita",
+      "file": "Lebeda rozkladitá.html"
+    },
+    {
+      "norm": "len sety",
+      "file": "Len setý.html"
+    },
+    {
+      "norm": "lesklokorka leskla",
+      "file": "Lesklokorka lesklá.html"
+    },
+    {
+      "norm": "levandule sirokolista",
+      "file": "Levandule širokolistá.html"
+    },
+    {
+      "norm": "libecek lekarsky",
+      "file": "Libeček lékařský.html"
+    },
+    {
+      "norm": "lichorerisnice vetsi",
+      "file": "Lichořeřišnice větší.html"
+    },
+    {
+      "norm": "lilek cerny",
+      "file": "Lilek černý.html"
+    },
+    {
+      "norm": "lipnice lucni",
+      "file": "Lipnice luční.html"
+    },
+    {
+      "norm": "lnice kvetel",
+      "file": "Lnice květel.html"
+    },
+    {
+      "norm": "locika kompasova",
+      "file": "Locika kompasová.html"
+    },
+    {
+      "norm": "lomikamen trojprsty",
+      "file": "Lomikámen trojprstý.html"
+    },
+    {
+      "norm": "lomikamen zrnaty",
+      "file": "Lomikámen zrnatý.html"
+    },
+    {
+      "norm": "lopuch plstnaty",
+      "file": "Lopuch plstnatý.html"
+    },
+    {
+      "norm": "lopuch vetsi",
+      "file": "Lopuch větší.html"
+    },
+    {
+      "norm": "lotos indicky",
+      "file": "Lotos indický.html"
+    },
+    {
+      "norm": "loubinec trojlalocny",
+      "file": "Loubinec trojlaločný.html"
+    },
+    {
+      "norm": "lipa srdcita",
+      "file": "Lípa srdčitá.html"
+    },
+    {
+      "norm": "liska obecna",
+      "file": "Líska obecná.html"
+    },
+    {
+      "norm": "mahonie cesminolista",
+      "file": "Mahonie cesmínolistá.html"
+    },
+    {
+      "norm": "majoranka zahradni",
+      "file": "Majoránka zahradní.html"
+    },
+    {
+      "norm": "mandragora lekarska",
+      "file": "Mandragora lékařská.html"
+    },
+    {
+      "norm": "marali koren",
+      "file": "Maralí kořen.html"
+    },
+    {
+      "norm": "marhanik granatovy",
+      "file": "Marhaník granátový.html"
+    },
+    {
+      "norm": "marulka klinopad",
+      "file": "Marulka klinopád.html"
+    },
+    {
+      "norm": "materidouska obecna",
+      "file": "Mateřídouška obecná.html"
+    },
+    {
+      "norm": "marinka vonna",
+      "file": "Mařinka vonná.html"
+    },
+    {
+      "norm": "mari list",
+      "file": "Maří list.html"
+    },
+    {
+      "norm": "medunka lekarska",
+      "file": "Meduňka lékařská.html"
+    },
+    {
+      "norm": "medvedice lekarska",
+      "file": "Medvědice lékařská.html"
+    },
+    {
+      "norm": "milovnik plocholisty",
+      "file": "Milovník plocholistý.html"
+    },
+    {
+      "norm": "mlec drsny",
+      "file": "Mléč drsný.html"
+    },
+    {
+      "norm": "mlec rolni",
+      "file": "Mléč rolní.html"
+    },
+    {
+      "norm": "mlec zelinny",
+      "file": "Mléč zelinný.html"
+    },
+    {
+      "norm": "mochna husi",
+      "file": "Mochna husí.html"
+    },
+    {
+      "norm": "mochna natrznik",
+      "file": "Mochna nátržník.html"
+    },
+    {
+      "norm": "mochna stribrna",
+      "file": "Mochna stříbrná.html"
+    },
+    {
+      "norm": "mochyne peruanska",
+      "file": "Mochyně peruánská.html"
+    },
+    {
+      "norm": "mochyne zidovska",
+      "file": "Mochyně židovská.html"
+    },
+    {
+      "norm": "modrenec armensky",
+      "file": "Modřenec arménský.html"
+    },
+    {
+      "norm": "modrin opadavy",
+      "file": "Modřín opadavý.html"
+    },
+    {
+      "norm": "mokrys stridavolisty",
+      "file": "Mokřýš střídavolistý.html"
+    },
+    {
+      "norm": "morusovnik",
+      "file": "Morušovník (Morus).html"
+    },
+    {
+      "norm": "mrkev divoka",
+      "file": "Mrkev divoká.html"
+    },
+    {
+      "norm": "muchomurka ruzovka",
+      "file": "Muchomůrka růžovka.html"
+    },
+    {
+      "norm": "muchomurka cervena",
+      "file": "Muchomůrka červená.html"
+    },
+    {
+      "norm": "mydlice lekarska",
+      "file": "Mydlice lékařská.html"
+    },
+    {
+      "norm": "myrhovnik",
+      "file": "Myrhovník (Commiphora).html"
+    },
+    {
+      "norm": "mak sety",
+      "file": "Mák setý.html"
+    },
+    {
+      "norm": "mak vlci",
+      "file": "Mák vlčí.html"
+    },
+    {
+      "norm": "mata peprna",
+      "file": "Máta peprná.html"
+    },
+    {
+      "norm": "mata rolni",
+      "file": "Máta rolní.html"
+    },
+    {
+      "norm": "mata vodni",
+      "file": "Máta vodní.html"
+    },
+    {
+      "norm": "mernice cerna",
+      "file": "Měrnice černá.html"
+    },
+    {
+      "norm": "mesicek lekarsky",
+      "file": "Měsíček lékařský.html"
+    },
+    {
+      "norm": "mesicnice vytrvala",
+      "file": "Měsíčnice vytrvalá.html"
+    },
+    {
+      "norm": "narcis bily",
+      "file": "Narcis bílý.html"
+    },
+    {
+      "norm": "netresk stresni",
+      "file": "Netřesk střešní.html"
+    },
+    {
+      "norm": "naprstnik cerveny",
+      "file": "Náprstník červený.html"
+    },
+    {
+      "norm": "olivovnik evropsky",
+      "file": "Olivovník evropský.html"
+    },
+    {
+      "norm": "olse lepkava",
+      "file": "Olše lepkavá.html"
+    },
+    {
+      "norm": "oman pravy",
+      "file": "Oman pravý.html"
+    },
+    {
+      "norm": "omej salamounek",
+      "file": "Oměj šalamounek.html"
+    },
+    {
+      "norm": "oregano recke",
+      "file": "Oregano řecké.html"
+    },
+    {
+      "norm": "orsej jarni",
+      "file": "Orsej jarní.html"
+    },
+    {
+      "norm": "ostropes trubil",
+      "file": "Ostropes trubil.html"
+    },
+    {
+      "norm": "ostropestrec mariansky",
+      "file": "Ostropestřec mariánský.html"
+    },
+    {
+      "norm": "ostrozka stracka",
+      "file": "Ostrožka stračka.html"
+    },
+    {
+      "norm": "ostruzinik malinik",
+      "file": "Ostružiník maliník.html"
+    },
+    {
+      "norm": "ostruzinik ostruzina",
+      "file": "Ostružiník ostružina.html"
+    },
+    {
+      "norm": "outkovka pestra",
+      "file": "Outkovka pestrá.html"
+    },
+    {
+      "norm": "oresak kralovsky",
+      "file": "Ořešák královský.html"
+    },
+    {
+      "norm": "oresak cerny",
+      "file": "Ořešák černý.html"
+    },
+    {
+      "norm": "ozanka lesni",
+      "file": "Ožanka lesní.html"
+    },
+    {
+      "norm": "paeonia lactiflora",
+      "file": "Paeonia lactiflora.html"
+    },
+    {
+      "norm": "pelargonie ruzova",
+      "file": "Pelargonie růžová.html"
+    },
+    {
+      "norm": "pelargonie sidonska",
+      "file": "Pelargonie sidonská.html"
+    },
+    {
+      "norm": "pelynek brotan",
+      "file": "Pelyněk brotan.html"
+    },
+    {
+      "norm": "pelynek estragon",
+      "file": "Pelyněk estragon.html"
+    },
+    {
+      "norm": "pelynek pravy",
+      "file": "Pelyněk pravý.html"
+    },
+    {
+      "norm": "pelynek cernobyl",
+      "file": "Pelyněk černobýl.html"
+    },
+    {
+      "norm": "penizek rolni",
+      "file": "Penízek rolní.html"
+    },
+    {
+      "norm": "peprovnik cerny",
+      "file": "Pepřovník černý.html"
+    },
+    {
+      "norm": "petour maloubrny",
+      "file": "Petour maloubrný.html"
+    },
+    {
+      "norm": "petrzel zahradni",
+      "file": "Petržel zahradní.html"
+    },
+    {
+      "norm": "pitulnik zluty",
+      "file": "Pitulník žlutý.html"
+    },
+    {
+      "norm": "pivonka lekarska",
+      "file": "Pivoňka lékařská (1).html"
+    },
+    {
+      "norm": "pivonka lekarska",
+      "file": "Pivoňka lékařská.html"
+    },
+    {
+      "norm": "pivonka cinska",
+      "file": "Pivoňka čínská.html"
+    },
+    {
+      "norm": "plicnik lekarsky",
+      "file": "Plicník lékařský.html"
+    },
+    {
+      "norm": "plicnik tmavy",
+      "file": "Plicník tmavý.html"
+    },
+    {
+      "norm": "podbilek supinaty",
+      "file": "Podbílek šupinatý.html"
+    },
+    {
+      "norm": "podbel lekarsky",
+      "file": "Podběl lékařský.html"
+    },
+    {
+      "norm": "pohanka obecna",
+      "file": "Pohanka obecná.html"
+    },
+    {
+      "norm": "pomnenka lesni",
+      "file": "Pomněnka lesní.html"
+    },
+    {
+      "norm": "pomnenka rolni",
+      "file": "Pomněnka rolní.html"
+    },
+    {
+      "norm": "popenec brectanolisty",
+      "file": "Popenec břečťanolistý.html"
+    },
+    {
+      "norm": "potocnice lekarska",
+      "file": "Potočnice lékařská.html"
+    },
+    {
+      "norm": "prha arnika",
+      "file": "Prha arnika.html"
+    },
+    {
+      "norm": "proskurnik lekarsky",
+      "file": "Proskurník lékařský.html"
+    },
+    {
+      "norm": "prvosenka jarni",
+      "file": "Prvosenka jarní.html"
+    },
+    {
+      "norm": "prvosenka vyssi",
+      "file": "Prvosenka vyšší.html"
+    },
+    {
+      "norm": "pryskyrnik prudky",
+      "file": "Pryskyřník prudký.html"
+    },
+    {
+      "norm": "prysec chvojka",
+      "file": "Pryšec chvojka.html"
+    },
+    {
+      "norm": "ptacinec zabinec",
+      "file": "Ptačinec žabinec.html"
+    },
+    {
+      "norm": "pupalka dvouleta",
+      "file": "Pupalka dvouletá.html"
+    },
+    {
+      "norm": "pupava bezlodyzna",
+      "file": "Pupava bezlodyžná.html"
+    },
+    {
+      "norm": "puskvorec obecny",
+      "file": "Puškvorec obecný.html"
+    },
+    {
+      "norm": "pyr plazivy",
+      "file": "Pýr plazivý.html"
+    },
+    {
+      "norm": "preslicka bahenni",
+      "file": "Přeslička bahenní.html"
+    },
+    {
+      "norm": "preslicka rolni",
+      "file": "Přeslička rolní.html"
+    },
+    {
+      "norm": "rakytnik resetlakovy",
+      "file": "Rakytník řešetlákový.html"
+    },
+    {
+      "norm": "rdesno blesnik",
+      "file": "Rdesno blešník.html"
+    },
+    {
+      "norm": "rdesno hadi",
+      "file": "Rdesno hadí.html"
+    },
+    {
+      "norm": "rdesno mnohokvete",
+      "file": "Rdesno mnohokvěté.html"
+    },
+    {
+      "norm": "rdesno peprnik",
+      "file": "Rdesno peprník.html"
+    },
+    {
+      "norm": "reven kaderava",
+      "file": "Reveň kadeřavá.html"
+    },
+    {
+      "norm": "rezavec sikmy",
+      "file": "Rezavec šikmý.html"
+    },
+    {
+      "norm": "rmen barvirsky",
+      "file": "Rmen barvířský.html"
+    },
+    {
+      "norm": "rmen rolni",
+      "file": "Rmen rolní.html"
+    },
+    {
+      "norm": "routa vonna",
+      "file": "Routa vonná.html"
+    },
+    {
+      "norm": "rozchodnice ruzova",
+      "file": "Rozchodnice růžová.html"
+    },
+    {
+      "norm": "rozchodnik nachovy",
+      "file": "Rozchodník nachový.html"
+    },
+    {
+      "norm": "rozmaryn lekarsky",
+      "file": "Rozmarýn lékařský.html"
+    },
+    {
+      "norm": "rozrazil lalocnaty",
+      "file": "Rozrazil laločnatý.html"
+    },
+    {
+      "norm": "rozrazil lekarsky",
+      "file": "Rozrazil lékařský.html"
+    },
+    {
+      "norm": "rozrazil rezekvitek",
+      "file": "Rozrazil rezekvítek.html"
+    },
+    {
+      "norm": "rulik zlomocny",
+      "file": "Rulík zlomocný.html"
+    },
+    {
+      "norm": "rybiz cerny",
+      "file": "Rybíz černý.html"
+    },
+    {
+      "norm": "reva vinna",
+      "file": "Réva vinná.html"
+    },
+    {
+      "norm": "rymovnik",
+      "file": "Rýmovník (Plectranthus).html"
+    },
+    {
+      "norm": "ruze damasska",
+      "file": "Růže damašská.html"
+    },
+    {
+      "norm": "ruze galska",
+      "file": "Růže galská.html"
+    },
+    {
+      "norm": "ruze stolista",
+      "file": "Růže stolistá.html"
+    },
+    {
+      "norm": "ruze svraskala",
+      "file": "Růže svraskalá.html"
+    },
+    {
+      "norm": "ruze sipkova",
+      "file": "Růže šípková.html"
+    },
+    {
+      "norm": "sakura ozdobna",
+      "file": "Sakura ozdobná.html"
+    },
+    {
+      "norm": "saturejka horska",
+      "file": "Saturejka horská.html"
+    },
+    {
+      "norm": "sedmikraska chudobka",
+      "file": "Sedmikráska chudobka.html"
+    },
+    {
+      "norm": "silenka nadmuta",
+      "file": "Silenka nadmutá.html"
+    },
+    {
+      "norm": "skoricovnik pravy",
+      "file": "Skořicovník pravý.html"
+    },
+    {
+      "norm": "slivon mirabelka",
+      "file": "Slivoň mirabelka.html"
+    },
+    {
+      "norm": "slivon svestka",
+      "file": "Slivoň švestka.html"
+    },
+    {
+      "norm": "slunecnice topinambur",
+      "file": "Slunečnice topinambur.html"
+    },
+    {
+      "norm": "slzovka obecna",
+      "file": "Slzovka obecná.html"
+    },
+    {
+      "norm": "slez lesni",
+      "file": "Sléz lesní.html"
+    },
+    {
+      "norm": "slez maursky",
+      "file": "Sléz maurský.html"
+    },
+    {
+      "norm": "slez pizmovy",
+      "file": "Sléz pižmový.html"
+    },
+    {
+      "norm": "slez prehlizeny",
+      "file": "Sléz přehlížený.html"
+    },
+    {
+      "norm": "smetanka lekarska",
+      "file": "Smetánka lékařská.html"
+    },
+    {
+      "norm": "smrk ztepily",
+      "file": "Smrk ztepilý.html"
+    },
+    {
+      "norm": "snezenka podsneznik",
+      "file": "Sněženka podsněžník.html"
+    },
+    {
+      "norm": "sporys lekarsky",
+      "file": "Sporýš lékařský.html"
+    },
+    {
+      "norm": "srstka angrest",
+      "file": "Srstka angrešt.html"
+    },
+    {
+      "norm": "starcek fuchsuv",
+      "file": "Starček Fuchsův.html"
+    },
+    {
+      "norm": "starcek primetnik",
+      "file": "Starček přímětník.html"
+    },
+    {
+      "norm": "stremcha obecna",
+      "file": "Střemcha obecná.html"
+    },
+    {
+      "norm": "svida krvava",
+      "file": "Svída krvavá.html"
+    },
+    {
+      "norm": "svizel bily",
+      "file": "Svízel bílý.html"
+    },
+    {
+      "norm": "svizel povazka",
+      "file": "Svízel povázka.html"
+    },
+    {
+      "norm": "svizel pritula",
+      "file": "Svízel přítula.html"
+    },
+    {
+      "norm": "svizel syristovy",
+      "file": "Svízel syřišťový.html"
+    },
+    {
+      "norm": "svizelka chlupata",
+      "file": "Svízelka chlupatá.html"
+    },
+    {
+      "norm": "svetlik lekarsky",
+      "file": "Světlík lékařský.html"
+    },
+    {
+      "norm": "sirovec zlutooranzovy",
+      "file": "Sírovec žlutooranžový.html"
+    },
+    {
+      "norm": "sitina rozkladita",
+      "file": "Sítina rozkladitá.html"
+    },
+    {
+      "norm": "tarice skalni",
+      "file": "Tařice skalní.html"
+    },
+    {
+      "norm": "temnoplodec cernoplody",
+      "file": "Temnoplodec černoplodý.html"
+    },
+    {
+      "norm": "tis cerveny",
+      "file": "Tis červený.html"
+    },
+    {
+      "norm": "tolice vojteska",
+      "file": "Tolice vojtěška.html"
+    },
+    {
+      "norm": "tolita lekarska",
+      "file": "Tolita lékařská.html"
+    },
+    {
+      "norm": "topol bily",
+      "file": "Topol bílý.html"
+    },
+    {
+      "norm": "topol osika",
+      "file": "Topol osika.html"
+    },
+    {
+      "norm": "topol cerny",
+      "file": "Topol černý.html"
+    },
+    {
+      "norm": "topolovka ruzova",
+      "file": "Topolovka růžová.html"
+    },
+    {
+      "norm": "trnka obecna",
+      "file": "Trnka obecná.html"
+    },
+    {
+      "norm": "trnovnik akat",
+      "file": "Trnovník akát.html"
+    },
+    {
+      "norm": "truskavec ptaci",
+      "file": "Truskavec ptačí.html"
+    },
+    {
+      "norm": "tuzebnik jilmovy",
+      "file": "Tužebník jilmový.html"
+    },
+    {
+      "norm": "tuzebnik obecny",
+      "file": "Tužebník obecný.html"
+    },
+    {
+      "norm": "tymian obecny",
+      "file": "Tymián obecný (1).html"
+    },
+    {
+      "norm": "tymian obecny",
+      "file": "Tymián obecný.html"
+    },
+    {
+      "norm": "trapatka nachova",
+      "file": "Třapatka nachová.html"
+    },
+    {
+      "norm": "trezalka chlupata",
+      "file": "Třezalka chlupatá.html"
+    },
+    {
+      "norm": "trezalka skvrnita",
+      "file": "Třezalka skvrnitá.html"
+    },
+    {
+      "norm": "trezalka teckovana",
+      "file": "Třezalka tečkovaná.html"
+    },
+    {
+      "norm": "tresen",
+      "file": "Třešeň (Prunus).html"
+    },
+    {
+      "norm": "tresen chloupkata",
+      "file": "Třešeň chloupkatá.html"
+    },
+    {
+      "norm": "tresen ptaci",
+      "file": "Třešeň ptačí.html"
+    },
+    {
+      "norm": "vachta trojlista",
+      "file": "Vachta trojlistá.html"
+    },
+    {
+      "norm": "vavrin vzneseny",
+      "file": "Vavřín vznešený.html"
+    },
+    {
+      "norm": "vesnovka obecna",
+      "file": "Vesnovka obecná.html"
+    },
+    {
+      "norm": "vecernice vonna",
+      "file": "Večernice vonná.html"
+    },
+    {
+      "norm": "violka trojbarevna",
+      "file": "Violka trojbarevná.html"
+    },
+    {
+      "norm": "violka vonna",
+      "file": "Violka vonná (2).html"
+    },
+    {
+      "norm": "violka zahradni",
+      "file": "Violka zahradní.html"
+    },
+    {
+      "norm": "vlastovicnik vetsi",
+      "file": "Vlaštovičník větší.html"
+    },
+    {
+      "norm": "vratic marocky",
+      "file": "Vratič marocký.html"
+    },
+    {
+      "norm": "vratic obecny",
+      "file": "Vratič obecný.html"
+    },
+    {
+      "norm": "vrba bila",
+      "file": "Vrba bílá.html"
+    },
+    {
+      "norm": "vrba jiva",
+      "file": "Vrba jíva.html"
+    },
+    {
+      "norm": "vrbina penizkova",
+      "file": "Vrbina penízková.html"
+    },
+    {
+      "norm": "vrbka uzkolista",
+      "file": "Vrbka úzkolistá.html"
+    },
+    {
+      "norm": "vrbovka malokveta",
+      "file": "Vrbovka malokvětá.html"
+    },
+    {
+      "norm": "vstavac muzsky",
+      "file": "Vstavač mužský.html"
+    },
+    {
+      "norm": "vres obecny",
+      "file": "Vřes obecný.html"
+    },
+    {
+      "norm": "yzop lekarsky",
+      "file": "Yzop lékařský.html"
+    },
+    {
+      "norm": "zbehovec plazivy",
+      "file": "Zběhovec plazivý.html"
+    },
+    {
+      "norm": "zemedym lekarsky",
+      "file": "Zemědým lékařský.html"
+    },
+    {
+      "norm": "zemezluc lekarska",
+      "file": "Zeměžluč lékařská.html"
+    },
+    {
+      "norm": "zimolez kamcatsky",
+      "file": "Zimolez kamčatský.html"
+    },
+    {
+      "norm": "zlatice prostredni",
+      "file": "Zlatice prostřední.html"
+    },
+    {
+      "norm": "zlatobyl celik",
+      "file": "Zlatobýl celík.html"
+    },
+    {
+      "norm": "zlatobyl kanadsky",
+      "file": "Zlatobýl kanadský.html"
+    },
+    {
+      "norm": "zvonek rozkladity",
+      "file": "Zvonek rozkladitý.html"
+    },
+    {
+      "norm": "zvonek repka",
+      "file": "Zvonek řepka.html"
+    },
+    {
+      "norm": "zazvor lekarsky",
+      "file": "Zázvor lékařský.html"
+    },
+    {
+      "norm": "urocnik bolhoj",
+      "file": "Úročník bolhoj.html"
+    },
+    {
+      "norm": "cajovnik cinsky",
+      "file": "Čajovník čínský.html"
+    },
+    {
+      "norm": "carovnik alpsky",
+      "file": "Čarovník alpský.html"
+    },
+    {
+      "norm": "cekanka obecna",
+      "file": "Čekanka obecná.html"
+    },
+    {
+      "norm": "cernohlavek obecny",
+      "file": "Černohlávek obecný.html"
+    },
+    {
+      "norm": "cernucha seta",
+      "file": "Černucha setá.html"
+    },
+    {
+      "norm": "certkus lucni",
+      "file": "Čertkus luční.html"
+    },
+    {
+      "norm": "cesnek medvedi",
+      "file": "Česnek medvědí.html"
+    },
+    {
+      "norm": "cesnek podivny",
+      "file": "Česnek podivný.html"
+    },
+    {
+      "norm": "cesnek vinicny",
+      "file": "Česnek viničný.html"
+    },
+    {
+      "norm": "cesnacek lekarsky",
+      "file": "Česnáček lékařský.html"
+    },
+    {
+      "norm": "cistec lesni",
+      "file": "Čistec lesní.html"
+    },
+    {
+      "norm": "rebricek bertram",
+      "file": "Řebříček bertram.html"
+    },
+    {
+      "norm": "rebricek obecny",
+      "file": "Řebříček obecný.html"
+    },
+    {
+      "norm": "repik lekarsky",
+      "file": "Řepík lékařský.html"
+    },
+    {
+      "norm": "rerisnice lucni",
+      "file": "Řeřišnice luční.html"
+    },
+    {
+      "norm": "safran sety",
+      "file": "Šafrán setý.html"
+    },
+    {
+      "norm": "salvej lucni",
+      "file": "Šalvěj luční.html"
+    },
+    {
+      "norm": "salvej lekarska",
+      "file": "Šalvěj lékařská.html"
+    },
+    {
+      "norm": "salvej preslenita",
+      "file": "Šalvěj přeslenitá.html"
+    },
+    {
+      "norm": "santa kocici",
+      "file": "Šanta kočičí.html"
+    },
+    {
+      "norm": "serik obecny",
+      "file": "Šeřík obecný.html"
+    },
+    {
+      "norm": "sisak bajkalsky",
+      "file": "Šišák bajkalský.html"
+    },
+    {
+      "norm": "skornice sipolista",
+      "file": "Škornice šípolistá.html"
+    },
+    {
+      "norm": "srucha zelna",
+      "file": "Šrucha zelná.html"
+    },
+    {
+      "norm": "stetka plana",
+      "file": "Štětka planá.html"
+    },
+    {
+      "norm": "stavel evropsky",
+      "file": "Šťavel evropský.html"
+    },
+    {
+      "norm": "stavel kysely",
+      "file": "Šťavel kyselý.html"
+    },
+    {
+      "norm": "stovik kysely",
+      "file": "Šťovík kyselý.html"
+    },
+    {
+      "norm": "zindava evropska",
+      "file": "Žindava evropská.html"
+    }
+  ]
+}

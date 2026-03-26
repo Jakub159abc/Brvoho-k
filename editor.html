@@ -2065,6 +2065,11 @@
     #recipe-preview [contenteditable="true"]:empty::before { content: attr(data-placeholder); color: var(--text-muted); }
     #recipe-preview .recipe-intro-content { min-height: 60px; padding: 0.25rem 0; }
     #recipe-preview .recipe-cell-body { min-height: 60px; padding: 0.25rem 0; }
+    #recipe-preview .recipe-hashtag-section { margin-top: 0; margin-bottom: 0; width: 100%; padding: 0 0.5rem; box-sizing: border-box; }
+    #recipe-preview .recipe-hashtag-row { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0.75rem 0 0; margin: 0; width: 100%; box-sizing: border-box; align-items: center; }
+    #recipe-preview .recipe-hashtag-btn { display: inline-block; padding: 0.4rem 0.85rem; border-radius: 999px; border: 2px solid #81c784; background: #fff; color: #2e7d32; font-weight: 600; text-decoration: none; font-size: 0.95rem; font-family: Georgia, "Times New Roman", serif; cursor: pointer; }
+    #recipe-preview a.recipe-hashtag-btn:hover { background: #e8f5e9; border-color: #4caf50; }
+    #recipe-preview span.recipe-hashtag-btn { cursor: default; opacity: 0.88; }
 
     .kalendar-sprava-card {
       padding: 0;
@@ -2394,12 +2399,13 @@
       <label for="recipe-plain-text" style="margin-top: 1rem;">Text receptu (jeden zápis)</label>
       <textarea id="recipe-plain-text" rows="14" placeholder="Úvod (volitelně), pak opakuj: (Nadpis buňky) &quot;obsah v uvozovkách&quot; – detail v nápovědě pod polem."></textarea>
       <p class="hint hint-compact" style="margin-top: 0.35rem;"><strong>Zápis:</strong> <strong>Nadpis buňky</strong> = text v závorce <code>(…)</code> hned za ním obsah buňky v <strong>rovných uvozovkách</strong> <code>&quot;…&quot;</code> (uvozovky mohou být i přes více řádků). <strong>Úvod článku</strong> = vše před první závorkou <code>(</code>. Bloků <code>(nadpis) &quot;text&quot;</code> můžeš napsat libovolně mnoho za sebou. Název receptu vyplň výše; tlačítkem se naplní úvod a buňky v náhledu (stávající obsah náhledu se nahradí).</p>
+      <p class="hint hint-compact" style="margin-top: 0.35rem;"><strong>Hashtagy:</strong> kamkoli do textu receptu (úvod, podnadpisy, postup…) piš <code>#slovo</code> nebo <code># více slov</code>, např. <code>#bez černý</code> <code>#sirup</code>. Pod dvousloupcovým blokem se zobrazí jako tlačítka.</p>
       <div style="margin-top: 0.5rem;">
         <button type="button" class="btn btn-primary" id="recipe-btn-from-plain-text">Vytvořit z textu do náhledu</button>
       </div>
       <div id="recipe-preview-wrap" style="margin-top: 1rem;">
         <label style="display: block; font-weight: 500; margin-bottom: 0.5rem;">Recept – piš přímo do úvodu a buněk, přetahuj a měň velikost</label>
-        <div id="recipe-preview"></div>
+        <div id="recipe-preview" class="bylinky-clanek"></div>
       </div>
       <div style="margin-top: 0.75rem;">
         <button type="button" class="btn btn-secondary" id="recipe-add-cell">Přidat buňku</button>
@@ -3554,15 +3560,17 @@
         updatePreview();
       }
 
-      headingColorEl.addEventListener('input', function () {
-        headingColorValueEl.textContent = headingColorEl.value;
-        var previewEl = document.getElementById('preview');
-        if (previewEl) previewEl.style.setProperty('--preview-heading-color', headingColorEl.value);
-        updatePreview();
-        if (window.editAllArticlesMode && typeof window.applyCurrentStyleToAllArticles === 'function') {
-          window.applyCurrentStyleToAllArticles();
-        }
-      });
+      if (headingColorEl) {
+        headingColorEl.addEventListener('input', function () {
+          if (headingColorValueEl) headingColorValueEl.textContent = headingColorEl.value;
+          var previewEl = document.getElementById('preview');
+          if (previewEl) previewEl.style.setProperty('--preview-heading-color', headingColorEl.value);
+          updatePreview();
+          if (window.editAllArticlesMode && typeof window.applyCurrentStyleToAllArticles === 'function') {
+            window.applyCurrentStyleToAllArticles();
+          }
+        });
+      }
 
       if (headingStrokeWidthEl) {
         headingStrokeWidthEl.addEventListener('input', function () {
@@ -3747,8 +3755,12 @@
       /** Z nadpisu vytáhne emoji jako ikonu (např. "🍃 Co se sbírá" -> { icon: "🍃", title: "Co se sbírá" }). */
       function parseHeadingIcon(headingText) {
         var m = headingText.match(/^\s*(\S+?)\s+(.+)$/);
-        if (m && m[2] && m[1].length <= 4 && !/^[\p{L}\p{N}]/u.test(m[1])) {
-          return { icon: m[1], title: m[2] };
+        if (m && m[2] && m[1].length <= 4) {
+          var firstChar = m[1].charAt(0);
+          var looksLikeLetterOrDigit = /^[a-zA-Z0-9áčďéěíňóřšťúůýžÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]$/.test(firstChar);
+          if (!looksLikeLetterOrDigit) {
+            return { icon: m[1], title: m[2] };
+          }
         }
         return { icon: '', title: headingText.trim() };
       }
@@ -4317,6 +4329,11 @@
         style += scope + ' .article-disclaimer-wrap p { text-align: center !important; }\n';
         style += scope + ' .article-disclaimer-heading { color: #c00 !important; font-size: 0.7rem; font-weight: 700; margin: 1rem 0 0.2rem 0; line-height: 1.3; text-align: center !important; width: 100%; display: block; }\n';
         style += scope + ' .article-disclaimer { color: #c00 !important; font-size: 0.7rem; margin: 0; line-height: 1.45; text-align: center !important; }\n';
+        style += scope + ' .recipe-hashtag-section { width: 100%; margin: 0; padding: 0 1rem; box-sizing: border-box; }\n';
+        style += scope + ' .recipe-hashtag-row { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0.85rem 0 0; margin: 0; width: 100%; box-sizing: border-box; align-items: center; }\n';
+        style += scope + ' .recipe-hashtag-btn { display: inline-block; padding: 0.4rem 0.85rem; border-radius: 999px; border: 2px solid #81c784; background: #fff; color: #2e7d32; font-weight: 600; text-decoration: none; font-size: 0.95rem; font-family: Georgia, \"Times New Roman\", serif; transition: background 0.2s, border-color 0.2s; }\n';
+        style += scope + ' a.recipe-hashtag-btn:hover { background: #e8f5e9; border-color: #4caf50; }\n';
+        style += scope + ' span.recipe-hashtag-btn { cursor: default; opacity: 0.88; }\n';
         style += scope + ' * { box-sizing: border-box; }\n';
         var wrapped = '<div class="bylinky-clanek">' + articleInner + '</div>';
         var html = '<style type="text/css">' + style + '</style>\n' + wrapped + '\n';
@@ -5594,28 +5611,30 @@
         text = text.replace(/\(\s*\*+/g, '(').replace(/\*+\s*\)/g, ')');
         return text;
       }
-      rawTextEl.addEventListener('input', function () {
-        var val = rawTextEl.value;
-        var cleaned = cleanAsterisksInParens(val);
-        if (cleaned !== val) {
-          var start = rawTextEl.selectionStart;
-          var end = rawTextEl.selectionEnd;
-          rawTextEl.value = cleaned;
-          rawTextEl.setSelectionRange(start, end);
-        }
-        updateFilenameHint();
-        if (previewTimeout) clearTimeout(previewTimeout);
-        previewTimeout = setTimeout(updatePreview, 280);
-      });
-      rawTextEl.addEventListener('paste', function () {
-        setTimeout(function () {
+      if (rawTextEl) {
+        rawTextEl.addEventListener('input', function () {
           var val = rawTextEl.value;
           var cleaned = cleanAsterisksInParens(val);
-          if (cleaned !== val) rawTextEl.value = cleaned;
+          if (cleaned !== val) {
+            var start = rawTextEl.selectionStart;
+            var end = rawTextEl.selectionEnd;
+            rawTextEl.value = cleaned;
+            rawTextEl.setSelectionRange(start, end);
+          }
           updateFilenameHint();
-          updatePreview();
-        }, 0);
-      });
+          if (previewTimeout) clearTimeout(previewTimeout);
+          previewTimeout = setTimeout(updatePreview, 280);
+        });
+        rawTextEl.addEventListener('paste', function () {
+          setTimeout(function () {
+            var val = rawTextEl.value;
+            var cleaned = cleanAsterisksInParens(val);
+            if (cleaned !== val) rawTextEl.value = cleaned;
+            updateFilenameHint();
+            updatePreview();
+          }, 0);
+        });
+      }
       var btnSave = document.getElementById('btn-save');
       if (btnSave) btnSave.addEventListener('click', function () {
         if (previewEl && currentPreviewBlocks.length) syncAllPreviewToRaw();
@@ -5645,6 +5664,7 @@
       }
       if (headingColorEl) headingColorEl.addEventListener('focus', function () { pushUndoSnapshot(true); });
       if (btnClearText) btnClearText.addEventListener('click', function () {
+        if (!rawTextEl) return;
         rawTextEl.value = '';
         updateFilenameHint();
         updatePreview();
@@ -5668,8 +5688,8 @@
         });
       }
       attachMoveBarClick();
-      updatePreview();
-      btnDownload.addEventListener('click', downloadHtml);
+      if (rawTextEl && previewEl) updatePreview();
+      if (btnDownload) btnDownload.addEventListener('click', downloadHtml);
       if (btnCopyWeb) btnCopyWeb.addEventListener('click', copyForWeb);
       if (btnDownloadSeo) btnDownloadSeo.addEventListener('click', downloadSeoTxt);
 
@@ -6304,7 +6324,203 @@
         var recipePlainTextEl = document.getElementById('recipe-plain-text');
         var recipeBtnFromPlain = document.getElementById('recipe-btn-from-plain-text');
 
-        if (!recipePreviewEl || !recipeAddCellBtn) return;
+        if (!recipePreviewEl) return;
+
+        var recipeManifestCache = null;
+        var recipeManifestFetchInFlight = false;
+        var RECIPE_WORD = "[0-9A-Za-záčďéěíňóřšťúůýžÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]+(?:-[0-9A-Za-záčďéěíňóřšťúůýžÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]+)*";
+        var RECIPE_TAG_RE = new RegExp("#\\s*(" + RECIPE_WORD + "(?:\\s+" + RECIPE_WORD + "){0,5})", "g");
+        var RECIPE_HEX = /^[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/;
+        var RECIPE_HAS_LETTER = /[a-zA-ZáčďéěíňóřšťúůýžÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]/;
+
+        function recipeHtmlPlainText(html) {
+          if (!html) return '';
+          var s = String(html);
+          s = s.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, ' ');
+          s = s.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, ' ');
+          s = s.replace(/<!--[\s\S]*?-->/g, ' ');
+          s = s.replace(/<[^>]+>/g, ' ');
+          s = s.replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+          return s;
+        }
+
+        function recipeNormName(str) {
+          var s = String(str).trim();
+          if (s.indexOf('(') !== -1) s = s.split('(')[0].trim();
+          try {
+            s = s.toLowerCase();
+            s = s.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+          } catch (e) {
+            s = s.toLowerCase();
+          }
+          s = s.replace(/[-_]+/g, ' ');
+          s = s.replace(/[^a-z0-9 ]+/g, ' ');
+          s = s.replace(/\s+/g, ' ');
+          return s.trim();
+        }
+
+        function recipeExtractTags(text) {
+          var seen = {};
+          var out = [];
+          var re = new RegExp(RECIPE_TAG_RE.source, 'g');
+          var m;
+          while ((m = re.exec(text)) !== null) {
+            var raw = m[1].trim().replace(/[.,;:!?)]+$/g, '');
+            if (!raw || raw.length < 2) continue;
+            if (RECIPE_HEX.test(raw)) continue;
+            if (!RECIPE_HAS_LETTER.test(raw)) continue;
+            var key = recipeNormName(raw);
+            if (key && !seen[key]) {
+              seen[key] = true;
+              out.push(raw);
+            }
+          }
+          return out;
+        }
+
+        function recipeMatchTagToFile(tag, plantFiles) {
+          if (!plantFiles || !plantFiles.length) return null;
+          var byNorm = {};
+          for (var i = 0; i < plantFiles.length; i++) {
+            var p = plantFiles[i];
+            if (p && p.norm) byNorm[p.norm] = p.file;
+          }
+          var nt = recipeNormName(tag);
+          if (!nt) return null;
+          if (byNorm[nt]) return byNorm[nt];
+          var prefixed = [];
+          for (var j = 0; j < plantFiles.length; j++) {
+            var pf = plantFiles[j];
+            if (pf.norm && pf.norm.indexOf(nt + ' ') === 0) prefixed.push(pf.file);
+          }
+          if (prefixed.length === 1) return prefixed[0];
+          if (prefixed.length > 1) return null;
+          for (var k = 0; k < plantFiles.length; k++) {
+            var row = plantFiles[k];
+            if (!row.norm) continue;
+            if (nt.indexOf(row.norm) === 0 && row.norm.length >= 4 && nt !== row.norm) return row.file;
+          }
+          return null;
+        }
+
+        function recipeBuildRecipesByTagNorm(recipes) {
+          var map = {};
+          if (!recipes || !recipes.length) return map;
+          for (var i = 0; i < recipes.length; i++) {
+            var r = recipes[i];
+            if (!r || !r.file) continue;
+            var href = encodeURI('/články html/recepty/' + r.file);
+            var norms = r.tagsNorm || [];
+            for (var j = 0; j < norms.length; j++) {
+              var key = norms[j];
+              if (!key) continue;
+              if (!map[key]) map[key] = [];
+              var dup = map[key].some(function (x) { return x.href === href; });
+              if (!dup) map[key].push({ title: r.title, href: href });
+            }
+          }
+          return map;
+        }
+
+        function recipeReceptyNavodHrefForTag(normKey) {
+          return '/recepty-a-navody/?tag=' + encodeURIComponent(normKey);
+        }
+
+        /** Sloučí seznamy tagů z náhledu a z pole „jeden zápis“ (stejné norm. klíče). */
+        function recipeMergeTagLists(a, b) {
+          var seen = {};
+          var out = [];
+          function add(arr) {
+            if (!arr || !arr.length) return;
+            for (var i = 0; i < arr.length; i++) {
+              var raw = arr[i];
+              var k = recipeNormName(raw);
+              if (k && !seen[k]) {
+                seen[k] = true;
+                out.push(raw);
+              }
+            }
+          }
+          add(a);
+          add(b);
+          return out;
+        }
+
+        function updateRecipeHashtagRow() {
+          try {
+          var nav = recipePreviewEl.querySelector('#recipe-hashtag-row');
+          var body = recipePreviewEl.querySelector('.article-body');
+          if (!nav || !body || !recipePreviewEl) return;
+          var clone = body.cloneNode(true);
+          clone.querySelectorAll('.recipe-hashtag-section').forEach(function (el) { el.remove(); });
+          var fromBody = recipeExtractTags(recipeHtmlPlainText(clone.innerHTML));
+          var fromPlain = recipePlainTextEl ? recipeExtractTags(recipePlainTextEl.value || '') : [];
+          var tags = recipeMergeTagLists(fromBody, fromPlain);
+          nav.innerHTML = '';
+          if (!tags.length) return;
+          function render(manifest) {
+            var plantFiles = (manifest && manifest.plantFiles) || [];
+            var recipesByTag = recipeBuildRecipesByTagNorm((manifest && manifest.recipes) || []);
+            tags.forEach(function (tag) {
+              var label = '#' + tag;
+              var nt = recipeNormName(tag);
+              var sameRecipes = nt && recipesByTag[nt] && recipesByTag[nt].length;
+              var fn = recipeMatchTagToFile(tag, plantFiles);
+              var el;
+              if (sameRecipes) {
+                el = document.createElement('a');
+                el.className = 'recipe-hashtag-btn';
+                el.href = recipeReceptyNavodHrefForTag(nt);
+                el.textContent = label;
+                el.title = 'Recepty se stejným štítkem';
+              } else if (fn) {
+                el = document.createElement('a');
+                el.className = 'recipe-hashtag-btn';
+                el.href = encodeURI('/články html/rostliny/' + fn);
+                el.textContent = label;
+                el.title = 'Článek o rostlině';
+              } else {
+                el = document.createElement('span');
+                el.className = 'recipe-hashtag-btn';
+                el.textContent = label;
+              }
+              nav.appendChild(el);
+            });
+          }
+          if (recipeManifestCache) {
+            render(recipeManifestCache);
+            return;
+          }
+          render({});
+          if (!recipeManifestFetchInFlight) {
+            recipeManifestFetchInFlight = true;
+            fetch(encodeURI('/články html/recepty/recepty-manifest.json'))
+              .then(function (r) { return r.ok ? r.json() : null; })
+              .then(function (data) {
+                recipeManifestCache = data || {};
+                recipeManifestFetchInFlight = false;
+                updateRecipeHashtagRow();
+              })
+              .catch(function () {
+                recipeManifestCache = { plantFiles: [], recipes: [] };
+                recipeManifestFetchInFlight = false;
+                updateRecipeHashtagRow();
+              });
+          }
+          } catch (e) { /* náhled receptu má fungovat i bez štítků */ }
+        }
+
+        function bindRecipeHashtagRefresh() {
+          recipePreviewEl.addEventListener('input', function () { updateRecipeHashtagRow(); });
+          recipePreviewEl.addEventListener('keyup', function () { updateRecipeHashtagRow(); });
+          recipePreviewEl.addEventListener('paste', function () {
+            setTimeout(function () { updateRecipeHashtagRow(); }, 0);
+          });
+          if (recipePlainTextEl) {
+            recipePlainTextEl.addEventListener('input', function () { updateRecipeHashtagRow(); });
+          }
+        }
+        bindRecipeHashtagRefresh();
 
         function getRecipeHeadingColor() {
           return (recipeHeadingColorEl && recipeHeadingColorEl.value) ? recipeHeadingColorEl.value : '#3d6b4a';
@@ -6344,7 +6560,8 @@
         function parseRecipePlainText(text) {
           var intro = '';
           var cells = [];
-          var s = text || '';
+          var s = String(text || '').replace(/^\uFEFF/, '');
+          s = s.replace(/\u201E/g, '"').replace(/\u201C/g, '"').replace(/\u201D/g, '"');
           var n = s.length;
           var i = 0;
           var firstBlock = true;
@@ -6400,10 +6617,12 @@
                   '</h2>' +
                 '</div>' +
                 '<div class="article-two-columns"><div class="article-column article-column-left"></div><div class="article-column article-column-right"></div></div>' +
+                '<div class="section-row section-row-left recipe-hashtag-section"><nav class="recipe-hashtag-row" id="recipe-hashtag-row" aria-label="Štítky receptu"></nav></div>' +
               '</div>' +
             '</article>';
           syncRecipeTitleToPreview();
           applyRecipeHeadingColor();
+          updateRecipeHashtagRow();
         }
 
         /** Přidá jednu buňku (podnadpis + obsah editovatelné, úchop na přesun, resize dole). */
@@ -6429,6 +6648,7 @@
           if (cellCount % 2 === 0) leftCol.appendChild(cell); else rightCol.appendChild(cell);
           attachCellDragDrop(cell);
           attachCellResize(cell);
+          updateRecipeHashtagRow();
         }
 
         function attachCellDragDrop(cell) {
@@ -6506,6 +6726,7 @@
           if (!body) return '';
           var clone = body.cloneNode(true);
           clone.querySelectorAll('.cell-drag-handle, .cell-resize-handle').forEach(function (el) { el.remove(); });
+          clone.querySelectorAll('.recipe-hashtag-section').forEach(function (el) { el.remove(); });
           clone.querySelectorAll('[contenteditable]').forEach(function (el) { el.removeAttribute('contenteditable'); });
           clone.querySelectorAll('.article-heading').forEach(function (h) {
             h.style.background = headingColorToRgba(getRecipeHeadingColor());
@@ -6518,31 +6739,14 @@
           var bodyHtml = getRecipeBodyHtmlForExport();
           var inner = '<article class="article"><div class="article-body">' + bodyHtml + '</div></article>';
           var fragment = getWebFragment(inner, getRecipeHeadingColor());
-          return '<!DOCTYPE html>\n<html lang="cs">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>' + escapeHtml(title) + '</title>\n  <style type="text/css">\n' + fragment.style + '  </style>\n</head>\n<body>\n' + fragment.wrapped + '\n</body>\n</html>';
+          return '<!DOCTYPE html>\n<html lang="cs">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>' + escapeHtml(title) + '</title>\n  <style type="text/css">\n' + fragment.style + '  </style>\n</head>\n<body>\n' + fragment.wrapped + '\n<script src="/js/recept-hashtagy.js" defer></scr' + 'ipt>\n</body>\n</html>';
         }
 
-        recipeAddCellBtn.addEventListener('click', function () { addRecipeCell(); });
+        if (recipeAddCellBtn) recipeAddCellBtn.addEventListener('click', function () { addRecipeCell(); });
 
         if (recipeTitleEl) {
           recipeTitleEl.addEventListener('input', syncRecipeTitleToPreview);
           recipeTitleEl.addEventListener('change', syncRecipeTitleToPreview);
-        }
-
-        if (recipeBtnFromPlain && recipePlainTextEl) {
-          recipeBtnFromPlain.addEventListener('click', function () {
-            var parsed = parseRecipePlainText(recipePlainTextEl.value);
-            if (!parsed.intro.trim() && (!parsed.cells || !parsed.cells.length)) {
-              alert('Vlož text: úvod před první závorkou a bloky (nadpis) „obsah“ v rovných uvozovkách.');
-              return;
-            }
-            var title = (recipeTitleEl && recipeTitleEl.value.trim()) || 'Recept';
-            window.loadRecipeIntoEditor({
-              title: title,
-              intro: parsed.intro,
-              cells: parsed.cells,
-              headingColor: getRecipeHeadingColor()
-            });
-          });
         }
 
         if (recipeHeadingColorEl && recipeHeadingColorValueEl) {
@@ -6552,29 +6756,33 @@
           });
         }
 
-        recipeBtnDownload.addEventListener('click', function () {
-          var title = (recipeTitleEl && recipeTitleEl.value.trim()) || 'Recept';
-          var content = buildFullRecipeDocument();
-          var fileName = (recipeSlug(title) || 'recept') + '.html';
-          var blob = new Blob([content], { type: 'text/html;charset=utf-8' });
-          var url = URL.createObjectURL(blob);
-          var a = document.createElement('a');
-          a.href = url;
-          a.download = fileName;
-          a.click();
-          URL.revokeObjectURL(url);
-        });
-
-        recipeBtnCopyWeb.addEventListener('click', function () {
-          var bodyHtml = getRecipeBodyHtmlForExport();
-          var inner = '<article class="article"><div class="article-body">' + bodyHtml + '</div></article>';
-          var fragment = getWebFragment(inner, getRecipeHeadingColor());
-          navigator.clipboard.writeText(fragment.html).then(function () {
-            alert('Zkopírováno. Do Webnode jen tento výstup (<style> + obsah) – ne celý stažený .html soubor s <!DOCTYPE> a <html>.');
-          }, function () {
-            alert('Kopírování se nepovedlo.');
+        if (recipeBtnDownload) {
+          recipeBtnDownload.addEventListener('click', function () {
+            var title = (recipeTitleEl && recipeTitleEl.value.trim()) || 'Recept';
+            var content = buildFullRecipeDocument();
+            var fileName = (recipeSlug(title) || 'recept') + '.html';
+            var blob = new Blob([content], { type: 'text/html;charset=utf-8' });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            a.click();
+            URL.revokeObjectURL(url);
           });
-        });
+        }
+
+        if (recipeBtnCopyWeb) {
+          recipeBtnCopyWeb.addEventListener('click', function () {
+            var bodyHtml = getRecipeBodyHtmlForExport();
+            var inner = '<article class="article"><div class="article-body">' + bodyHtml + '</div></article>';
+            var fragment = getWebFragment(inner, getRecipeHeadingColor());
+            navigator.clipboard.writeText(fragment.html + '\n<script src="/js/recept-hashtagy.js" defer></scr' + 'ipt>\n').then(function () {
+              alert('Zkopírováno. Do Webnode jen tento výstup (<style> + obsah + skript štítků) – ne celý stažený .html soubor s <!DOCTYPE> a <html>.');
+            }, function () {
+              alert('Kopírování se nepovedlo.');
+            });
+          });
+        }
 
         /** Načte recept z knihovny do editovatelného náhledu. */
         window.loadRecipeIntoEditor = function (state) {
@@ -6611,6 +6819,7 @@
             });
           }
           applyRecipeHeadingColor();
+          updateRecipeHashtagRow();
           var sectionRecepty = document.getElementById('section-recepty');
           if (sectionRecepty) sectionRecepty.classList.remove('collapsed');
           var card = recipeTitleEl && recipeTitleEl.closest('.card');
@@ -6632,6 +6841,44 @@
           }
           buildRecipePreviewStructure();
         };
+
+        function runRecipeFromPlainText() {
+          var secOpen = document.getElementById('section-recepty');
+          if (secOpen) secOpen.classList.remove('collapsed');
+          if (!recipePlainTextEl) return;
+          try {
+            var parsed = parseRecipePlainText(recipePlainTextEl.value);
+            if (!parsed.intro.trim() && (!parsed.cells || !parsed.cells.length)) {
+              alert('Vlož text: úvod před první závorkou a bloky (nadpis) „obsah“ v uvozovkách (rovných "…" nebo českých „…").');
+              return;
+            }
+            var title = (recipeTitleEl && recipeTitleEl.value.trim()) || 'Recept';
+            if (typeof window.loadRecipeIntoEditor !== 'function') {
+              alert('Editor receptu se nenačetl. Obnov stránku editoru.');
+              return;
+            }
+            window.loadRecipeIntoEditor({
+              title: title,
+              intro: parsed.intro,
+              cells: parsed.cells,
+              headingColor: getRecipeHeadingColor()
+            });
+          } catch (err) {
+            alert('Chyba při vytváření náhledu: ' + (err && err.message ? err.message : String(err)));
+          }
+        }
+        window.runRecipeFromPlainText = runRecipeFromPlainText;
+
+        function bindRecipePlainButton() {
+          var btn = document.getElementById('recipe-btn-from-plain-text');
+          if (!btn) return;
+          btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            runRecipeFromPlainText();
+          });
+        }
+        bindRecipePlainButton();
 
         buildRecipePreviewStructure();
       })();

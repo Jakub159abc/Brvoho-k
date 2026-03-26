@@ -170,6 +170,25 @@ def _generate_rostliny_slug_map() -> None:
             print("Varování: mapa článků rostlin skončila chybou.")
 
 
+def _generate_recepty_data() -> None:
+    """Recepty: manifest tagů (#bylinka), rozcestník site/recepty-a-navody/, skript u článků rostlin."""
+    path = BASE / "_generate_recepty_data.py"
+    spec = importlib.util.spec_from_file_location("_gen_recepty_data", path)
+    if spec is None or spec.loader is None:
+        print(f"Varování: nelze načíst {path}")
+        return
+    try:
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+    except Exception as e:
+        print(f"Varování: generátor receptů selhal ({e})")
+        return
+    if hasattr(mod, "main"):
+        rc = mod.main()
+        if rc != 0:
+            print("Varování: generátor receptů skončil chybou.")
+
+
 def main() -> None:
     # Kalendář: jediný zdroj pravdy = kalendář sběru/kalendar_sberu.html → i do site/ (kvůli gitu a přehledu)
     kal_src = _find_kalendar_sberu_dir()
@@ -187,6 +206,7 @@ def main() -> None:
     # Články o rostlinách: rozcestník ze seznamu HTML v články html/rostliny
     _generate_clanky_rostliny_index()
     _generate_rostliny_slug_map()
+    _generate_recepty_data()
 
     if DEST.exists():
         shutil.rmtree(DEST)
