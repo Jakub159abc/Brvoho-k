@@ -89,6 +89,16 @@ body {
   margin: 0 auto;
 }
 
+/* Logo má v souboru více prázdna – zvětšení o ~30 %, aby odpovídalo ostatním položkám */
+.menu-item.kalendar-sberu .menu-button img {
+  transform: scale(1.3);
+  transform-origin: center center;
+}
+
+.menu-item.kalendar-sberu .menu-button:hover img {
+  transform: scale(calc(1.3 * 1.06)) translateY(-4px);
+}
+
 .menu-button:hover img {
   transform: scale(1.06) translateY(-4px);
 }
