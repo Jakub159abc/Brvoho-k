@@ -82,6 +82,32 @@ def _find_obsahove_latky_html() -> Path | None:
     return None
 
 
+def _find_filtrovani_output_html() -> Path | None:
+    """Vrátí cestu k hotovému HTML filtrování.
+
+    Stejný problém jako u složek s diakritikou: na Windows může být Unicode normalizace odlišná,
+    takže porovnání přesná literálová cesta BASE / \"Filtrování rostlin\" nemusí sedět.
+    """
+    preferred = BASE / "Filtrování rostlin" / "output.html"
+    if preferred.is_file():
+        return preferred
+
+    target_dir_norm = _normalize_nfc("Filtrování rostlin")
+    try:
+        for child in BASE.iterdir():
+            if not child.is_dir():
+                continue
+            if _normalize_nfc(child.name) != target_dir_norm:
+                continue
+            cand = child / "output.html"
+            if cand.is_file():
+                return cand
+    except OSError:
+        pass
+
+    return None
+
+
 def _generate_clanky_rostliny_index() -> None:
     """Aktualizuje site/clanky-o-rostlinach/index.html ze složky články html/rostliny."""
     path = BASE / "_generate_clanky_rostliny_index.py"
@@ -101,6 +127,25 @@ def _generate_clanky_rostliny_index() -> None:
             print("Varování: přegenerování rozcestníku článků skončilo chybou.")
 
 
+def _generate_rostliny_slug_map() -> None:
+    """Mapa slug (brvohorik.cz) → lokální soubor v články html/rostliny/slug-to-local-file.json."""
+    path = BASE / "_generate_rostliny_slug_map.py"
+    spec = importlib.util.spec_from_file_location("_gen_rostliny_slug_map", path)
+    if spec is None or spec.loader is None:
+        print(f"Varování: nelze načíst {path}")
+        return
+    try:
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+    except Exception as e:
+        print(f"Varování: mapa článků rostlin selhala ({e})")
+        return
+    if hasattr(mod, "main"):
+        rc = mod.main()
+        if rc != 0:
+            print("Varování: mapa článků rostlin skončila chybou.")
+
+
 def main() -> None:
     # Kalendář: jediný zdroj pravdy = kalendář sběru/kalendar_sberu.html → i do site/ (kvůli gitu a přehledu)
     kal_src = BASE / "kalendář sběru"
@@ -109,6 +154,7 @@ def main() -> None:
 
     # Články o rostlinách: rozcestník ze seznamu HTML v články html/rostliny
     _generate_clanky_rostliny_index()
+    _generate_rostliny_slug_map()
 
     if DEST.exists():
         shutil.rmtree(DEST)
@@ -126,13 +172,13 @@ def main() -> None:
     shutil.copy2(kal_src / "kalendar_sberu_sprava.html", kal_dst / "sprava.html")
 
     # Vyhledávání rostlin – hotový HTML výstup z generátoru (nahradí rozcestník v site/)
-    filt_output = BASE / "Filtrování rostlin" / "output.html"
+    filt_output = _find_filtrovani_output_html()
     vyh_index = DEST / "vyhledavani" / "index.html"
-    if filt_output.is_file():
+    if filt_output is not None:
         vyh_index.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(filt_output, vyh_index)
     else:
-        print(f"Varování: nenalezeno {filt_output}, ponechán rozcestník ze site/")
+        print("Varování: nenalezeno output.html pro filtrování rostlin, ponechán rozcestník ze site/")
 
     # Duševní příčiny nemocí – hotový HTML z projektu (nahradí rozcestník v site/)
     dpn_src = _find_dusevni_priciny_index_html()
