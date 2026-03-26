@@ -65,7 +65,10 @@
     wrap.appendChild(nav);
 
     var intro = root.querySelector("section.article-intro");
-    if (intro && intro.parentNode) {
+    var introRow = intro ? intro.closest(".section-row") : null;
+    if (introRow && introRow.parentNode) {
+      introRow.parentNode.insertBefore(wrap, introRow.nextSibling);
+    } else if (intro && intro.parentNode) {
       intro.parentNode.insertBefore(wrap, intro.nextSibling);
     } else {
       root.insertBefore(wrap, root.firstChild);
