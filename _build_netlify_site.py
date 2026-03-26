@@ -108,6 +108,30 @@ def _find_filtrovani_output_html() -> Path | None:
     return None
 
 
+def _find_kalendar_sberu_dir() -> Path | None:
+    """Vrátí cestu k adresáři 'kalendář sběru' (robustní vůči Unicode normalizaci).
+
+    Na Windows/Netlify se může lišit normalizace názvu složky s diakritikou, takže doslovná cesta
+    BASE / \"kalendář sběru\" nemusí fungovat spolehlivě.
+    """
+    preferred = BASE / "kalendář sběru"
+    if preferred.is_dir():
+        return preferred
+
+    target_dir_norm = _normalize_nfc("kalendář sběru")
+    try:
+        for child in BASE.iterdir():
+            if not child.is_dir():
+                continue
+            if _normalize_nfc(child.name) != target_dir_norm:
+                continue
+            return child
+    except OSError:
+        pass
+
+    return None
+
+
 def _generate_clanky_rostliny_index() -> None:
     """Aktualizuje site/clanky-o-rostlinach/index.html ze složky články html/rostliny."""
     path = BASE / "_generate_clanky_rostliny_index.py"
@@ -148,9 +172,17 @@ def _generate_rostliny_slug_map() -> None:
 
 def main() -> None:
     # Kalendář: jediný zdroj pravdy = kalendář sběru/kalendar_sberu.html → i do site/ (kvůli gitu a přehledu)
-    kal_src = BASE / "kalendář sběru"
+    kal_src = _find_kalendar_sberu_dir()
+    if kal_src is None:
+        print("Varování: nenalezeno 'kalendář sběru', kalendář se do netlify-site nekopíruje.")
+        kal_src = None
+    kal_file = None if kal_src is None else (kal_src / "kalendar_sberu.html")
+    kal_sprava_file = None if kal_src is None else (kal_src / "kalendar_sberu_sprava.html")
     site_kal_index = SITE / "kalendar-sberu" / "index.html"
-    shutil.copy2(kal_src / "kalendar_sberu.html", site_kal_index)
+    if kal_file is not None and kal_file.is_file():
+        shutil.copy2(kal_file, site_kal_index)
+    else:
+        print("Varování: nenalezen kalendar_sberu.html, kalendář se do site/ nekopíruje.")
 
     # Články o rostlinách: rozcestník ze seznamu HTML v články html/rostliny
     _generate_clanky_rostliny_index()
@@ -167,9 +199,11 @@ def main() -> None:
 
     # Kalendář – velké HTML pod kalendar-sberu/ (tabulka jako index + přehled + správa)
     kal_dst = DEST / "kalendar-sberu"
-    shutil.copy2(kal_src / "kalendar_sberu.html", kal_dst / "index.html")
-    shutil.copy2(kal_src / "kalendar_sberu.html", kal_dst / "prehled.html")
-    shutil.copy2(kal_src / "kalendar_sberu_sprava.html", kal_dst / "sprava.html")
+    if kal_file is not None and kal_file.is_file():
+        shutil.copy2(kal_file, kal_dst / "index.html")
+        shutil.copy2(kal_file, kal_dst / "prehled.html")
+    if kal_sprava_file is not None and kal_sprava_file.is_file():
+        shutil.copy2(kal_sprava_file, kal_dst / "sprava.html")
 
     # Vyhledávání rostlin – hotový HTML výstup z generátoru (nahradí rozcestník v site/)
     filt_output = _find_filtrovani_output_html()
